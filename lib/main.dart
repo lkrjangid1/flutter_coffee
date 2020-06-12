@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/page/splash/splashscreen_page.dart';
 import 'package:fluttercoffee/src/provider/auth_provider.dart';
+import 'package:fluttercoffee/src/provider/categories_provider.dart';
+import 'package:fluttercoffee/src/provider/profile_provider.dart';
 import 'package:fluttercoffee/src/util/router.dart';
 import 'package:fluttercoffee/src/util/router_path.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +14,14 @@ void main() {
         ChangeNotifierProvider(
 
           create: (BuildContext context) => AuthProvider(),
+        ),
+        ChangeNotifierProvider(
+
+          create: (BuildContext context) => CategoriesProvider(),
+        ),
+        ChangeNotifierProvider(
+
+          create: (BuildContext context) => ProfileProvider(),
         ),
       ],
       child: MyApp(),

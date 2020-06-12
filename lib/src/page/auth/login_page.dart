@@ -4,6 +4,7 @@ import 'package:fluttercoffee/src/shared/button.dart';
 import 'package:fluttercoffee/src/shared/containertextform.dart';
 import 'package:fluttercoffee/src/shared/logo.dart';
 import 'package:fluttercoffee/src/util/const.dart';
+import 'package:fluttercoffee/src/util/router_path.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreenPage extends StatelessWidget {
@@ -121,7 +122,7 @@ class LoginScreenPage extends StatelessWidget {
                                 child: RaisedButton(
                                   color: kColorGreen,
                                   onPressed: () {
-                                    _loginUser(value);
+                                    _loginUser(value,context);
                                   },
                                   child: Text('Sign In ',
                                     style: TextStyle(
@@ -142,7 +143,7 @@ class LoginScreenPage extends StatelessWidget {
           ),
         );
       }
-  void _loginUser(AuthProvider authProvider) {
+  void _loginUser(AuthProvider authProvider,BuildContext context)  async {
     String email = _emailController.text;
     String password = _passwordController.text;
     if (formState.currentState.validate()) {
@@ -150,6 +151,8 @@ class LoginScreenPage extends StatelessWidget {
 
       }else{
         authProvider.loginUser(_emailController.text, _passwordController.text);
+
+        Navigator.pushReplacementNamed(context, DashBoardPage);
       }
       formState.currentState.save();
     }

@@ -13,6 +13,8 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart' as path;
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class AuthProvider with ChangeNotifier implements BaseAuth {
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
@@ -32,9 +34,15 @@ class AuthProvider with ChangeNotifier implements BaseAuth {
     try{
       AuthResult authResult =  await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
 
+      SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
+      sharedPrefs.setString('email', email);
+      sharedPrefs.setString('password', password);
+
+
     }catch (error){
         authError = error.code;
         PlatformException(code: authError);
+        print(authError);
 
     }
 
@@ -58,6 +66,7 @@ class AuthProvider with ChangeNotifier implements BaseAuth {
     databaseReference.set(user.toJson());
 
   }
+
 
 
 

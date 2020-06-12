@@ -38,6 +38,9 @@ dependencies:
   path:
   path_provider:
   flutter_progress_button: ^1.0.0
+  cached_network_image: ^2.2.0+1
+  shared_preferences: ^0.5.7+3
+
 
 dev_dependencies:
   flutter_test:
