@@ -6,6 +6,7 @@ import 'package:fluttercoffee/src/shared/button.dart';
 import 'package:fluttercoffee/src/shared/chooseimage.dart';
 import 'package:fluttercoffee/src/shared/containertextform.dart';
 import 'package:fluttercoffee/src/util/const.dart';
+import 'package:fluttercoffee/src/util/progressbar_dialog.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreenPage extends StatefulWidget {
@@ -63,8 +64,8 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
                         });
                       },
                       child: Container(
-                        width: 200,
-                        height: 150,
+                        width: 180,
+                        height: 180,
                         decoration: BoxDecoration(
                             color: kColorGrey,
                             shape: BoxShape.circle
@@ -73,7 +74,7 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 50,
+                      height: 40,
                     ),
                     ContainerTextForm(
                       child: TextFormField(
@@ -142,6 +143,7 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
                     Button(
                         title: 'Sign Up', onTap: () {
                       _signUp(value);
+
                     }
                     )
                   ],
@@ -163,31 +165,36 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
   Widget decideImageView() {
     if (RegisterScreenPage.image == null) {
       return Icon(Icons.camera_alt,
-      size: 30,color: Colors.white,);
+      size: 50,color: Colors.white,);
     } else {
       return Container(
-        width: 200,
-        height: 150,
         decoration: BoxDecoration(
             color: kColorGrey,
-
+          shape: BoxShape.circle
         ),
-        child: Image.file(
-          RegisterScreenPage.image,
-          fit: BoxFit.cover,
+        child: ClipOval(
+          child: Image.file(
+            RegisterScreenPage.image,
+            fit: BoxFit.cover,
+           
+
+          ),
         ),
       );
     }
   }
 
   void _signUp(AuthProvider value){
+    setState(() {
+      ProgressbarDialog.buildProgressBarDialog(context, value.isLoading);
+      print('a');
+    });
       String email = emailController.text;
       String password = passwordController.text;
-      int phoneNumber = int.parse(numberPhoneController.text);
+      String phoneNumber = numberPhoneController.text;
       String userName = userNameController.text;
-
       value.registerUser(email, password, phoneNumber, userName, RegisterScreenPage.image );
-
+      value.isLoadingg(false);
   }
 
   @override

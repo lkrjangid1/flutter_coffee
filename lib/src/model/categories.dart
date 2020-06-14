@@ -1,21 +1,12 @@
+import 'package:json_annotation/json_annotation.dart';
+part 'categories.g.dart';
+@JsonSerializable()
 class Categories {
   String name;
   String image;
   String des;
-
   Categories({this.name, this.image, this.des});
 
-  Categories.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    image = json['image'];
-    des = json['des'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['image'] = this.image;
-    data['des'] = this.des;
-    return data;
-  }
+  factory Categories.fromJson(Map<String, dynamic> json) => _$CategoriesFromJson(json);
+  Map<String, dynamic> toJson() => _$CategoriesToJson(this);
 }

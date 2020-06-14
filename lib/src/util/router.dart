@@ -19,7 +19,8 @@ class Router{
         case RegisterPage:
           return MaterialPageRoute(builder: (_)=>RegisterScreenPage());
         case DashBoardPage:
-          return MaterialPageRoute(builder: (BuildContext context)  => DashboardScreenPage());
+          final argurment = settings.arguments;
+          return MaterialPageRoute(builder: (BuildContext context)  => DashboardScreenPage(uid: argurment,));
         case OnBoardPage:
           return MaterialPageRoute(builder: (_)=>OnboardPage());
         case OptionAuthPagee:

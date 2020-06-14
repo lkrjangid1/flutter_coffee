@@ -1,15 +1,31 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:fluttercoffee/src/dashboard.dart';
+import 'package:fluttercoffee/src/page/dashboard/dashboard_page.dart';
+import 'package:fluttercoffee/src/provider/auth_provider.dart';
 import 'package:fluttercoffee/src/provider/profile_provider.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
+  final String uid;
+
+  const ProfilePage({Key key, this.uid}) : super(key: key);
+
+
+
+
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _ProfilePageState createState() => _ProfilePageState(uid);
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final String uid;
+  _ProfilePageState(this.uid);
+
+
   List<IconData> listIcon = [
     Icons.person,
     Icons.history,
@@ -22,14 +38,24 @@ class _ProfilePageState extends State<ProfilePage> {
     "Setting"
   ];
 
+  String email = '';
+  String name = '';
+  String imageURL = '';
+
+  void getInformation () async{
+    var data =   Provider.of<ProfileProvider>(context,listen: false);
+    await  data.getUser(uid);
+    email = data.user.email;
+    name = data.user.userName;
+    imageURL = data.user.image;
+  }
   @override
-  void initState() async {
+  void initState() {
     // TODO: implement initState
     super.initState();
-    var data  =   Provider.of<ProfileProvider>(context,listen: false);
-    await data.getValues();
-    print(data.email);
+    getInformation();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -37,45 +63,67 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       body: Container(
         width: double.infinity,
-        decoration: BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage('assets/onboard/splash.png'),
-                fit: BoxFit.cover,
-            ),
-
-        ),
         child: Column(
           children: <Widget>[
             Container(
               width: double.infinity,
               height: MediaQuery.of(context).size.height * .5,
               decoration: BoxDecoration(
-                color: kColorSplash.withOpacity(.5),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 30),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text("Perkakdckdccnakn",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold
-                    ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text("s",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold
-                      ),
-                    ),
-                  ],
+                image: DecorationImage(
+                  image: NetworkImage(imageURL),
+                  fit: BoxFit.cover,
                 ),
+              ),
+              child: Stack(
+                children: <Widget>[
+                  Container(
+                    width: double.infinity,
+                    height: MediaQuery.of(context).size.height * .5,
+                    decoration: BoxDecoration(
+                      color: kColorSplash.withOpacity(.3)
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 30),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(name == null ? "Null" : name,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(email == null ? "Null" : email,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),
+
+                            Container(
+                              width: 30,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: Colors.white)
+                              ),
+                              child: Icon(Icons.camera_alt,
+                                color: Colors.white,),
+
+                            )
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             Expanded(
@@ -95,6 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ListView.builder(
                       itemCount: listTitle.length,
                       shrinkWrap: true,
+                      physics: BouncingScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
                         return _buildItemSetting(index);
                       },

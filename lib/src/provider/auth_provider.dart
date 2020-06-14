@@ -22,6 +22,8 @@ class AuthProvider with ChangeNotifier implements BaseAuth {
   String authError = '';
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   StorageReference storageReference;
+  String uid = '';
+  bool isLoading = false;
   
   @override
   Future logOutUser() {
@@ -31,25 +33,26 @@ class AuthProvider with ChangeNotifier implements BaseAuth {
 
   @override
   Future loginUser(String email, String password) async {
+    isLoading = true;
     try{
       AuthResult authResult =  await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-
-      SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
-      sharedPrefs.setString('email', email);
-      sharedPrefs.setString('password', password);
-
-
+//      SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
+//      sharedPrefs.setString('email', email);
+//      sharedPrefs.setString('password', password);
+////      sharedPrefs.setString('uid', authResult.user.uid);
+      uid = authResult.user.uid;
+      return authResult.user != null;
     }catch (error){
         authError = error.code;
         PlatformException(code: authError);
-        print(authError);
-
     }
+    isLoading = false;
+    notifyListeners();
 
   }
 
   @override
-  Future registerUser(String email, String password, int phoneNumber, String userName, File urlImage) async {
+  Future registerUser(String email, String password, String phoneNumber, String userName, File urlImage) async {
 
     AuthResult authResult = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
     String uid = authResult.user.uid;
@@ -67,7 +70,9 @@ class AuthProvider with ChangeNotifier implements BaseAuth {
 
   }
 
-
-
+  void isLoadingg(bool status){
+    isLoading = status;
+    notifyListeners();
+  }
 
 }

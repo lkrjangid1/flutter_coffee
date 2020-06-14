@@ -2,7 +2,7 @@
 import 'dart:io';
 
 abstract class BaseAuth{
-  Future registerUser(String email,String password,int phoneNumber,String userName,File urlImage);
+  Future registerUser(String email,String password,String phoneNumber,String userName,File urlImage);
 
   Future logOutUser();
 

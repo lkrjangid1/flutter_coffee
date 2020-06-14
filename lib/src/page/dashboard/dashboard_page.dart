@@ -6,22 +6,41 @@ import 'package:fluttercoffee/src/page/dashboard/tab/profile_page.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 
 class DashboardScreenPage extends StatefulWidget {
-  DashboardScreenPage({Key key}) : super(key: key);
+
+  String uid;
+  DashboardScreenPage({Key key, this.uid}) : super(key: key);
+
 
   @override
-  _DashboardScreenPageState createState() => _DashboardScreenPageState();
+  _DashboardScreenPageState createState() => _DashboardScreenPageState(uid);
 }
 
 class _DashboardScreenPageState extends State<DashboardScreenPage> {
+   final String uid1;
+   _DashboardScreenPageState(this.uid1);
   int currentIndex = 0;
-  List<Widget> listScreen = [
+  List<Widget> listScreen() => [
+
     HomePage(),
     CategoriesPage(),
     CardPage(),
-    ProfilePage(),
+    ProfilePage(uid: uid1,),
   ];
+
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    final List<Widget> children = listScreen();
+
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -44,7 +63,7 @@ class _DashboardScreenPageState extends State<DashboardScreenPage> {
       ),
       body: IndexedStack(
         index: currentIndex,
-        children: listScreen,
+        children: children
       ),
     );
   }
