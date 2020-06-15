@@ -12,11 +12,8 @@ class CategoriesProvider with ChangeNotifier {
   bool isLoading = false;
   List<String> listDownloadURL = List();
 
-
-
   Future<List<Categories>> getAllCategories() async {
     isLoading = true;
-    print('dang load ');
     await firebaseDatabase.reference().child('Categories').once().then((
         DataSnapshot dataSnapshot) {
        Map<String, dynamic>.from(dataSnapshot.value).forEach((key, value) {
@@ -36,10 +33,13 @@ class CategoriesProvider with ChangeNotifier {
     }
 
     isLoading = false;
-    print('load xong');
     notifyListeners();
     return listCategories;
+  }
 
+  Future getMenuByCategories(String categories) async {
+    var data =  await firebaseDatabase.reference().child('Menu').child(categories).once();
+    print(data.value);
   }
 
 }

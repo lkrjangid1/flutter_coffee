@@ -17,14 +17,17 @@ class DashboardScreenPage extends StatefulWidget {
 
 class _DashboardScreenPageState extends State<DashboardScreenPage> {
    final String uid1;
+   final key1 = GlobalKey();
+   final key2 = GlobalKey();
    _DashboardScreenPageState(this.uid1);
   int currentIndex = 0;
   List<Widget> listScreen() => [
-
-    HomePage(),
+    HomePage(key: key1,uid: uid1,),
     CategoriesPage(),
     CardPage(),
-    ProfilePage(uid: uid1,),
+    ProfilePage(key: key2,uid: uid1,
+    ),
+
   ];
 
 

@@ -163,6 +163,7 @@ class LoginScreenPage extends StatelessWidget {
         if (res is bool) {
           Navigator.pushReplacementNamed(context, DashBoardPage,
               arguments: authProvider.uid);
+          authProvider.isLoadingg(false);
         } else {
           SnackBars.buildMessage(context, authProvider.authError);
         }

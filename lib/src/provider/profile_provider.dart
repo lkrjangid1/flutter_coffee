@@ -8,35 +8,28 @@ import 'package:fluttercoffee/src/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileProvider with ChangeNotifier {
-  String email = '';
+
   DatabaseReference databaseReference;
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   StorageReference storageReference;
   String uid = '';
   User user;
-
-  Future<String> getValues() async  {
-    SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
-    email = sharedPrefs.getString('email');
-//    uid = sharedPrefs.getString('uid');
-    notifyListeners();
-    return email;
-  }
+  bool isLoading = false;
 
   Future<User> getUser(String uid) async {
-    await firebaseDatabase.reference().child('User').child(uid).once().then((DataSnapshot dataSnapshot){
-      var data = dataSnapshot.value;
-     if (user == null) {
-       user = User(
-         userName: data['userName'],
-         image: data['image'],
-         email: data['email'],
-         phoneNumber: data['phoneNumber'],
-       );
-     }
-    });
 
+    isLoading = true;
+    var data =  await firebaseDatabase.reference().child('User').child(uid).once();
+    var dataJson = data.value;
+    user = User(
+      userName: dataJson['userName'],
+      image: dataJson['image'],
+      email: dataJson['email'],
+      phoneNumber: dataJson['phoneNumber'],
+    );
 
+    isLoading = false;
+    notifyListeners();
     return user;
   }
 

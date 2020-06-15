@@ -6,6 +6,7 @@ import 'package:fluttercoffee/src/page/dashboard/dashboard_page.dart';
 import 'package:fluttercoffee/src/provider/auth_provider.dart';
 import 'package:fluttercoffee/src/provider/profile_provider.dart';
 import 'package:fluttercoffee/src/util/const.dart';
+import 'package:fluttercoffee/src/util/router_path.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,9 +14,6 @@ class ProfilePage extends StatefulWidget {
   final String uid;
 
   const ProfilePage({Key key, this.uid}) : super(key: key);
-
-
-
 
   @override
   _ProfilePageState createState() => _ProfilePageState(uid);
@@ -29,20 +27,22 @@ class _ProfilePageState extends State<ProfilePage> {
   List<IconData> listIcon = [
     Icons.person,
     Icons.history,
-    Icons.settings
+    Icons.settings,
+    Icons.call_missed_outgoing
   ];
 
   List<String> listTitle = [
-    'Information Accout',
+    'Information Account',
     'History',
-    "Setting"
-  ];
+    "Setting",
+    'Log Out'
 
+  ];
   String email = '';
   String name = '';
   String imageURL = '';
 
-  void getInformation () async{
+   void getInformation () async{
     var data =   Provider.of<ProfileProvider>(context,listen: false);
     await  data.getUser(uid);
     email = data.user.email;
@@ -55,11 +55,9 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     getInformation();
   }
-
-
   @override
   Widget build(BuildContext context) {
-
+     var data = Provider.of<AuthProvider>(context,listen: false);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -71,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(imageURL),
-                  fit: BoxFit.cover,
+                  fit: BoxFit.fitHeight,
                 ),
               ),
               child: Stack(
@@ -145,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       shrinkWrap: true,
                       physics: BouncingScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
-                        return _buildItemSetting(index);
+                        return _buildItemSetting(index,data);
                       },
                     ),
                   ],
@@ -158,10 +156,15 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildItemSetting(int index ){
+  Widget _buildItemSetting(int index,AuthProvider data ){
     return ListTile(
       onTap: (){
-
+        switch(index){
+          case 3:
+            print('log');
+             data.logOutUser();
+             Navigator.pushReplacementNamed(context, LoginPage);
+        }
       },
       leading: Icon(listIcon[index]),
       title: Text(listTitle[index]),

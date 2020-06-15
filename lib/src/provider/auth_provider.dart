@@ -26,9 +26,13 @@ class AuthProvider with ChangeNotifier implements BaseAuth {
   bool isLoading = false;
   
   @override
-  Future logOutUser() {
+  Future logOutUser() async {
     // TODO: implement logOutUser
-    throw UnimplementedError();
+    try{
+      await  firebaseAuth.signOut();
+    }catch(e){
+      print(e);
+    }
   }
 
   @override
@@ -36,10 +40,6 @@ class AuthProvider with ChangeNotifier implements BaseAuth {
     isLoading = true;
     try{
       AuthResult authResult =  await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-//      SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
-//      sharedPrefs.setString('email', email);
-//      sharedPrefs.setString('password', password);
-////      sharedPrefs.setString('uid', authResult.user.uid);
       uid = authResult.user.uid;
       return authResult.user != null;
     }catch (error){

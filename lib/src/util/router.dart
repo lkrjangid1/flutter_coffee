@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/page/auth/register_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/dashboard_page.dart';
 import 'package:fluttercoffee/src/page/auth/login_page.dart';
+import 'package:fluttercoffee/src/page/detail_categories_page.dart';
 import 'package:fluttercoffee/src/page/onboard_page.dart';
 import 'package:fluttercoffee/src/page/optionauth_page.dart';
 
@@ -25,6 +26,9 @@ class Router{
           return MaterialPageRoute(builder: (_)=>OnboardPage());
         case OptionAuthPagee:
           return MaterialPageRoute(builder: (_)=>OptionAuthPage());
+        case DetailCategoriesPagee:
+          final argument = settings.arguments;
+          return MaterialPageRoute(builder: (_)=>DetailCategoriesPage(idCategories: argument,));
       }
   }
 }
