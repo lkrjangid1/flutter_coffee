@@ -53,7 +53,7 @@ class AuthProvider with ChangeNotifier implements BaseAuth {
 
   @override
   Future registerUser(String email, String password, String phoneNumber, String userName, File urlImage) async {
-
+    isLoading = true;
     AuthResult authResult = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
     String uid = authResult.user.uid;
     databaseReference = firebaseDatabase.reference().child('User').child(uid);
@@ -67,6 +67,9 @@ class AuthProvider with ChangeNotifier implements BaseAuth {
 
     User user = User(key: uid,userName: userName,phoneNumber: phoneNumber,image: dowloadURL,email: authResult.user.email);
     databaseReference.set(user.toJson());
+
+    isLoading = false;
+    notifyListeners();
 
   }
 

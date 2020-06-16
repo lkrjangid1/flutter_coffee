@@ -142,8 +142,8 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
                     ),
                     Button(
                         title: 'Sign Up', onTap: () {
-//                      ProgressbarDialog.buildProgressBarDialog(context, true);
                     _signUp(value);
+
                     }
                     )
                   ],
@@ -186,12 +186,14 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
 
   void _signUp(AuthProvider value){
 
+
       String email = emailController.text;
       String password = passwordController.text;
       String phoneNumber = numberPhoneController.text;
       String userName = userNameController.text;
       value.registerUser(email, password, phoneNumber, userName, RegisterScreenPage.image );
-      value.isLoadingg(false);
+      ProgressbarDialog.buildProgressBarDialog(context,  value.isLoading);
+
 
   }
 

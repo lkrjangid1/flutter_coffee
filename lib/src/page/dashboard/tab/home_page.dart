@@ -2,10 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/model/menu.dart';
+import 'package:fluttercoffee/src/page/detail_home_page.dart';
 import 'package:fluttercoffee/src/provider/categories_provider.dart';
 import 'package:fluttercoffee/src/provider/home_provider.dart';
 import 'package:fluttercoffee/src/provider/profile_provider.dart';
 import 'package:fluttercoffee/src/util/const.dart';
+import 'package:fluttercoffee/src/util/router_path.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget  {
@@ -34,13 +36,13 @@ class HomePage extends StatelessWidget  {
             Container(
                 padding: EdgeInsets.symmetric(horizontal: 15,vertical: 20),
                 width: double.infinity,
-                height: MediaQuery.of(context).size.height * .35,
+                height: MediaQuery.of(context).size.height * .27,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     const SizedBox(
-                      height: 40,
+                      height: 15,
                     ),
                     Consumer<ProfileProvider>(
                       builder: (BuildContext context, ProfileProvider value, Widget child) {
@@ -69,7 +71,7 @@ class HomePage extends StatelessWidget  {
                       },
                     ),
                      SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.1,
+                      height: MediaQuery.of(context).size.height * 0.05,
                     ),
                     Align(
                       alignment: Alignment.centerRight,
@@ -120,65 +122,71 @@ class HomePage extends StatelessWidget  {
                           Menu menu = value.listMenu[index];
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                ClipRRect(
-                                  child: CachedNetworkImage(
-                                    width: 120,
-                                    height: 120,
-                                    imageUrl: value.listImageURL[index],
-                                    fit: BoxFit.cover,
-                                    progressIndicatorBuilder:
-                                        (context, url,
-                                        downloadProgress) =>
-                                        CircularProgressIndicator(
-                                            value:
-                                            downloadProgress
-                                                .progress),
-                                    errorWidget:
-                                        (context, url, error) =>
-                                        Icon(Icons.error),
-                                  ),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                const SizedBox(
-                                  width: 20,
-                                ),
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(menu.name,
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18
-                                      ),),
-                                    const SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(menu.des,
-                                      style: TextStyle(
-                                        color: Colors.grey,
+                            child: GestureDetector(
+                              onTap: (){
 
-                                      ),),
-                                    const SizedBox(
-                                      height: 20,
+                                Navigator.push(context, MaterialPageRoute(builder: (_)=>DetailHomePage(image: value.listImageURL[index],menu: menu,)));
+                              },
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  ClipRRect(
+                                    child: CachedNetworkImage(
+                                      width: 120,
+                                      height: 120,
+                                      imageUrl: value.listImageURL[index],
+                                      fit: BoxFit.cover,
+                                      progressIndicatorBuilder:
+                                          (context, url,
+                                          downloadProgress) =>
+                                          CircularProgressIndicator(
+                                              value:
+                                              downloadProgress
+                                                  .progress),
+                                      errorWidget:
+                                          (context, url, error) =>
+                                          Icon(Icons.error),
                                     ),
-                                    Text("\$${menu.price}".toString(),
-                                      style: TextStyle(
-                                          color: kColorGreen,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17
-                                      ),),
-                                  ],
-                                )
-                              ],
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  const SizedBox(
+                                    width: 20,
+                                  ),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Text(menu.name,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18
+                                        ),),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(menu.des,
+                                        style: TextStyle(
+                                          color: Colors.grey,
+
+                                        ),),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text("\$${menu.price}".toString(),
+                                        style: TextStyle(
+                                            color: kColorGreen,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 17
+                                        ),),
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           );
                         },
