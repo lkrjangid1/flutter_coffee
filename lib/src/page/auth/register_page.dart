@@ -176,8 +176,6 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
           child: Image.file(
             RegisterScreenPage.image,
             fit: BoxFit.cover,
-           
-
           ),
         ),
       );
@@ -185,16 +183,12 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
   }
 
   void _signUp(AuthProvider value){
-
-
       String email = emailController.text;
       String password = passwordController.text;
       String phoneNumber = numberPhoneController.text;
       String userName = userNameController.text;
       value.registerUser(email, password, phoneNumber, userName, RegisterScreenPage.image );
       ProgressbarDialog.buildProgressBarDialog(context,  value.isLoading);
-
-
   }
 
   @override

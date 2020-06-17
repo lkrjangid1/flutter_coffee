@@ -5,6 +5,7 @@ import 'package:fluttercoffee/src/dashboard.dart';
 import 'package:fluttercoffee/src/page/dashboard/dashboard_page.dart';
 import 'package:fluttercoffee/src/provider/auth_provider.dart';
 import 'package:fluttercoffee/src/provider/profile_provider.dart';
+import 'package:fluttercoffee/src/shared/chooseimage.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 import 'package:fluttercoffee/src/util/router_path.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
   @override
   Widget build(BuildContext context) {
-     var data = Provider.of<AuthProvider>(context,listen: false);
+     var data = Provider.of<AuthProvider>(context,listen: true);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -105,16 +106,21 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
 
-                            Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  border: Border.all(color: Colors.white)
-                              ),
-                              child: Icon(Icons.camera_alt,
-                                color: Colors.white,),
+                            GestureDetector(
+                              onTap: (){
+                                _openChoiceImage(context);
+                              },
+                              child: Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.white)
+                                ),
+                                child: Icon(Icons.camera_alt,
+                                  color: Colors.white,),
 
+                              ),
                             )
                           ],
                         )
@@ -170,4 +176,11 @@ class _ProfilePageState extends State<ProfilePage> {
       title: Text(listTitle[index]),
     );
   }
+
+  _openChoiceImage(BuildContext context){
+    return showModalBottomSheet(context: context, builder: (_){
+      return ChooseImage();
+    });
+  }
+
 }

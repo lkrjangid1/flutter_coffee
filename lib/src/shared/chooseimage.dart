@@ -37,7 +37,7 @@ class _ChooseImageState extends State<ChooseImage> {
             contentPadding: const EdgeInsets.only(left: 10, right: 20),
             leading: Icon(Icons.folder),
             title: Text(
-              "Gallary",
+              "Gallery",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
               ),
@@ -63,8 +63,6 @@ class _ChooseImageState extends State<ChooseImage> {
 
   Future openGallary() async {
     final File picture = await ImagePicker.pickImage(source: ImageSource.gallery);
-
-
     setState(() {
       RegisterScreenPage.image = picture;
 

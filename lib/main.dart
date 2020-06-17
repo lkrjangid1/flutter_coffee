@@ -14,7 +14,6 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-
           create: (BuildContext context) => AuthProvider(),
         ),
         ChangeNotifierProvider(
@@ -29,10 +28,7 @@ void main() {
 
           create: (BuildContext context) => HomeProvider(),
         ),
-        ChangeNotifierProvider(
 
-          create: (BuildContext context) => DetailProvider(),
-        ),
       ],
       child: MyApp(),
     )
