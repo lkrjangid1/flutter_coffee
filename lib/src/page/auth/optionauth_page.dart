@@ -112,7 +112,7 @@ class OptionAuthPage extends StatelessWidget {
                       onTap: (){
                         Navigator.pushNamed(context, RegisterPage);
                       },
-                      child: Text('Already have account - Sign Up',style: TextStyle(
+                      child: Text('Already have an account ? - Sign up',style: TextStyle(
                         color: Colors.white
                       ),),
                     )

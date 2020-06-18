@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/dashboard.dart';
 import 'package:fluttercoffee/src/page/dashboard/dashboard_page.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/profile/information_account_page.dart';
 import 'package:fluttercoffee/src/provider/auth_provider.dart';
 import 'package:fluttercoffee/src/provider/profile_provider.dart';
 import 'package:fluttercoffee/src/shared/chooseimage.dart';
@@ -11,20 +12,31 @@ import 'package:fluttercoffee/src/util/router_path.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   final String uid;
-
   const ProfilePage({Key key, this.uid}) : super(key: key);
 
   @override
-  _ProfilePageState createState() => _ProfilePageState(uid);
+  Widget build(BuildContext context) {
+    return  ChangeNotifierProvider(
+      create: (_) => ProfileProvider(),
+      child: ProfilePageWidget(uid: uid,),
+    );
+  }
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+
+class ProfilePageWidget extends StatefulWidget {
   final String uid;
-  _ProfilePageState(this.uid);
+  const ProfilePageWidget({Key key, this.uid}) : super(key: key);
 
+  @override
+  _ProfilePageStateWidget createState() => _ProfilePageStateWidget(uid);
+}
 
+class _ProfilePageStateWidget extends State<ProfilePageWidget> {
+  final String uid;
+  _ProfilePageStateWidget(this.uid);
   List<IconData> listIcon = [
     Icons.person,
     Icons.history,
@@ -43,11 +55,14 @@ class _ProfilePageState extends State<ProfilePage> {
   String name = '';
   String imageURL = '';
 
+  String phoneNumber = '';
+
    void getInformation () async{
-    var data =   Provider.of<ProfileProvider>(context,listen: false);
+    var data = Provider.of<ProfileProvider>(context,listen: false);
     await  data.getUser(uid);
     email = data.user.email;
     name = data.user.userName;
+    phoneNumber = data.user.phoneNumber;
     imageURL = data.user.image;
   }
   @override
@@ -105,23 +120,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                   fontWeight: FontWeight.bold
                               ),
                             ),
-
-                            GestureDetector(
-                              onTap: (){
-                                _openChoiceImage(context);
-                              },
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(color: Colors.white)
-                                ),
-                                child: Icon(Icons.camera_alt,
-                                  color: Colors.white,),
-
-                              ),
-                            )
                           ],
                         )
                       ],
@@ -162,14 +160,26 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildItemSetting(int index,AuthProvider data ){
+  Widget _buildItemSetting(int index, AuthProvider data) {
     return ListTile(
-      onTap: (){
-        switch(index){
+      onTap: () {
+        switch (index) {
           case 3:
-            print('log');
-             data.logOutUser();
-             Navigator.pushReplacementNamed(context, LoginPage);
+            data.logOutUser();
+            Navigator.pushReplacementNamed(context, LoginPage);
+            break;
+          case 0:
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => InformationAccountPage(
+                    email: email,
+                    imageURL: imageURL,
+                    userName: name,
+                    uid: uid,
+                    phoneNumber: phoneNumber),
+              ),
+            );
         }
       },
       leading: Icon(listIcon[index]),

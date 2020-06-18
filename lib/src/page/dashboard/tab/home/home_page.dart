@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/model/menu.dart';
-import 'package:fluttercoffee/src/page/detail_home_page.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/home/detail_home_page.dart';
 import 'package:fluttercoffee/src/provider/categories_provider.dart';
 import 'package:fluttercoffee/src/provider/home_provider.dart';
 import 'package:fluttercoffee/src/provider/profile_provider.dart';
@@ -17,8 +17,8 @@ class HomePage extends StatelessWidget  {
 
   @override
   Widget build(BuildContext context) {
-      Provider.of<ProfileProvider>(context,listen: false).getUser(uid);
-     Provider.of<HomeProvider>(context,listen: false).getAllMenu();
+//    Provider.of<ProfileProvider>(context,listen: false).getUser(uid);
+    Provider.of<HomeProvider>(context,listen: false).getAllMenu();
 
     return Scaffold(
       body: RefreshIndicator (
@@ -49,33 +49,33 @@ class HomePage extends StatelessWidget  {
                       const SizedBox(
                         height: 15,
                       ),
-                      Consumer<ProfileProvider>(
-                        builder: (BuildContext context, ProfileProvider value, Widget child) {
-                          return value.isLoading ? Center(child: CircularProgressIndicator(),)
-                              : Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Text(value.user.userName == null ? "null" : "Hello,${value.user.userName}",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 27
-                                ),),
-                              Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: NetworkImage(value.user.image),
-                                    ),
-                                    shape: BoxShape.circle
-                                ),
-                              )
-                            ],
-                          );
-                        },
-                      ),
-                       SizedBox(
+//                      Consumer<ProfileProvider>(
+//                        builder: (BuildContext context, ProfileProvider value, Widget child) {
+//                          return value.isLoading ? Center(child: CircularProgressIndicator(),)
+//                              : Row(
+//                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                            children: <Widget>[
+//                              Text(value.user.userName == null ? "null" : "Hello,${value.user.userName}",
+//                                style: TextStyle(
+//                                    color: Colors.white,
+//                                    fontWeight: FontWeight.bold,
+//                                    fontSize: 27
+//                                ),),
+//                              Container(
+//                                width: 40,
+//                                height: 40,
+//                                decoration: BoxDecoration(
+//                                    image: DecorationImage(
+//                                      image: NetworkImage(value.user.image),
+//                                    ),
+//                                    shape: BoxShape.circle
+//                                ),
+//                              )
+//                            ],
+//                          );
+//                        },
+//                      ),
+                      SizedBox(
                         height: MediaQuery.of(context).size.height * 0.05,
                       ),
                       Align(

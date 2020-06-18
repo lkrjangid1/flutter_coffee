@@ -13,7 +13,6 @@ class DetailProvider with ChangeNotifier {
   }
 
   void increment(Menu menu) {
-    print(count);
     count++;
     double price = double.parse(menu.price);
     total = price * count;
@@ -22,7 +21,6 @@ class DetailProvider with ChangeNotifier {
   }
 
   void decrement(Menu menu) {
-
     if (count == 0) {
       isShowing = false;
     } else {

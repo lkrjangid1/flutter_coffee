@@ -17,15 +17,9 @@ void main() {
           create: (BuildContext context) => AuthProvider(),
         ),
         ChangeNotifierProvider(
-
           create: (BuildContext context) => CategoriesProvider(),
         ),
         ChangeNotifierProvider(
-
-          create: (BuildContext context) => ProfileProvider(),
-        ),
-        ChangeNotifierProvider(
-
           create: (BuildContext context) => HomeProvider(),
         ),
 

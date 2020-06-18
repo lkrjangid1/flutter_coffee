@@ -8,7 +8,6 @@ import 'package:fluttercoffee/src/model/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileProvider with ChangeNotifier {
-
   DatabaseReference databaseReference;
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   StorageReference storageReference;
@@ -17,7 +16,6 @@ class ProfileProvider with ChangeNotifier {
   bool isLoading = false;
 
   Future<User> getUser(String uid) async {
-
     isLoading = true;
     var data =  await firebaseDatabase.reference().child('User').child(uid).once();
     var dataJson = data.value;
@@ -26,11 +24,23 @@ class ProfileProvider with ChangeNotifier {
       image: dataJson['image'],
       email: dataJson['email'],
       phoneNumber: dataJson['phoneNumber'],
-    );
 
+    );
     isLoading = false;
-    notifyListeners();
     return user;
   }
+
+  Future updateInformation(String uid,String userName, String phoneNumber) async {
+    var data = await firebaseDatabase.reference().child('User').child(uid);
+    user.phoneNumber = phoneNumber;
+    user.userName = userName;
+    data.update(
+      user.toJson(),
+    );
+    notifyListeners();
+  }
+  // thieu gmail, xac nhan sdt
+// bỏ email đăng kí , ghi "Username" "Phone Number"
+
 
 }

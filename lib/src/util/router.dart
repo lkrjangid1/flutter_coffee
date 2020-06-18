@@ -4,10 +4,11 @@ import 'package:fluttercoffee/src/model/menu.dart';
 import 'package:fluttercoffee/src/page/auth/register_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/dashboard_page.dart';
 import 'package:fluttercoffee/src/page/auth/login_page.dart';
-import 'package:fluttercoffee/src/page/detail_categories_page.dart';
-import 'package:fluttercoffee/src/page/detail_home_page.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/categories/detail_categories_page.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/home/detail_home_page.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/profile/information_account_page.dart';
 import 'package:fluttercoffee/src/page/onboard_page.dart';
-import 'package:fluttercoffee/src/page/optionauth_page.dart';
+import 'package:fluttercoffee/src/page/auth/optionauth_page.dart';
 
 import 'package:fluttercoffee/src/page/splash/splashscreen_page.dart';
 import 'package:fluttercoffee/src/util/router_path.dart';
@@ -31,6 +32,8 @@ class Router{
         case DetailCategoriesPagee:
           final argument = settings.arguments;
           return MaterialPageRoute(builder: (_)=>DetailCategoriesPage(idCategories: argument,));
+//        case InformationAccountPagee:
+//          return MaterialPageRoute(builder: (_)=>InformationAccountPage(email: argument,image: image,));
 //        case DetailHomePagee:
 //          var menu  = settings.name;
 //          var image = settings.arguments;

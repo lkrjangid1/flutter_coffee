@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fluttercoffee/src/page/dashboard/tab/card_page.dart';
-import 'package:fluttercoffee/src/page/dashboard/tab/categories_page.dart';
-import 'package:fluttercoffee/src/page/dashboard/tab/home_page.dart';
-import 'package:fluttercoffee/src/page/dashboard/tab/profile_page.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/cart/card_page.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/categories/categories_page.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/home/home_page.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/profile/profile_page.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 
 class DashboardScreenPage extends StatefulWidget {
