@@ -9,6 +9,11 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="fluttercoffee"
         android:icon="@mipmap/ic_launcher">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCIt3kB9OWjVeqDyis75PgNH6Rpf6WsKVw"/>
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

@@ -4,6 +4,7 @@ import 'package:fluttercoffee/src/model/menu.dart';
 import 'package:fluttercoffee/src/page/auth/register_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/dashboard_page.dart';
 import 'package:fluttercoffee/src/page/auth/login_page.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/categories/detail_categories_food_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/categories/detail_categories_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/home/detail_home_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/profile/information_account_page.dart';
@@ -32,6 +33,9 @@ class Router{
         case DetailCategoriesPagee:
           final argument = settings.arguments;
           return MaterialPageRoute(builder: (_)=>DetailCategoriesPage(idCategories: argument,));
+        case DetailCategoriesFoodPagee:
+          final argument = settings.arguments;
+          return MaterialPageRoute(builder: (_)=>DetailCategoriesFoodPageee(menu: argument,));
 //        case InformationAccountPagee:
 //          return MaterialPageRoute(builder: (_)=>InformationAccountPage(email: argument,image: image,));
 //        case DetailHomePagee:

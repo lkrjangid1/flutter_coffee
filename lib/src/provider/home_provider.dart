@@ -11,6 +11,8 @@ class HomeProvider with ChangeNotifier {
   List<String> listImageURL = List();
   bool isLoading = false;
   Menu menu;
+  List<String> listImageSlide = List();
+  List<String> listImageSlideURL = List();
   String downloadUrl;
 
   Future<List<Menu>> getAllMenu() async {
@@ -29,7 +31,6 @@ class HomeProvider with ChangeNotifier {
       );
       listMenu.add(menu);
     });
-
     listImageURL.clear();
 
     for (var i in listMenu) {
@@ -47,5 +48,38 @@ class HomeProvider with ChangeNotifier {
   }
 
 
+  Future<List<String>> getImageSlide() async {
+//    listImageSlide.clear();
+//    var data =  await firebaseDatabase.reference().child('ImageSlide').once();
+//
+//    print(data.value);
+//     Map<String,dynamic>.from(data.value).forEach((key, value) {
+//      listImageSlide.add(value);
+//
+//    });
+//
 
+
+//    storageReference = FirebaseStorage.instance
+//        .ref()
+//        .child('news/')
+//        .child('intro/');
+//    String downloadUrl = await storageReference.getDownloadURL();
+//    print(downloadUrl);
+
+//
+//    for(String  i in listImageSlide){
+//
+//      storageReference = FirebaseStorage.instance
+//          .ref()
+//          .child('news/')
+//          .child('intro/${i}');
+//      String downloadUrl = await storageReference.getDownloadURL();
+//      print(downloadUrl);
+//
+//      listImageSlideURL.add(downloadUrl);
+//
+
+    return listImageSlide;
+  }
 }

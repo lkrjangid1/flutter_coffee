@@ -52,7 +52,6 @@ class CategoriesProvider with ChangeNotifier {
         .child('Menu')
         .child(categories)
         .once();
-
     Map<String, dynamic>.from(dataDetail.value).forEach((key, value) {
       Menu menu = Menu(
         image: value['image'],

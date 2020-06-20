@@ -27,6 +27,7 @@ class ProfileProvider with ChangeNotifier {
 
     );
     isLoading = false;
+    notifyListeners();
     return user;
   }
 

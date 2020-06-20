@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fluttercoffee/src/page/dashboard/tab/cart/card_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/categories/categories_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/home/home_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/profile/profile_page.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/store/store_page.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 
 class DashboardScreenPage extends StatefulWidget {
@@ -22,9 +22,9 @@ class _DashboardScreenPageState extends State<DashboardScreenPage> {
    _DashboardScreenPageState(this.uid1);
   int currentIndex = 0;
   List<Widget> listScreen() => [
-    HomePage(key: key1,uid: uid1,),
+    HomeProvider1(key: key1,uid: uid1,),
     CategoriesPage(),
-    CardPage(),
+    StorePage(),
     ProfilePage(key: key2,uid: uid1,
     ),
 
@@ -60,7 +60,7 @@ class _DashboardScreenPageState extends State<DashboardScreenPage> {
           items: <BottomNavigationBarItem>[
             _buildBottomNavigationBarItem(Icons.home,"Home"),
             _buildBottomNavigationBarItem(Icons.free_breakfast,"Categories"),
-            _buildBottomNavigationBarItem(Icons.shopping_cart, "Card"),
+            _buildBottomNavigationBarItem(Icons.store, "Store"),
             _buildBottomNavigationBarItem(Icons.person, "Profile"),
           ],
       ),
