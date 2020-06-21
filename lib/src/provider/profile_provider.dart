@@ -19,6 +19,7 @@ class ProfileProvider with ChangeNotifier {
     isLoading = true;
     var data =  await firebaseDatabase.reference().child('User').child(uid).once();
     var dataJson = data.value;
+
     user = User(
       userName: dataJson['userName'],
       image: dataJson['image'],

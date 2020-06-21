@@ -22,12 +22,11 @@ class _DashboardScreenPageState extends State<DashboardScreenPage> {
    _DashboardScreenPageState(this.uid1);
   int currentIndex = 0;
   List<Widget> listScreen() => [
-    HomeProvider1(key: key1,uid: uid1,),
+    HomeProvider1(uid: uid1,),
     CategoriesPage(),
     StorePage(),
     ProfilePage(key: key2,uid: uid1,
     ),
-
   ];
 
 

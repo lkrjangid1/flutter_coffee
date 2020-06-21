@@ -27,6 +27,7 @@ class ProfilePage extends StatelessWidget {
 
 
 class ProfilePageWidget extends StatefulWidget {
+
   final String uid;
   const ProfilePageWidget({Key key, this.uid}) : super(key: key);
 
@@ -36,6 +37,7 @@ class ProfilePageWidget extends StatefulWidget {
 
 class _ProfilePageStateWidget extends State<ProfilePageWidget> {
   final String uid;
+
   _ProfilePageStateWidget(this.uid);
   List<IconData> listIcon = [
     Icons.person,
@@ -57,6 +59,7 @@ class _ProfilePageStateWidget extends State<ProfilePageWidget> {
 
   String phoneNumber = '';
 
+
    void getInformation () async{
     var data = Provider.of<ProfileProvider>(context,listen: false);
     await  data.getUser(uid);
@@ -70,6 +73,7 @@ class _ProfilePageStateWidget extends State<ProfilePageWidget> {
     // TODO: implement initState
     super.initState();
     getInformation();
+
   }
   @override
   Widget build(BuildContext context) {
