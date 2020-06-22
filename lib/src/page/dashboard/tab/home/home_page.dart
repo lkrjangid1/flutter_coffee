@@ -12,6 +12,7 @@ import 'package:fluttercoffee/src/provider/profile_provider.dart';
 import 'package:fluttercoffee/src/shared/containercard.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 import 'package:fluttercoffee/src/util/router_path.dart';
+import 'package:fluttercoffee/src/util/shimmer.dart';
 import 'package:provider/provider.dart';
 class HomeProvider1 extends StatelessWidget {
   final String uid;
@@ -27,7 +28,6 @@ class HomeProvider1 extends StatelessWidget {
     );
   }
 }
-
 class HomePage extends StatelessWidget {
   final String uid;
 
@@ -39,6 +39,7 @@ class HomePage extends StatelessWidget {
     Provider.of<HomeProvider>(context,listen: false).getImageSlide(); // warning
     Provider.of<HomeProvider>(context,listen: false).getNews1();
     Provider.of<HomeProvider>(context,listen: false).getNews2();
+    Provider.of<HomeProvider>(context,listen: false).getNews3();
 
     custom() {
       return Consumer2<ProfileProvider,HomeProvider>(
@@ -112,7 +113,7 @@ class HomePage extends StatelessWidget {
                   height: 5,
                 ),
                 homeProvider.isLoading
-                    ? CircularProgressIndicator()
+                    ? ShimmerList()
                     : Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,13 +158,7 @@ class HomePage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(
-                                  "Hey! What do you want to drink?",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
+                               _buildTitleNews("Hey! What do you want to drink?"),
                                 const SizedBox(
                                   height: 10,
                                 ),
@@ -241,18 +236,12 @@ class HomePage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text(
-                                  "Hot Deal?",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18),
-                                ),
+                              _buildTitleNews('Hot Deal'),
                                 SizedBox(
                                   height: 5,
                                 ),
                                 SizedBox(
-                                  height: 250,
+                                  height: 260,
                                   child: ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: homeProvider.listNews2.length,
@@ -322,6 +311,91 @@ class HomePage extends StatelessWidget {
                               ],
                             ),
                           ),
+                          Container(
+                            width: double.infinity,
+                            height: 180,
+                            child: Image.asset('assets/voucher.jpg',fit: BoxFit.cover,),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          ContainerCard(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                _buildTitleNews("News"),
+
+                               ListView.builder(
+                                 shrinkWrap: true,
+                                 physics: ClampingScrollPhysics(),
+                                 itemCount: homeProvider.listNews3.length,
+                                 itemBuilder: (BuildContext context, int index) {
+                                   return  Padding(
+                                     padding: const EdgeInsets.only(bottom: 10),
+                                     child: Material(
+                                       color: Colors.white,
+                                       elevation: 2.0,
+                                       child: Container(
+                                         width: double.infinity,
+
+                                         decoration: BoxDecoration(
+
+                                         ),
+                                         child: Row(
+                                           mainAxisAlignment: MainAxisAlignment.start,
+                                           crossAxisAlignment: CrossAxisAlignment.start,
+                                           children: <Widget>[
+                                             CachedNetworkImage(
+                                               width: 100,
+                                               height: 130,
+                                               imageUrl: homeProvider.listImageNewsURL3[index],
+                                               fit: BoxFit.cover,
+                                               progressIndicatorBuilder:
+                                                   (context, url,
+                                                   downloadProgress) =>
+                                                   CircularProgressIndicator(
+                                                       value:
+                                                       downloadProgress
+                                                           .progress),
+                                               errorWidget:
+                                                   (context, url, error) =>
+                                                   Icon(Icons.error),
+                                             ),
+                                             Expanded(
+                                               child: Padding(
+                                                 padding: const EdgeInsets.symmetric(horizontal: 12,vertical: 5),
+                                                 child: Column(
+                                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                                   mainAxisAlignment: MainAxisAlignment.start,
+                                                   children: <Widget>[
+                                                     Text(homeProvider.listNews3[index].title,
+                                                     style: TextStyle(
+                                                       color: Colors.black,
+                                                       fontWeight: FontWeight.bold
+                                                     ),),
+                                                     const SizedBox(
+                                                       height: 5,
+                                                     ),
+                                                     Text(homeProvider.listNews3[index].des,
+                                                       maxLines: 2,
+                                                       style: TextStyle(
+                                                           color: Colors.grey,
+                                                       ),),
+                                                   ],
+                                                 ),
+                                               ),
+                                             )
+                                           ],
+                                         ),
+                                       ),
+                                     ),
+                                   );
+                                 },
+                               )
+                              ],
+                            ),
+                          )
                         ],
                       ),
                     ),
@@ -341,4 +415,15 @@ class HomePage extends StatelessWidget {
       child: custom(),
     );
   }
+
+  Widget _buildTitleNews(String title){
+    return   Text(
+      title,
+      style: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.bold,
+          fontSize: 18),
+    );
+  }
+
 }

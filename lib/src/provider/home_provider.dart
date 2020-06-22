@@ -13,8 +13,10 @@ class HomeProvider with ChangeNotifier {
   List<String> listImageSlide = List();
   List<News> listNews1 = List();
   List<News> listNews2 = List();
+  List<News> listNews3 = List();
   List<String>listImageNewsURL = List();
   List<String>listImageNewsURL2 = List();
+  List<String>listImageNewsURL3 = List();
   List<String> listImageSlideURL = List();
   
 
@@ -55,7 +57,6 @@ class HomeProvider with ChangeNotifier {
     listImageNewsURL.clear();
 
     for(var i in listNews1){
-      print(i.image);
       storageReference = FirebaseStorage.instance
           .ref()
           .child('news/')
@@ -97,5 +98,36 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
     return listNews2;
   }
+
+
+  Future<List<News>> getNews3() async {
+    isLoading =  true;
+    listNews3.clear();
+    var data =  await firebaseDatabase.reference().child('News').child('3').once();
+    Map<dynamic,dynamic>.from(data.value).forEach((key, value) {
+
+      News news = News(
+        title: value['title'],
+        des: value['des'],
+        image: value['image'],
+      );
+      listNews3.add(news);
+    });
+
+    listImageNewsURL3.clear();
+
+    for(var i in listNews3){
+      storageReference = FirebaseStorage.instance
+          .ref()
+          .child('news/')
+          .child('3/${i.image}');
+      String downloadUrl = await storageReference.getDownloadURL();
+      listImageNewsURL3.add(downloadUrl);
+    }
+    isLoading = false;
+    notifyListeners();
+    return listNews3;
+  }
+
 
 }

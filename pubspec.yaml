@@ -46,6 +46,7 @@ dependencies:
   flutter_screenutil: ^2.1.0
   pull_to_refresh:
   carousel_slider: ^2.1.0
+  permission_handler: ^5.0.1
   google_maps_flutter: ^0.5.28+1
 
 
@@ -75,6 +76,7 @@ flutter:
      - assets/home/caffee.jpg
      - assets/home/caffee1.jpg
      - assets/home/caffee3.jpg
+     - assets/voucher.jpg
 
 
 

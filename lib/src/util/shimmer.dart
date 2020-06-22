@@ -13,7 +13,7 @@ class ShimmerList extends StatelessWidget {
     int time = 800;
     int offset = 0;
     return ListView.builder(
-      itemCount: 6,
+      itemCount: 10,
       shrinkWrap: true,
       itemBuilder: (BuildContext context, int index) {
         offset += 5;
