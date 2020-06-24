@@ -9,7 +9,7 @@ class Store {
 
   Store.fromJson(Map<String, dynamic> json) {
     image = json['Image'];
-    latitute = json['Latitute'];
+    latitute = json['Latitude'];
     longitude = json['Longitude'];
     name = json['Name'];
     phone = json['Phone'];

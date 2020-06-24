@@ -54,8 +54,11 @@
             	 <key>io.flutter.embedded_views_preview</key>
             	    <string>YES</string>
 
-     <key>NSLocationWhenInUseUsageDescription</key>
-                 <string>Need to location permission</string>
+
+            	    <key>NSLocationWhenInUseUsageDescription</key>
+                        <string>Application needs to access your current location</string>
+                        <key>NSLocationAlwaysUsageDescription</key>
+                        <string>Application needs to access your current location</string>
 
 
 </dict>
