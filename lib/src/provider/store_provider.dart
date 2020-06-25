@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttercoffee/src/model/store.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
@@ -14,6 +15,9 @@ class StoreProvider with ChangeNotifier {
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   StorageReference storageReference;
   LocationData _locationData;
+  List<String> aaa= List();
+  String address;
+  String a = '';
   BitmapDescriptor customIcon;
   List<Store> listStore = List();
 
@@ -45,13 +49,16 @@ class StoreProvider with ChangeNotifier {
     Map<dynamic,dynamic>.from(data.value).forEach((key, value) {
       Store store = Store(
         image: value['Image'],
-        latitute: value['Latitude'],
+        latitude: value['Latitude'],
         longitude: value['Longitude'],
         name: value['Name'],
         phone: value['Phone'],
+        closeTime: value['CloseTime'],
+        opentTime: value['OpenTime'],
       );
       listStore.add(store);
     });
+    notifyListeners();
 
   return listStore;
   }
@@ -62,10 +69,19 @@ class StoreProvider with ChangeNotifier {
       BitmapDescriptor.fromAssetImage(configuration, 'assets/logo.png')
           .then((icon) {
         customIcon = icon;
-        notifyListeners();
+      notifyListeners();
       });
     }
+    notifyListeners();
   }
 
+    Future<void>convertLatLnToLocation(double latitude,double longitude) async{
+
+    final coordinates =  Coordinates(latitude, longitude);
+    var  addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    var  first = addresses.first;
+    address = first.addressLine;
+
+  }
 
 }

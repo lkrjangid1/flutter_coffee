@@ -3,6 +3,7 @@ import 'package:fluttercoffee/src/page/splash/splashscreen_page.dart';
 import 'package:fluttercoffee/src/provider/auth_provider.dart';
 import 'package:fluttercoffee/src/provider/categories_provider.dart';
 import 'package:fluttercoffee/src/provider/detail_provider.dart';
+import 'package:fluttercoffee/src/provider/detail_store_provider.dart';
 import 'package:fluttercoffee/src/provider/home_provider.dart';
 import 'package:fluttercoffee/src/provider/profile_provider.dart';
 import 'package:fluttercoffee/src/util/router.dart';
@@ -22,6 +23,7 @@ void main() {
         ChangeNotifierProvider(
           create: (BuildContext context) => HomeProvider(),
         ),
+
 
       ],
       child: MyApp(),

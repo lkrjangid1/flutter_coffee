@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/provider/store_provider.dart';
 import 'package:fluttercoffee/src/shared/containercard.dart';
 import 'package:fluttercoffee/src/util/const.dart';
+import 'package:fluttercoffee/src/util/router_path.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -31,16 +33,30 @@ class StorePageWidget extends StatelessWidget {
     Provider.of<StoreProvider>(context,listen: false).checkPermissionLocation();
     Set<Marker> listMarker = Set();
     Provider.of<StoreProvider>(context,listen: false).createMarker(context);
+    List<String> a  = List();
+//    Provider.of<StoreProvider>(context,listen: false).convertLatLnToLocation()
+
+
     return  Consumer<StoreProvider>(
       builder: (BuildContext context, StoreProvider value, Widget child) {
-        for(var i in value.listStore){
-          listMarker.add(
+        for (var i in value.listStore) {
+          value.convertLatLnToLocation(i.latitude, i.longitude);
+//          print(value.aaa.first);
+         listMarker.add(
             Marker(
               markerId: MarkerId(i.name),
-                icon:   value.customIcon,
-                position: LatLng(i.latitute , i.longitude ),
-          ));
+              onTap: (){
+                Navigator.pushNamed(context, DetailStorePagee,arguments: i);
+              },
+              infoWindow: InfoWindow(
+                title: "cc"
+              ),
+              icon: value.customIcon,
+              position: LatLng(i.latitude, i.longitude),
+            ),
+          );
         }
+//        print(value.address);
         return Scaffold(
           body: GoogleMap(
             markers: listMarker,

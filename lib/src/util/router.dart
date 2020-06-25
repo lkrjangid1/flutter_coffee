@@ -8,6 +8,7 @@ import 'package:fluttercoffee/src/page/dashboard/tab/categories/detail_categorie
 import 'package:fluttercoffee/src/page/dashboard/tab/categories/detail_categories_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/home/detail_home_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/profile/information_account_page.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/store/detail_store_page.dart';
 import 'package:fluttercoffee/src/page/onboard_page.dart';
 import 'package:fluttercoffee/src/page/auth/optionauth_page.dart';
 
@@ -30,6 +31,9 @@ class Router{
           return MaterialPageRoute(builder: (_)=>OnboardPage());
         case OptionAuthPagee:
           return MaterialPageRoute(builder: (_)=>OptionAuthPage());
+        case DetailStorePagee:
+          final argument = settings.arguments;
+          return MaterialPageRoute(builder: (_)=>DetailStorePage(store: argument,));
         case DetailCategoriesPagee:
           final argument = settings.arguments;
           return MaterialPageRoute(builder: (_)=>DetailCategoriesPage(idCategories: argument,));

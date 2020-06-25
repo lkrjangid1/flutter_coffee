@@ -36,6 +36,7 @@ dependencies:
   firebase_database: ^3.1.6
   image_picker: ^0.6.7+1
   path:
+  intl: 0.16.1
   path_provider:
   flutter_progress_button: ^1.0.0
   cached_network_image: ^2.2.0+1

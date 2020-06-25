@@ -1,5 +1,6 @@
 
 const String SplashPage = 'SplashScreen';
+const String DetailStorePagee  = 'DetailStorePagee';
 const String DashBoardPage = 'DashBoardPage';
 const String LoginPage = 'LoginPage';
 const String OnBoardPage = 'OnBoardPage';
