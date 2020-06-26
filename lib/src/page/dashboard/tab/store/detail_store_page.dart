@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/model/store.dart';
 import 'package:fluttercoffee/src/provider/detail_store_provider.dart';
@@ -12,11 +13,15 @@ class DetailStorePage  extends StatelessWidget {
 
   const DetailStorePage({Key key, this.store}) : super(key: key);
 
+
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-    create: (BuildContext context) => DetailStoreProvider(),
-    child: DetailStorePageWidget(store: store,),
+
+    DetailStoreProvider detailStoreProvider = DetailStoreProvider();
+
+    return ChangeNotifierProvider.value(
+      value: detailStoreProvider,
+      child: DetailStorePageWidget(store: store,),
     );
   }
 }
@@ -29,7 +34,6 @@ class DetailStorePageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     Set<Marker> marker = Set();
     marker.add(
       Marker(
@@ -38,19 +42,14 @@ class DetailStorePageWidget extends StatelessWidget {
         position: LatLng(store.latitude,store.longitude),
       )
     );
-    Provider.of<DetailStoreProvider>(context,listen: false).checkOpenCloseTime(store.closeTime,store.opentTime);
+//    Provider.of<DetailStoreProvider>(context,listen: true).checkOpenCloseTime(store.closeTime,store.opentTime);
+    Provider.of<DetailStoreProvider>(context,listen: false).convertLatLnToLocation(store.latitude, store.longitude);
 
     return Consumer<DetailStoreProvider>(
       builder: (BuildContext context, DetailStoreProvider value, Widget child) {
         value.getImageStore(store.image);
-        value.convertLatLnToLocation(store.latitude, store.longitude);
-//        value.checkOpenCloseTime();
-
-
-//        if(currentTime.isAfter(openTime) && currentTime.isBefore(closeTime)) {
-//          print("a");
-//          print(currentTime);
-//        }
+        value.checkOpenCloseTime(store.opentTime,store.closeTime);
+        value.calDistance(store.latitude, store.longitude);
 
         return Scaffold(
           body: Container(
@@ -61,17 +60,21 @@ class DetailStorePageWidget extends StatelessWidget {
               children: <Widget>[
                 Stack(
                   children: <Widget>[
-                    Container(
+                    CachedNetworkImage(
                       width: double.infinity,
                       height: 250,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            value.dowloadURl,
-                          ),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      imageUrl: value.dowloadURl,
+                      fit: BoxFit.cover,
+                      progressIndicatorBuilder:
+                          (context, url,
+                          downloadProgress) =>
+                          CircularProgressIndicator(
+                              value:
+                              downloadProgress
+                                  .progress),
+                      errorWidget:
+                          (context, url, error) =>
+                          Icon(Icons.error),
                     ),
                     const SizedBox(
                       height: 50,
@@ -130,7 +133,7 @@ class DetailStorePageWidget extends StatelessWidget {
                               const SizedBox(
                                 height: 10,
                               ),
-                              _buildInforAddress("5.5 km (Current location)", Icons.adjust),
+                              _buildInforAddress("${value.km.toString()} km (Current location)", Icons.adjust),
                               const SizedBox(
                                 height: 10,
                               ),
@@ -195,7 +198,11 @@ class DetailStorePageWidget extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
-                                Text("Open Time"),
+                                Text(value.time,
+                                style: TextStyle(
+                                  color: value.color ? Colors.green : Colors.red,
+                                  fontWeight: FontWeight.bold
+                                ),),
                                 const SizedBox(
                                   height: 5,
                                 ),

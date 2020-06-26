@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttercoffee/src/model/store.dart';
+import 'package:fluttercoffee/src/service/share_pref.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -15,9 +16,8 @@ class StoreProvider with ChangeNotifier {
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   StorageReference storageReference;
   LocationData _locationData;
-  List<String> aaa= List();
   String address;
-  String a = '';
+  bool isLoading = false;
   BitmapDescriptor customIcon;
   List<Store> listStore = List();
 
@@ -29,7 +29,6 @@ class StoreProvider with ChangeNotifier {
         return;
       }
     }
-
     _permissionGranted = await location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await location.requestPermission();
@@ -38,6 +37,8 @@ class StoreProvider with ChangeNotifier {
       }
     }
     _locationData = await location.getLocation();
+    SharedPrefService.setDouble(key: 'latitude',value: _locationData.latitude );
+    SharedPrefService.setDouble(key: 'longitude',value: _locationData.longitude );
     notifyListeners();
 
   }
@@ -59,25 +60,25 @@ class StoreProvider with ChangeNotifier {
       listStore.add(store);
     });
     notifyListeners();
-
   return listStore;
   }
 
-  createMarker(context) {
-    if (customIcon == null) {
+  createMarker( BuildContext context)  async {
+
+      if (customIcon == null) {
       ImageConfiguration configuration = createLocalImageConfiguration(context);
-      BitmapDescriptor.fromAssetImage(configuration, 'assets/logo.png')
+      await  BitmapDescriptor.fromAssetImage(configuration, 'assets/logo.png')
           .then((icon) {
         customIcon = icon;
-      notifyListeners();
       });
     }
-    notifyListeners();
+
+
   }
 
     Future<void>convertLatLnToLocation(double latitude,double longitude) async{
 
-    final coordinates =  Coordinates(latitude, longitude);
+    final coordinates = await Coordinates(latitude, longitude);
     var  addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var  first = addresses.first;
     address = first.addressLine;

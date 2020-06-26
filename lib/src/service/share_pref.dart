@@ -16,6 +16,13 @@ class SharedPrefService {
     return pref.getString(key);
   }
 
+  static Future<double> getDouble({String key}) async {
+    final pref = await SharedPreferences.getInstance();
+    return pref.getDouble(key);
+  }
+
+
+
   static Future<bool> setString({String key, String value}) async {
     final pref = await SharedPreferences.getInstance();
     return await pref.setString(key, value);
@@ -30,4 +37,10 @@ class SharedPrefService {
     final pref = await SharedPreferences.getInstance();
     return await pref.setInt(key, value);
   }
+
+  static Future<bool> setDouble({String key, double value}) async {
+    final pref = await SharedPreferences.getInstance();
+    return await pref.setDouble(key, value);
+  }
+
 }

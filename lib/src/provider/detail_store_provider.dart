@@ -2,61 +2,75 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/model/store.dart';
+import 'package:fluttercoffee/src/service/share_pref.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:intl/intl.dart';
+import 'package:latlong/latlong.dart';
 
 class DetailStoreProvider with ChangeNotifier{
   DatabaseReference databaseReference;
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   StorageReference storageReference;
   String dowloadURl = '';
+  String time = '';
+  bool color = true;
+  Distance distance = Distance();
   String address = '';
+  double km ;
+
 
   Future<String> getImageStore(String urlImage) async {
-    storageReference = FirebaseStorage.instance
-        .ref()
-        .child('store/$urlImage');
-   dowloadURl =  await storageReference.getDownloadURL();
-   return dowloadURl;
+    storageReference = FirebaseStorage.instance.ref().child('store/$urlImage');
+    dowloadURl = await storageReference.getDownloadURL();
+
+    notifyListeners();
+    return dowloadURl;
   }
 
-
-  Future<void>convertLatLnToLocation(double latitude,double longitude) async{
-    final coordinates =  Coordinates(latitude, longitude);
+  Future<String>convertLatLnToLocation(double latitude,double longitude) async{
+    var coordinates =  Coordinates(latitude, longitude);
     var  addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var  first = addresses.first;
      address  = first.addressLine;
      notifyListeners();
+     return address;
   }
 
-  Future checkOpenCloseTime(String openTimee,String closeTimee)  async {
-//    DateFormat dateFormat =  DateFormat();
+   checkOpenCloseTime(String openTimee,String closeTimee)  async {
+    DateFormat dateFormat =  await DateFormat().add_Hm();
+    DateTime now =  DateTime.now();
+    DateTime open =  dateFormat.parse(openTimee);
+    open =  DateTime(now.year, now.month, now.day, open.hour, open.minute);
+    DateTime close =   dateFormat.parse(closeTimee);
+    close =  DateTime(now.year, now.month, now.day, close.hour, close.minute);
 
-//    DateTime now = DateTime.now();
-    DateTime newDateTimeObj = await DateFormat().add_Hm().parse("10:07");
-    newDateTimeObj = new DateTime(newDateTimeObj.year, newDateTimeObj.month, newDateTimeObj.day, newDateTimeObj.hour, newDateTimeObj.minute);
-//    DateTime close = dateFormat.parse("15:30");
-//    close = new DateTime(now.year, now.month, now.day, close.hour, close.minute);
-      print(newDateTimeObj);
-//    DateTime dateTime = await DateTime(0,0,0,newDateTimeObj.hour,newDateTimeObj.minute,0,0);
-//    print(dateTime);
+    if(now.isAfter(open) && now.isBefore(close)) {
+      time = 'Open Time';
+      color = true;
+      return true;
+    }else{
+      time = 'Close Time';
+      color = false;
+      return false;
+    }
+  }
 
-//
-//    var  currentTime = await DateTime.now();
-//
-//    DateTime openTime  = DateTime.;
-//    DateTime closeTime = DateTime.parse(closeTimee);
+  Future calDistance(double latitudee, double longitudee) async {
+    double latitude = await SharedPrefService.getDouble(key: 'latitude');
+    double longitude = await SharedPrefService.getDouble(key: 'longitude');
 
-//    var b = dateFormat.format(openTime);
-//    var c = dateFormat.format(closeTime);
-//    var a = dateFormat.format(currentTime);
-//    print(a);
+    km = distance.as(LengthUnit.Kilometer, LatLng(latitude, longitude),
+        LatLng(latitudee, longitudee));
 
-//    print(currentTime);
-//    if (currentTime.isAfter(openTime) && currentTime.isBefore(closeTime)) {
-//      // do something
-//      print('ab ');
-//    }
     notifyListeners();
   }
+
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+
+  }
+
 }

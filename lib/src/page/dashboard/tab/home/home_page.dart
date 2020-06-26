@@ -70,36 +70,30 @@ class HomePage extends StatelessWidget {
                                     fit: BoxFit.cover
                                 ),
                               ),
-                              child: Column(
+                              child: profProvider.isLoading ? CircularProgressIndicator() : Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Text(
-                                        profProvider.user.userName == null
-                                            ? "null"
-                                            : "Hello,${profProvider.user.userName}",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 27),
-                                      ),
-                                      Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                              image:
-                                              NetworkImage(profProvider.user.image),
-                                            ),
-                                            shape: BoxShape.circle),
-                                      )
-                                    ],
+                                  Text(
+                                    profProvider.user.userName == null
+                                        ? "null"
+                                        : "Hello,${profProvider.user.userName}",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 27),
                                   ),
+                                  Container(
+                                    width: 50,
+                                    height: 50,
+                                    decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image:
+                                          NetworkImage(profProvider.user.image),
+                                        ),
+                                        shape: BoxShape.circle),
+                                  )
                                 ],
                               )
                           ),
@@ -118,33 +112,33 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    CarouselSlider(
-                      items: homeProvider.listImageSlideURL.map((e) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                              width: double.infinity,
-                              margin: const EdgeInsets.symmetric(
-                                  horizontal: 2),
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: NetworkImage(e),
-                                    fit: BoxFit.cover),
+                              CarouselSlider(
+                                items: homeProvider.listImageSlideURL.map((e) {
+                                  return Builder(
+                                    builder: (BuildContext context) {
+                                      return Container(
+                                        width: double.infinity,
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 2),
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: NetworkImage(e),
+                                              fit: BoxFit.cover),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }).toList(),
+                                options: CarouselOptions(
+                                  height: 200,
+                                  autoPlay: true,
+                                  autoPlayInterval: Duration(seconds: 3),
+                                  autoPlayAnimationDuration:
+                                      Duration(milliseconds: 1000),
+                                  autoPlayCurve: Curves.ease,
+                                ),
                               ),
-                            );
-                          },
-                        );
-                      }).toList(),
-                      options: CarouselOptions(
-                        height: 200,
-                        autoPlay: true,
-                        autoPlayInterval: Duration(seconds: 3),
-                        autoPlayAnimationDuration:
-                        Duration(milliseconds: 1000),
-                        autoPlayCurve: Curves.ease,
-                      ),
-                    ),
-                    SizedBox(
+                              SizedBox(
                       height: 15,
                     ),
                     Padding(

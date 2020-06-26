@@ -32,16 +32,14 @@ class StorePageWidget extends StatelessWidget {
     Provider.of<StoreProvider>(context,listen: false).getAllStore();
     Provider.of<StoreProvider>(context,listen: false).checkPermissionLocation();
     Set<Marker> listMarker = Set();
-    Provider.of<StoreProvider>(context,listen: false).createMarker(context);
-    List<String> a  = List();
-//    Provider.of<StoreProvider>(context,listen: false).convertLatLnToLocation()
-
 
     return  Consumer<StoreProvider>(
       builder: (BuildContext context, StoreProvider value, Widget child) {
+
+        value.createMarker(context);
+
         for (var i in value.listStore) {
           value.convertLatLnToLocation(i.latitude, i.longitude);
-//          print(value.aaa.first);
          listMarker.add(
             Marker(
               markerId: MarkerId(i.name),
