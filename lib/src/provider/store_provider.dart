@@ -42,8 +42,6 @@ class StoreProvider with ChangeNotifier {
     notifyListeners();
 
   }
-
-
   Future<List<Store>> getAllStore () async {
     listStore.clear();
     var data =  await firebaseDatabase.reference().child('Store').once();
@@ -62,9 +60,7 @@ class StoreProvider with ChangeNotifier {
     notifyListeners();
   return listStore;
   }
-
   createMarker( BuildContext context)  async {
-
       if (customIcon == null) {
       ImageConfiguration configuration = createLocalImageConfiguration(context);
       await  BitmapDescriptor.fromAssetImage(configuration, 'assets/logo.png')
@@ -75,14 +71,11 @@ class StoreProvider with ChangeNotifier {
 
 
   }
-
     Future<void>convertLatLnToLocation(double latitude,double longitude) async{
-
     final coordinates = await Coordinates(latitude, longitude);
     var  addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var  first = addresses.first;
     address = first.addressLine;
-
   }
 
 }

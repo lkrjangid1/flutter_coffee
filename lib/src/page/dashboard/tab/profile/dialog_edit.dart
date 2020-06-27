@@ -12,7 +12,7 @@ class DialogEdit extends StatelessWidget {
   const DialogEdit({Key key, this.email, this.userName, this.phoneNumber, this.uid}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return ListenableProvider<ProfileProvider>(
+    return ChangeNotifierProvider<ProfileProvider>(
       create: (BuildContext context) => ProfileProvider(),
       child: DialogEditWidget(email: email,userName: userName,phoneNumber: phoneNumber,uid: uid,),
     );
@@ -21,7 +21,6 @@ class DialogEdit extends StatelessWidget {
 
 
 class DialogEditWidget extends StatelessWidget {
-
   final String email;
   final String userName;
   final String phoneNumber;
@@ -35,7 +34,6 @@ class DialogEditWidget extends StatelessWidget {
     final phoneNumberController = TextEditingController();
     final emailController = TextEditingController();
     final data =    Provider.of<ProfileProvider>(context,listen: false);
-
 
     return Container(
       width: double.infinity,
@@ -79,6 +77,7 @@ class DialogEditWidget extends StatelessWidget {
               width: 160,
               child: RaisedButton(
                 onPressed: () {
+                  data.updateInformation(uid, userNameController.text, phoneNumberController.text);
                 },
                 color: kColorGreen,
                 shape: RoundedRectangleBorder(

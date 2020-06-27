@@ -54,27 +54,19 @@ class StorePageWidget extends StatelessWidget {
             ),
           );
         }
-//        print(value.address);
         return Scaffold(
           body: GoogleMap(
             markers: listMarker,
             mapType: MapType.normal,
             myLocationEnabled:  true ,
+            zoomControlsEnabled: false,
             initialCameraPosition: _kGooglePlex,
             onMapCreated: (GoogleMapController controller) {
               _controller.complete(controller);
             },
           ),
-//      floatingActionButton: FloatingActionButton.extended(
-//        onPressed: _goToTheLake,
-//        label: Text('To the lake!'),
-//        icon: Icon(Icons.directions_boat),
-//      ),
-
         );
       },
     );
   }
-
-
 }

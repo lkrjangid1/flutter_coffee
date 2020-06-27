@@ -150,7 +150,7 @@ class InformationAccountPage extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          child: DialogEditWidget(email: email,userName: userName,phoneNumber: phoneNumber,uid: uid,),
+          child: DialogEdit(email: email,userName: userName,phoneNumber: phoneNumber,uid: uid,),
         ),
       );
     });

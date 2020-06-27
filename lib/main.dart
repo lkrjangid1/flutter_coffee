@@ -23,8 +23,6 @@ void main() {
         ChangeNotifierProvider(
           create: (BuildContext context) => HomeProvider(),
         ),
-
-
       ],
       child: MyApp(),
     )

@@ -19,7 +19,6 @@ class ProfileProvider with ChangeNotifier {
     isLoading = true;
     var data =  await firebaseDatabase.reference().child('User').child(uid).once();
     var dataJson = data.value;
-
     user = User(
       userName: dataJson['userName'],
       image: dataJson['image'],
@@ -34,11 +33,11 @@ class ProfileProvider with ChangeNotifier {
 
   Future updateInformation(String uid,String userName, String phoneNumber) async {
     var data = await firebaseDatabase.reference().child('User').child(uid);
-    user.phoneNumber = phoneNumber;
-    user.userName = userName;
-    data.update(
-      user.toJson(),
-    );
+//    user.phoneNumber = phoneNumber;
+//    user.userName = userName;
+    data.update({
+      'userName': userName
+    });
     notifyListeners();
   }
   // thieu gmail, xac nhan sdt
