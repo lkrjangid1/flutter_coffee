@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/model/menu.dart';
+import 'package:fluttercoffee/src/model/order.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/categories/my_bag_page.dart';
 import 'package:fluttercoffee/src/provider/detail_provider.dart';
+import 'package:fluttercoffee/src/provider/order_provider.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 import 'package:provider/provider.dart';
 
@@ -24,8 +27,8 @@ class DetailCategoriesFoodPage extends StatelessWidget {
   final String image;
 
   const DetailCategoriesFoodPage({Key key, this.menu, this.image}) : super(key: key);
-
   Widget build(BuildContext context) {
+    var data = Provider.of<OrderProvider>(context,listen: true);
     bool isShowing = false;
 
     return Scaffold(
@@ -100,7 +103,7 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                       height: 30,
                     ),
                     Consumer<DetailProvider>(
-                      builder: (BuildContext context, DetailProvider value,
+                      builder: (BuildContext context, DetailProvider detailPro,
                           Widget child) {
                         return Column(
                           children: <Widget>[
@@ -111,14 +114,13 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                                 Visibility(
                                   child: InkWell(
                                     onTap: () {
-                                      value.decrement(menu);
-
+                                      detailPro.decrement(menu);
                                     },
                                     child: _buildUpDown(
                                       Icons.remove,
                                     ),
                                   ),
-                                  visible: value.isShowing,
+                                  visible: detailPro.isShowing,
                                 ),
                                 const SizedBox(
                                   width: 15,
@@ -126,7 +128,7 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.only(top: 10),
                                   child: Text(
-                                    value.count.toString(),
+                                    detailPro.count.toString(),
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -139,7 +141,7 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                                 ),
                                 InkWell(
                                   onTap: () {
-                                    value.increment(menu);
+                                    detailPro.increment(menu);
                                   },
                                   child: _buildUpDown(
                                     Icons.add,
@@ -176,22 +178,67 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                                 RaisedButton(
                                   color: kColorGreen,
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  onPressed: () {},
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  onPressed: () {
+                                    data.addItem(Order(menu: menu, amount: detailPro.count),);
+                                    data.showing(true);
+                                  },
                                   child: Text(
-                                    value.total == 0
+                                    detailPro.total == 0
                                         ? "Add To Card"
-                                        : "\$${value.total.toString()}",
+                                        : "\$${detailPro.total.toString()}",
                                     style: TextStyle(color: Colors.white),
                                   ),
                                 ),
                               ],
                             ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+
                           ],
                         );
                       },
                     ),
+
+                 Visibility(
+                   visible: data.isShowing,
+                   child:    InkWell(
+                     onTap: (){
+                       _showBottomSheett(context,data);
+                     },
+                     child: Container(
+                       padding: const EdgeInsets.symmetric(horizontal: 10),
+                       width: double.infinity,
+                       height: 40,
+                       decoration: BoxDecoration(
+                         color: kColorGreen,
+                         borderRadius: BorderRadius.circular(10),
+                       ),
+                       child: Row(
+                         children: <Widget>[
+                           Icon(Icons.shopping_cart,color: Colors.white,),
+                           const SizedBox(
+                             width: 10,
+                           ),
+                           Expanded(
+                             child: Text("${data.listOrder.length} Item",style: TextStyle(
+                               color: Colors.white,
+                               fontWeight: FontWeight.bold,
+                             ),),
+                           ),
+                           Text("\$ 100.00",style: TextStyle(
+                               color: Colors.white,
+                               fontWeight: FontWeight.bold
+                           ),)
+                         ],
+                       ),
+                     ),
+                   ),
+                 )
                   ],
+
                 ),
               ),
             ),
@@ -214,5 +261,19 @@ class DetailCategoriesFoodPage extends StatelessWidget {
         size: 20,
       ),
     );
+  }
+
+  _showBottomSheett(BuildContext context,OrderProvider orderProvider){
+    return showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20),
+            topLeft: Radius.circular(20),
+          ),
+        ),
+        context: context,
+        builder: (_){
+      return MyBagPage(listOrder: orderProvider.listOrder,);
+    });
   }
 }

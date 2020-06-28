@@ -12,6 +12,7 @@ class InformationAccountPage extends StatelessWidget {
   final String userName;
   final String phoneNumber;
   const InformationAccountPage({Key key, this.email, this.imageURL, this.userName, this.phoneNumber, this.uid}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -141,6 +142,7 @@ class InformationAccountPage extends StatelessWidget {
   }
    showDialogg(BuildContext context,String uid){
     return showDialog(context: context,builder: (_){
+
       return BackdropFilter(
         filter: ImageFilter.blur(
           sigmaX: 7,

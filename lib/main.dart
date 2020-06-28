@@ -5,6 +5,7 @@ import 'package:fluttercoffee/src/provider/categories_provider.dart';
 import 'package:fluttercoffee/src/provider/detail_provider.dart';
 import 'package:fluttercoffee/src/provider/detail_store_provider.dart';
 import 'package:fluttercoffee/src/provider/home_provider.dart';
+import 'package:fluttercoffee/src/provider/order_provider.dart';
 import 'package:fluttercoffee/src/provider/profile_provider.dart';
 import 'package:fluttercoffee/src/util/router.dart';
 import 'package:fluttercoffee/src/util/router_path.dart';
@@ -23,6 +24,9 @@ void main() {
         ChangeNotifierProvider(
           create: (BuildContext context) => HomeProvider(),
         ),
+        ChangeNotifierProvider(
+          create: (BuildContext context) =>OrderProvider(),
+        )
       ],
       child: MyApp(),
     )

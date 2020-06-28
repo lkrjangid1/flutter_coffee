@@ -11,8 +11,8 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="fluttercoffee"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Coffee Shop"
+        android:icon="@mipmap/logo">
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
