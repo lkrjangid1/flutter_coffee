@@ -29,7 +29,6 @@ class DetailCategoriesFoodPage extends StatelessWidget {
   const DetailCategoriesFoodPage({Key key, this.menu, this.image}) : super(key: key);
   Widget build(BuildContext context) {
     var data = Provider.of<OrderProvider>(context,listen: true);
-    bool isShowing = false;
 
     return Scaffold(
       body: Container(
@@ -115,6 +114,8 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                                   child: InkWell(
                                     onTap: () {
                                       detailPro.decrement(menu);
+                                      data.addItem(Order(menu: menu, amount: detailPro.count),);
+                                      data.showing(true);
                                     },
                                     child: _buildUpDown(
                                       Icons.remove,
@@ -142,6 +143,8 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                                 InkWell(
                                   onTap: () {
                                     detailPro.increment(menu);
+                                    data.addItem(Order(menu: menu, amount: detailPro.count),);
+                                    data.showing(true);
                                   },
                                   child: _buildUpDown(
                                     Icons.add,
@@ -174,22 +177,6 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                                           fontSize: 22),
                                     )
                                   ],
-                                ),
-                                RaisedButton(
-                                  color: kColorGreen,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  onPressed: () {
-                                    data.addItem(Order(menu: menu, amount: detailPro.count),);
-                                    data.showing(true);
-                                  },
-                                  child: Text(
-                                    detailPro.total == 0
-                                        ? "Add To Card"
-                                        : "\$${detailPro.total.toString()}",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
                                 ),
                               ],
                             ),
@@ -228,7 +215,7 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                                fontWeight: FontWeight.bold,
                              ),),
                            ),
-                           Text("\$ 100.00",style: TextStyle(
+                           Text("\$${data.total}",style: TextStyle(
                                color: Colors.white,
                                fontWeight: FontWeight.bold
                            ),)
@@ -273,7 +260,7 @@ class DetailCategoriesFoodPage extends StatelessWidget {
         ),
         context: context,
         builder: (_){
-      return MyBagPage(listOrder: orderProvider.listOrder,);
+      return MyPage(listOrder: orderProvider.listOrder,);
     });
   }
 }

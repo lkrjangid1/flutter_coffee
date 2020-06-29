@@ -9,7 +9,7 @@ class DowloadImg{
         .ref()
         .child('menu/$path/$url');
      downloadUrl = await storageReference.getDownloadURL();
-     print(downloadUrl);
+
     return downloadUrl;
 
   }
