@@ -32,7 +32,7 @@ class DetailCategoriesPage extends StatelessWidget {
         color: Colors.white,
         child: Consumer<CategoriesProvider>(
           builder: (BuildContext context, CategoriesProvider value, Widget child) {
-            return ListView.builder(
+            return value.isLoading ? ShimmerList() : ListView.builder(
               itemCount: value.listDetail.length,
               itemBuilder: (BuildContext context, int index) {
                 Menu menu = value.listDetail[index];
@@ -40,7 +40,7 @@ class DetailCategoriesPage extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 10),
                   child: GestureDetector(
                     onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (_)=>DetailCategoriesFoodPageee(menu: menu,image: value.listDownloadURLDetail[index],)));
+                      Navigator.push(context, MaterialPageRoute(builder: (_)=>DetailCategoriesFoodPageee(menu: menu,image: value.listDownloadURLDetail[index],)));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,

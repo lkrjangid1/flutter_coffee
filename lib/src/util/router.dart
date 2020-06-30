@@ -7,6 +7,8 @@ import 'package:fluttercoffee/src/page/auth/login_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/categories/detail_categories_food_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/categories/detail_categories_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/home/detail_home_page.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/profile/history/detail_history_page.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/profile/history/history_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/profile/information_account_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/store/detail_store_page.dart';
 import 'package:fluttercoffee/src/page/onboard_page.dart';
@@ -40,6 +42,12 @@ class Router{
         case DetailCategoriesFoodPagee:
           final argument = settings.arguments;
           return MaterialPageRoute(builder: (_)=>DetailCategoriesFoodPageee(menu: argument,));
+        case HistoryPagee:
+//          final argument = settings.arguments;
+          return MaterialPageRoute(builder: (_)=>HistoryPage());
+        case DetailHistoryPagee:
+//          final argument = settings.arguments;
+          return MaterialPageRoute(builder: (_)=>DetailHistoryPage());
 //        case InformationAccountPagee:
 //          return MaterialPageRoute(builder: (_)=>InformationAccountPage(email: argument,image: image,));
 //        case DetailHomePagee:

@@ -57,14 +57,6 @@ class ProfilePageWidget extends StatelessWidget {
       'Log Out'
 
     ];
-//    String email = '';
-//    String name = '';
-//    String imageURL = '';
-//
-//    String phoneNumber = '';
-
-//    var data = Provider.of<AuthProvider>(context,listen: false);
-
     Widget _buildItemSetting(int index,ProfileProvider value) {
       return ListTile(
         onTap: () {
@@ -85,6 +77,10 @@ class ProfilePageWidget extends StatelessWidget {
                       phoneNumber: value.user.phoneNumber),
                 ),
               );
+              break;
+            case 1:
+              Navigator.pushNamed(context, HistoryPagee);
+             break;
           }
         },
         leading: Icon(listIcon[index]),
@@ -170,14 +166,14 @@ class ProfilePageWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                    ListView.builder(
-                      itemCount: listTitle.length,
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: (BuildContext context, int index) {
-                        return _buildItemSetting(index,value);
-                      },
-                    ),
+                        ListView.builder(
+                          itemCount: listTitle.length,
+                          shrinkWrap: true,
+                          physics: BouncingScrollPhysics(),
+                          itemBuilder: (BuildContext context, int index) {
+                            return _buildItemSetting(index, value);
+                          },
+                        ),
                       ],
                     ),
                   ),

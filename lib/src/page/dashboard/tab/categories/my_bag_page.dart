@@ -62,33 +62,44 @@ class MyBagPageWidget extends StatelessWidget {
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemCount: listOrder.length,
-              itemBuilder: (BuildContext context, int index) {
+              itemBuilder: (BuildContext context, int index)  {
                 DowloadImg.getImage('Cafe', listOrder[index].menu.image);
+                print(DowloadImg.downloadUrl);
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
+
                       Row(
                         children: <Widget>[
                           ClipRRect(
-                            child: CachedNetworkImage(
-                              width: 110,
-                              height: 110,
-                              imageUrl: DowloadImg.downloadUrl,
-                              fit: BoxFit.cover,
-                              
-                              progressIndicatorBuilder:
-                                  (context, url,
-                                  downloadProgress) =>
-                                  CircularProgressIndicator(
-                                      value:
-                                      downloadProgress
-                                          .progress),
-                              errorWidget:
-                                  (context, url, error) =>
-                                  Icon(Icons.error),
+                            child: FutureBuilder<String>(
+                                future:   DowloadImg.getImage('Cafe', listOrder[index].menu.image),
+                              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                                  print(snapshot.data);
+//                                if (snapshot.data) {
+//                                  return   CachedNetworkImage(
+//                                    width: 110,
+//                                    height: 110,
+//                                    imageUrl: snapshot.data,
+//                                    fit: BoxFit.cover,
+//
+//                                    progressIndicatorBuilder:
+//                                        (context, url,
+//                                        downloadProgress) =>
+//                                        CircularProgressIndicator(
+//                                            value:
+//                                            downloadProgress
+//                                                .progress),
+//                                    errorWidget:
+//                                        (context, url, error) =>
+//                                        Icon(Icons.error),
+//                                  );
+//                                }
+                                return CircularProgressIndicator();
+                              }
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),

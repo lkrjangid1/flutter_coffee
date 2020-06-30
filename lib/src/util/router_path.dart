@@ -10,3 +10,5 @@ const String DetailCategoriesPagee = 'DetailCategoriesPage';
 const String DetailHomePagee = 'DetailHomePagee';
 const String InformationAccountPagee = 'InformationAccountPagee';
 const String DetailCategoriesFoodPagee = 'DetailCategoriesFoodPage';
+const String HistoryPagee = 'HistoryPage';
+const String DetailHistoryPagee = 'DetailHistoryPage';

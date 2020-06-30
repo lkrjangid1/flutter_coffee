@@ -114,8 +114,8 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                                   child: InkWell(
                                     onTap: () {
                                       detailPro.decrement(menu);
-                                      data.addItem(Order(menu: menu, amount: detailPro.count),);
-                                      data.showing(true);
+//                                      data.addItem(Order(menu: menu, amount: detailPro.count),);
+//                                      data.showing(true);
                                     },
                                     child: _buildUpDown(
                                       Icons.remove,
@@ -143,8 +143,8 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                                 InkWell(
                                   onTap: () {
                                     detailPro.increment(menu);
-                                    data.addItem(Order(menu: menu, amount: detailPro.count),);
-                                    data.showing(true);
+//                                    data.addItem(Order(menu: menu, amount: detailPro.count),);
+//                                    data.showing(true);
                                   },
                                   child: _buildUpDown(
                                     Icons.add,
@@ -178,17 +178,30 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                                     )
                                   ],
                                 ),
+                                RaisedButton(
+                                  color: kColorGreen,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  onPressed: () {
+                                    data.addItem(Order(menu: menu, amount: detailPro.count),);
+                                    data.showing(true);
+                                  },
+                                  child: Text(
+                                    detailPro.total == 0
+                                        ? "Add To Card"
+                                        : "\$${detailPro.total.toString()}",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
                               ],
                             ),
                             const SizedBox(
                               height: 10,
                             ),
-
                           ],
                         );
                       },
                     ),
-
                  Visibility(
                    visible: data.isShowing,
                    child:    InkWell(
