@@ -62,14 +62,14 @@ class CategoriesProvider with ChangeNotifier {
       listDetail.add(menu);
     });
 
-    for (var i in listDetail) {
-      storageReference = FirebaseStorage.instance
-          .ref()
-          .child('menu/')
-          .child('$categories/${i.image}');
-      String downloadUrl = await storageReference.getDownloadURL();
-      listDownloadURLDetail.add(downloadUrl);
-    }
+//    for (var i in listDetail) {
+//      storageReference = FirebaseStorage.instance
+//          .ref()
+//          .child('menu/')
+//          .child('$categories/${i.image}');
+//      String downloadUrl = await storageReference.getDownloadURL();
+//      listDownloadURLDetail.add(downloadUrl);
+//    }
     isLoading = false;
     notifyListeners();
     return listDetail;

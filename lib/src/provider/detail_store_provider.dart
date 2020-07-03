@@ -18,15 +18,6 @@ class DetailStoreProvider with ChangeNotifier{
   String address = '';
   double km ;
 
-
-  Future<String> getImageStore(String urlImage) async {
-    storageReference = FirebaseStorage.instance.ref().child('store/$urlImage');
-    dowloadURl = await storageReference.getDownloadURL();
-
-    notifyListeners();
-    return dowloadURl;
-  }
-
   Future<String>convertLatLnToLocation(double latitude,double longitude) async{
     var coordinates =  Coordinates(latitude, longitude);
     var  addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);

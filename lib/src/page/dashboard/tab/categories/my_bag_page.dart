@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/model/order.dart';
+import 'package:fluttercoffee/src/model/user.dart';
 import 'package:fluttercoffee/src/provider/order_provider.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 import 'package:fluttercoffee/src/util/dowloadimage.dart';
@@ -21,22 +22,22 @@ class MyPage extends StatelessWidget {
     );
   }
 }
-
-
 class MyBagPageWidget extends StatelessWidget {
   final List<Order> listOrder;
-
   const MyBagPageWidget({Key key, this.listOrder}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<OrderProvider>(context,listen: true);
     double total;
+    int quality = 0;
+
     for(var i in listOrder){
       double amout = double.parse(i.menu.price);
       total = listOrder.length * amout;
-    }
 
+      
+    }
 
     return SingleChildScrollView(
       child: Container(
@@ -46,7 +47,7 @@ class MyBagPageWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text("My Bag ",
+            Text("My Bag",
             style: TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
@@ -63,43 +64,26 @@ class MyBagPageWidget extends StatelessWidget {
               physics: NeverScrollableScrollPhysics(),
               itemCount: listOrder.length,
               itemBuilder: (BuildContext context, int index)  {
-                DowloadImg.getImage('Cafe', listOrder[index].menu.image);
-                print(DowloadImg.downloadUrl);
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-
                       Row(
                         children: <Widget>[
                           ClipRRect(
-                            child: FutureBuilder<String>(
-                                future:   DowloadImg.getImage('Cafe', listOrder[index].menu.image),
-                              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                                  print(snapshot.data);
-//                                if (snapshot.data) {
-//                                  return   CachedNetworkImage(
-//                                    width: 110,
-//                                    height: 110,
-//                                    imageUrl: snapshot.data,
-//                                    fit: BoxFit.cover,
-//
-//                                    progressIndicatorBuilder:
-//                                        (context, url,
-//                                        downloadProgress) =>
-//                                        CircularProgressIndicator(
-//                                            value:
-//                                            downloadProgress
-//                                                .progress),
-//                                    errorWidget:
-//                                        (context, url, error) =>
-//                                        Icon(Icons.error),
-//                                  );
-//                                }
-                                return CircularProgressIndicator();
-                              }
+                            child: CachedNetworkImage(
+                              width: 110,
+                              height: 110,
+                              imageUrl: listOrder[index].menu.image,
+                              fit: BoxFit.cover,
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) =>
+                                      CircularProgressIndicator(
+                                          value: downloadProgress.progress),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -141,7 +125,7 @@ class MyBagPageWidget extends StatelessWidget {
                             shape: BoxShape.circle,
                           ),
                           child: Center(
-                            child: Text("1x"),
+                            child: Text("22"),
                           ),
                         ),
                       )
@@ -214,7 +198,7 @@ class MyBagPageWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 onPressed: () {
-
+                  data.purchase(listOrder);
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 18),

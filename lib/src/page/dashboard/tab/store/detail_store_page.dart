@@ -47,10 +47,8 @@ class DetailStorePageWidget extends StatelessWidget {
 
     return Consumer<DetailStoreProvider>(
       builder: (BuildContext context, DetailStoreProvider value, Widget child) {
-        value.getImageStore(store.image);
         value.checkOpenCloseTime(store.opentTime,store.closeTime);
         value.calDistance(store.latitude, store.longitude);
-
         return Scaffold(
           body: Container(
             width: double.infinity,
@@ -63,7 +61,7 @@ class DetailStorePageWidget extends StatelessWidget {
                     CachedNetworkImage(
                       width: double.infinity,
                       height: 250,
-                      imageUrl: value.dowloadURl,
+                      imageUrl: store.image,
                       fit: BoxFit.cover,
                       progressIndicatorBuilder:
                           (context, url,

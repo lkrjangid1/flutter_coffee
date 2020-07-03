@@ -13,6 +13,7 @@ class DetailCategoriesPage extends StatelessWidget {
   const DetailCategoriesPage({Key key, this.idCategories}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+
     Provider.of<CategoriesProvider>(context,listen: false).getMenuByCategories(idCategories);
     return Scaffold(
       backgroundColor: Colors.white,
@@ -36,11 +37,12 @@ class DetailCategoriesPage extends StatelessWidget {
               itemCount: value.listDetail.length,
               itemBuilder: (BuildContext context, int index) {
                 Menu menu = value.listDetail[index];
+                print(menu.image);
                 return value.isLoading ? CircularProgressIndicator(): Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: GestureDetector(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (_)=>DetailCategoriesFoodPageee(menu: menu,image: value.listDownloadURLDetail[index],)));
+                      Navigator.push(context, MaterialPageRoute(builder: (_)=>DetailCategoriesFoodPageee(menu: menu)));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -50,7 +52,7 @@ class DetailCategoriesPage extends StatelessWidget {
                           child: CachedNetworkImage(
                             width: 100,
                             height: 100,
-                            imageUrl: value.listDownloadURLDetail[index],
+                            imageUrl: menu.image,
                             fit: BoxFit.cover,
                             progressIndicatorBuilder:
                                 (context, url,

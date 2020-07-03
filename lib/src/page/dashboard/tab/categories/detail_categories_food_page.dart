@@ -9,13 +9,12 @@ import 'package:provider/provider.dart';
 
 class DetailCategoriesFoodPageee extends StatelessWidget {
   final Menu menu;
-  final String image;
-  const DetailCategoriesFoodPageee({Key key, this.menu, this.image}) : super(key: key);
+  const DetailCategoriesFoodPageee({Key key, this.menu, }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<DetailProvider>(
       create: (BuildContext context) => DetailProvider(),
-      child: DetailCategoriesFoodPage(menu: menu,image: image),
+      child: DetailCategoriesFoodPage(menu: menu),
 
     );
   }
@@ -24,12 +23,9 @@ class DetailCategoriesFoodPageee extends StatelessWidget {
 
 class DetailCategoriesFoodPage extends StatelessWidget {
   final Menu menu;
-  final String image;
-
-  const DetailCategoriesFoodPage({Key key, this.menu, this.image}) : super(key: key);
+  const DetailCategoriesFoodPage({Key key, this.menu}) : super(key: key);
   Widget build(BuildContext context) {
     var data = Provider.of<OrderProvider>(context,listen: true);
-
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -43,7 +39,7 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                 height: MediaQuery.of(context).size.height*0.60,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(image),
+                    image: NetworkImage(menu.image),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -183,7 +179,10 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                                   shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(10)),
                                   onPressed: () {
-                                    data.addItem(Order(menu: menu, amount: detailPro.count),);
+                                    data.addItem(
+                                      Order(
+                                          menu: menu, amount: detailPro.count),
+                                    );
                                     data.showing(true);
                                   },
                                   child: Text(
