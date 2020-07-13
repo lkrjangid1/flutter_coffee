@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttercoffee/src/model/menu.dart';
 import 'package:fluttercoffee/src/model/order.dart';
 import 'package:fluttercoffee/src/model/user.dart';
 import 'package:fluttercoffee/src/provider/order_provider.dart';
@@ -10,7 +11,7 @@ import 'package:provider/provider.dart';
 
 
 class MyPage extends StatelessWidget {
-  final List<Order> listOrder;
+  final List<Menu> listOrder;
 
   const MyPage({Key key, this.listOrder}) : super(key: key);
 
@@ -23,20 +24,20 @@ class MyPage extends StatelessWidget {
   }
 }
 class MyBagPageWidget extends StatelessWidget {
-  final List<Order> listOrder;
+  final List<Menu> listOrder;
   const MyBagPageWidget({Key key, this.listOrder}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var data = Provider.of<OrderProvider>(context,listen: true);
-    double total;
     int quality = 0;
-
+    double total;
     for(var i in listOrder){
-      double amout = double.parse(i.menu.price);
-      total = listOrder.length * amout;
+      print(i.name);
+      double price = double.parse(i.price);
+//      total = listOrder.length * price;
+//      print(total);
 
-      
     }
 
     return SingleChildScrollView(
@@ -76,7 +77,7 @@ class MyBagPageWidget extends StatelessWidget {
                             child: CachedNetworkImage(
                               width: 110,
                               height: 110,
-                              imageUrl: listOrder[index].menu.image,
+                              imageUrl: listOrder[index].image,
                               fit: BoxFit.cover,
                               progressIndicatorBuilder:
                                   (context, url, downloadProgress) =>
@@ -97,11 +98,11 @@ class MyBagPageWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(listOrder[index].menu.name),
+                              Text(listOrder[index].name),
                               const SizedBox(
                                 height: 50,
                               ),
-                              Text("\$${listOrder[index].menu.price}",
+                              Text("\$${listOrder[index].price}",
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -198,7 +199,7 @@ class MyBagPageWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 onPressed: () {
-                  data.purchase(listOrder);
+//                  data.purchase(listOrder);
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 18),

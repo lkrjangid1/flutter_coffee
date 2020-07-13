@@ -1,11 +1,13 @@
 
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:fluttercoffee/src/model/user.dart';
 import 'package:fluttercoffee/src/service/base_auth.dart';
 import 'package:fluttercoffee/src/util/getfilename.dart';
@@ -24,7 +26,9 @@ class AuthProvider with ChangeNotifier implements BaseAuth {
   StorageReference storageReference;
   String uid = '';
   bool isLoading = false;
-  
+  final _facebooklogin = FacebookLogin();
+  final dio = Dio();
+
   @override
   Future logOutUser() async {
     // TODO: implement logOutUser
@@ -76,6 +80,27 @@ class AuthProvider with ChangeNotifier implements BaseAuth {
   void isLoadingg(bool status){
     isLoading = status;
     notifyListeners();
+  }
+
+  @override
+  Future loginFB() async {
+    _facebooklogin.loginBehavior = FacebookLoginBehavior.webViewOnly;
+    final result = await _facebooklogin.logIn(['email']);
+    final token = result.accessToken.token;
+    
+
+    final graqh = await  dio.get('https://graph.facebook.com/v2.12/me?fields=name,picture.width(800).height(800),first_name,last_name,email&access_token=${token}');
+    final profile = graqh.data;
+//    Map<String,dynamic> abc  = graqh.data;
+//    print(abc.keys);
+//    print(graqh.data);
+
+    if (result.status == FacebookLoginStatus.loggedIn) {
+      final credential = FacebookAuthProvider.getCredential(accessToken:token);
+      firebaseAuth.signInWithCredential(credential);
+    }
+    
+    
   }
 
 }

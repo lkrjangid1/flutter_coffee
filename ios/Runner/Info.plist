@@ -55,10 +55,41 @@
             	    <string>YES</string>
 
 
-            	    <key>NSLocationWhenInUseUsageDescription</key>
-                        <string>Application needs to access your current location</string>
-                        <key>NSLocationAlwaysUsageDescription</key>
-                        <string>Application needs to access your current location</string>
+            	   <key>CFBundleURLTypes</key>
+                    <array>
+                        <!--
+                        <dict>
+                        ... Some other CFBundleURLTypes definition.
+                        </dict>
+                        -->
+                        <dict>
+                            <key>CFBundleURLSchemes</key>
+                            <array>
+                                <!--
+                                  Replace "000000000000" with your Facebook App ID here.
+                                  **NOTE**: The scheme needs to start with `fb` and then your ID.
+                                -->
+                                <string>fb575096736532472</string>
+                            </array>
+                        </dict>
+                    </array>
+
+                    <key>FacebookAppID</key>
+
+                    <!-- Replace "000000000000" with your Facebook App ID here. -->
+                    <string>575096736532472</string>
+                    <key>FacebookDisplayName</key>
+
+                    <!-- Replace "YOUR_APP_NAME" with your Facebook App name. -->
+                    <string>flutter-coffee</string>
+
+                    <key>LSApplicationQueriesSchemes</key>
+                    <array>
+                        <string>fbapi</string>
+                        <string>fb-messenger-share-api</string>
+                        <string>fbauth2</string>
+                        <string>fbshareextension</string>
+                    </array>
 
 
 </dict>

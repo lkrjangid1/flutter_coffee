@@ -32,10 +32,12 @@ dependencies:
   font_awesome_flutter: ^8.8.1
   firebase_auth: ^0.16.1
   firebase_storage: ^3.1.6
+  flutter_facebook_login: ^3.0.0
   firebase_core: ^0.4.5
   firebase_database: ^3.1.6
   image_picker: ^0.6.7+1
   path:
+  dio: ^3.0.9
   intl: 0.16.1
   path_provider:
   flutter_progress_button: ^1.0.0

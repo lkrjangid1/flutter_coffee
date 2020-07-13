@@ -37,7 +37,6 @@ class DetailCategoriesPage extends StatelessWidget {
               itemCount: value.listDetail.length,
               itemBuilder: (BuildContext context, int index) {
                 Menu menu = value.listDetail[index];
-                print(menu.image);
                 return value.isLoading ? CircularProgressIndicator(): Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: GestureDetector(

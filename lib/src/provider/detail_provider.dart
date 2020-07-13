@@ -30,5 +30,4 @@ class DetailProvider with ChangeNotifier {
     }
     notifyListeners();
   }
-
 }

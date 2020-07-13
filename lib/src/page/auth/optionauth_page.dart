@@ -1,12 +1,21 @@
+import 'package:dio/dio.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttercoffee/src/provider/auth_provider.dart';
 import 'package:fluttercoffee/src/shared/button.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 import 'package:fluttercoffee/src/util/router_path.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:provider/provider.dart';
+
 
 class OptionAuthPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+    final data = Provider.of<AuthProvider>(context,listen: false);
+
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -86,7 +95,9 @@ class OptionAuthPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         color: Colors.blue,
-                        onPressed: (){},
+                        onPressed: (){
+                          data.loginFB();
+                        },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -113,7 +124,7 @@ class OptionAuthPage extends StatelessWidget {
                         Navigator.pushNamed(context, RegisterPage);
                       },
                       child: Text('Already have an account ? - Sign up',style: TextStyle(
-                        color: Colors.white
+                          color: Colors.white
                       ),),
                     )
                   ],
@@ -128,3 +139,4 @@ class OptionAuthPage extends StatelessWidget {
 
   }
 }
+

@@ -141,6 +141,8 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                                     detailPro.increment(menu);
 //                                    data.addItem(Order(menu: menu, amount: detailPro.count),);
 //                                    data.showing(true);
+                                    data.addItem(menu,detailPro.count);
+                                    data.showing(true);
                                   },
                                   child: _buildUpDown(
                                     Icons.add,
@@ -174,24 +176,26 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                                RaisedButton(
-                                  color: kColorGreen,
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(10)),
-                                  onPressed: () {
-                                    data.addItem(
-                                      Order(
-                                          menu: menu, amount: detailPro.count),
-                                    );
-                                    data.showing(true);
-                                  },
-                                  child: Text(
-                                    detailPro.total == 0
-                                        ? "Add To Card"
-                                        : "\$${detailPro.total.toString()}",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
+//                                RaisedButton(
+//                                  color: kColorGreen,
+//                                  shape: RoundedRectangleBorder(
+//                                      borderRadius: BorderRadius.circular(10)),
+//                                  onPressed: () {
+//                                    data.addItem(
+//                                      Order(
+//                                          menu: menu, amount: detailPro.count),
+//                                    );
+//
+//                                  data.addItem(menu);
+//                                    data.showing(true);
+//                                  },
+//                                  child: Text(
+//                                    detailPro.total == 0
+//                                        ? "Add To Card"
+//                                        : "\$${detailPro.total.toString()}",
+//                                    style: TextStyle(color: Colors.white),
+//                                  ),
+//                                ),
                               ],
                             ),
                             const SizedBox(

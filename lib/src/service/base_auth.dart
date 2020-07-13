@@ -8,4 +8,7 @@ abstract class BaseAuth{
 
   Future loginUser(String email,String password);
 
+  Future loginFB();
+
+
 }

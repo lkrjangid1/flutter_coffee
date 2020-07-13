@@ -10,12 +10,12 @@ class CategoriesProvider with ChangeNotifier {
   StorageReference storageReference;
   List<Categories> listCategories = List();
   bool isLoading = false;
-  List<String> listDownloadURL = List();
   List<Menu> listDetail = List();
   List<String> listDownloadURLDetail = List();
 
   Future<List<Categories>> getAllCategories() async {
     isLoading = true;
+    print('voooo roi naaaaaa');
     await firebaseDatabase
         .reference()
         .child('Categories')
@@ -27,17 +27,10 @@ class CategoriesProvider with ChangeNotifier {
           name: value['name'],
           des: value['des'],
         );
+        print(categories.image);
         listCategories.add(categories);
       });
     });
-
-    for (var i in listCategories) {
-      storageReference =
-          FirebaseStorage.instance.ref().child('categories/${i.image}');
-      String downloadUrl = await storageReference.getDownloadURL();
-      listDownloadURL.add(downloadUrl);
-    }
-
     isLoading = false;
     notifyListeners();
     return listCategories;
@@ -61,15 +54,6 @@ class CategoriesProvider with ChangeNotifier {
       );
       listDetail.add(menu);
     });
-
-//    for (var i in listDetail) {
-//      storageReference = FirebaseStorage.instance
-//          .ref()
-//          .child('menu/')
-//          .child('$categories/${i.image}');
-//      String downloadUrl = await storageReference.getDownloadURL();
-//      listDownloadURLDetail.add(downloadUrl);
-//    }
     isLoading = false;
     notifyListeners();
     return listDetail;
