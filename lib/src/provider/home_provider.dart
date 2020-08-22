@@ -55,7 +55,6 @@ class HomeProvider with ChangeNotifier {
     });
 
     listImageNewsURL.clear();
-
     for(var i in listNews1){
       storageReference = FirebaseStorage.instance
           .ref()
@@ -63,8 +62,8 @@ class HomeProvider with ChangeNotifier {
           .child('1/${i.image}');
       String downloadUrl = await storageReference.getDownloadURL();
       listImageNewsURL.add(downloadUrl);
-
     }
+
     isLoading = false;
     notifyListeners();
     return listNews1;

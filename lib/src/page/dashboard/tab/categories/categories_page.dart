@@ -16,7 +16,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print('vo');
     Provider.of<CategoriesProvider>(context,listen: false).getAllCategories();
   }
 
@@ -35,7 +34,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
               physics: ClampingScrollPhysics(),
               itemCount: value.listCategories.length,
               itemBuilder: (BuildContext context, int index) {
-                print('aaaaaaaaaaa'+ value.listCategories[index].image);
                 return value.isLoading ? ShimmerList() : Padding(
                   padding: const EdgeInsets.only(bottom: 5),
                   child: InkWell(
@@ -77,7 +75,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 26
-                                  ),),
+                                  ),
+                                ),
                                 Text(
                                   value.listCategories[index].des,
                                   style: TextStyle(

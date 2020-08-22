@@ -26,7 +26,6 @@ class OrderProvider with ChangeNotifier {
     listOrder.add(menu);
     for (Menu menu in listOrder) {
       double price = double.parse(menu.price);
-
 //      SharedPrefService.setDouble(key: 'value', value: total);
 //      total = await SharedPrefService.getDouble(key: 'value');
 //      total = price * amount;

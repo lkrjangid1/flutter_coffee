@@ -40,7 +40,6 @@ class StoreProvider with ChangeNotifier {
     SharedPrefService.setDouble(key: 'latitude',value: _locationData.latitude );
     SharedPrefService.setDouble(key: 'longitude',value: _locationData.longitude );
     notifyListeners();
-
   }
   Future<List<Store>> getAllStore () async {
     listStore.clear();
@@ -60,22 +59,14 @@ class StoreProvider with ChangeNotifier {
     notifyListeners();
   return listStore;
   }
-  createMarker( BuildContext context)  async {
-      if (customIcon == null) {
-      ImageConfiguration configuration = createLocalImageConfiguration(context);
-      await  BitmapDescriptor.fromAssetImage(configuration, 'assets/logo.png')
-          .then((icon) {
-        customIcon = icon;
-      });
-    }
 
 
-  }
     Future<void>convertLatLnToLocation(double latitude,double longitude) async{
-    final coordinates = await Coordinates(latitude, longitude);
+    var coordinates = await Coordinates(latitude, longitude);
     var  addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var  first = addresses.first;
     address = first.addressLine;
+    return address;
   }
 
 }

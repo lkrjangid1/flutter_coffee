@@ -25,18 +25,21 @@ class MyPage extends StatelessWidget {
 }
 class MyBagPageWidget extends StatelessWidget {
   final List<Menu> listOrder;
-  const MyBagPageWidget({Key key, this.listOrder}) : super(key: key);
+  final List<Order> listOrderr;
+  const MyBagPageWidget({Key key, this.listOrder, this.listOrderr}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var data = Provider.of<OrderProvider>(context,listen: true);
+//    var data = Provider.of<OrderProvider>(context,listen: true);
     int quality = 0;
     double total;
-    for(var i in listOrder){
-      print(i.name);
-      double price = double.parse(i.price);
+//    for(var i in listOrder){
+//      double price = double.parse(i.price);
 //      total = listOrder.length * price;
 //      print(total);
+//
+//    }
+    for(int i = 0 ; i < listOrder.length ; i++){
 
     }
 
@@ -65,6 +68,8 @@ class MyBagPageWidget extends StatelessWidget {
               physics: NeverScrollableScrollPhysics(),
               itemCount: listOrder.length,
               itemBuilder: (BuildContext context, int index)  {
+
+
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 5),
                   child: Row(

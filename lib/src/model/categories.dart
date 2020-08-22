@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'categories.g.dart';
-@JsonSerializable()
+@JsonSerializable(anyMap: true)
 class Categories {
   String name;
   String image;

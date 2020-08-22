@@ -276,7 +276,7 @@ class DetailCategoriesFoodPage extends StatelessWidget {
         ),
         context: context,
         builder: (_){
-      return MyPage(listOrder: orderProvider.listOrder,);
+      return MyPage(listOrder: orderProvider.listOrder);
     });
   }
 }

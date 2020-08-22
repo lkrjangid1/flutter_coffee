@@ -91,16 +91,15 @@ class AuthProvider with ChangeNotifier implements BaseAuth {
 
     final graqh = await  dio.get('https://graph.facebook.com/v2.12/me?fields=name,picture.width(800).height(800),first_name,last_name,email&access_token=${token}');
     final profile = graqh.data;
+
 //    Map<String,dynamic> abc  = graqh.data;
 //    print(abc.keys);
 //    print(graqh.data);
 
     if (result.status == FacebookLoginStatus.loggedIn) {
       final credential = FacebookAuthProvider.getCredential(accessToken:token);
-      firebaseAuth.signInWithCredential(credential);
+     await   firebaseAuth.signInWithCredential(credential);
     }
-    
-    
   }
 
 }

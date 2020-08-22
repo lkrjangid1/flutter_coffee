@@ -15,7 +15,6 @@ class CategoriesProvider with ChangeNotifier {
 
   Future<List<Categories>> getAllCategories() async {
     isLoading = true;
-    print('voooo roi naaaaaa');
     await firebaseDatabase
         .reference()
         .child('Categories')
@@ -27,7 +26,6 @@ class CategoriesProvider with ChangeNotifier {
           name: value['name'],
           des: value['des'],
         );
-        print(categories.image);
         listCategories.add(categories);
       });
     });

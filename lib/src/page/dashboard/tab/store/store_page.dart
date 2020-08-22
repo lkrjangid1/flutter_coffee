@@ -1,6 +1,8 @@
 import 'dart:async';
-
+import 'dart:typed_data';
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttercoffee/src/provider/store_provider.dart';
 import 'package:fluttercoffee/src/shared/containercard.dart';
 import 'package:fluttercoffee/src/util/const.dart';
@@ -31,29 +33,40 @@ class StorePageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Provider.of<StoreProvider>(context,listen: false).getAllStore();
     Provider.of<StoreProvider>(context,listen: false).checkPermissionLocation();
-    Set<Marker> listMarker = Set();
 
+    Future<Uint8List> getBytesFromAsset(String path, int width) async {
+      ByteData data = await rootBundle.load(path);
+      ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+      ui.FrameInfo fi = await codec.getNextFrame();
+      return (await fi.image.toByteData(format: ui.ImageByteFormat.png)).buffer.asUint8List();
+    }
+
+    Set<Marker> listMarker = {};
+
+    Future<void> setIconSize(StoreProvider value) async {
+       final Uint8List markerIcon = await getBytesFromAsset('assets/logo.png', 100);
+      for (var i in value.listStore) {
+        value.convertLatLnToLocation(i.latitude, i.longitude);
+        listMarker.add(
+          Marker(
+            markerId: MarkerId(i.name),
+            onTap: (){
+              Navigator.pushNamed(context, DetailStorePagee,arguments: i);
+            },
+            infoWindow: InfoWindow(
+                title: "cc"
+            ),
+            icon: BitmapDescriptor.fromBytes(markerIcon) ,
+            position: LatLng(i.latitude, i.longitude),
+          ),
+        );
+      }
+    }
     return  Consumer<StoreProvider>(
       builder: (BuildContext context, StoreProvider value, Widget child) {
 
-        value.createMarker(context);
+        setIconSize(value);
 
-        for (var i in value.listStore) {
-          value.convertLatLnToLocation(i.latitude, i.longitude);
-         listMarker.add(
-            Marker(
-              markerId: MarkerId(i.name),
-              onTap: (){
-                Navigator.pushNamed(context, DetailStorePagee,arguments: i);
-              },
-              infoWindow: InfoWindow(
-                title: "cc"
-              ),
-              icon: value.customIcon,
-              position: LatLng(i.latitude, i.longitude),
-            ),
-          );
-        }
         return Scaffold(
           body: GoogleMap(
             markers: listMarker,

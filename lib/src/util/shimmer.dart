@@ -3,6 +3,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerList extends StatelessWidget {
@@ -34,7 +35,9 @@ class ShimmerList extends StatelessWidget {
 class ShimmerLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double containerWidth = 280;
+    ScreenUtil.init();
+    var size = ScreenUtil();
+    double containerWidth = size.setWidth(500);
     double containerHeight = 15;
 
     return Container(
@@ -45,7 +48,7 @@ class ShimmerLayout extends StatelessWidget {
         children: <Widget>[
           Container(
             height: 100,
-            width: 100,
+            width: size.setWidth(300),
             color: Colors.grey,
           ),
           Column(
