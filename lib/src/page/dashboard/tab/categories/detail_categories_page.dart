@@ -8,13 +8,25 @@ import 'package:fluttercoffee/src/util/router_path.dart';
 import 'package:fluttercoffee/src/util/shimmer.dart';
 import 'package:provider/provider.dart';
 
-class DetailCategoriesPage extends StatelessWidget {
+class DetailCategoriesPage extends StatefulWidget {
   final String idCategories;
   const DetailCategoriesPage({Key key, this.idCategories}) : super(key: key);
+
+  @override
+  _DetailCategoriesPageState createState() => _DetailCategoriesPageState();
+}
+
+class _DetailCategoriesPageState extends State<DetailCategoriesPage> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<CategoriesProvider>(context,listen: false).getMenuByCategories(widget.idCategories);
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    Provider.of<CategoriesProvider>(context,listen: false).getMenuByCategories(idCategories);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -22,7 +34,7 @@ class DetailCategoriesPage extends StatelessWidget {
         backgroundColor: Colors.white,
         centerTitle: true,
         leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: Colors.black,), onPressed: ()=> Navigator.pop(context)),
-        title: Text(idCategories,
+        title: Text(widget.idCategories,
         style: TextStyle(
           fontWeight: FontWeight.bold,
           color: Colors.black,

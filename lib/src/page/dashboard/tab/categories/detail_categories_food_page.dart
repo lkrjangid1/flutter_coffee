@@ -21,9 +21,15 @@ class DetailCategoriesFoodPageee extends StatelessWidget {
 }
 
 
-class DetailCategoriesFoodPage extends StatelessWidget {
+class DetailCategoriesFoodPage extends StatefulWidget {
   final Menu menu;
   const DetailCategoriesFoodPage({Key key, this.menu}) : super(key: key);
+
+  @override
+  _DetailCategoriesFoodPageState createState() => _DetailCategoriesFoodPageState();
+}
+
+class _DetailCategoriesFoodPageState extends State<DetailCategoriesFoodPage> {
   Widget build(BuildContext context) {
     var data = Provider.of<OrderProvider>(context,listen: true);
     return Scaffold(
@@ -39,30 +45,33 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                 height: MediaQuery.of(context).size.height*0.60,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(menu.image),
+                    image: NetworkImage(widget.menu.image),
                     fit: BoxFit.cover,
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.arrow_back_ios),
-                      color: Colors.black,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20,right: 20,top: 60),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      _buildToolBar(Icons.arrow_back_ios, () { Navigator.pop(context); }),
+                      Spacer(),
+                      _buildToolBar(Icons.share, () {  }),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      _buildToolBar(Icons.favorite_border, () { }),
+                    ],
+                  ),
                 )),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 20,vertical: 30),
+                padding: EdgeInsets.only(left: 20,top: 30),
                 height: MediaQuery.of(context).size.height*0.43,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -71,7 +80,7 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(menu.name,
+                    Text(widget.menu.name,
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
@@ -84,162 +93,203 @@ class DetailCategoriesFoodPage extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
-                        fontSize: 18,
+                        fontSize: 15,
                       ),),
                     SizedBox(
                       height: 10,
                     ),
                     Expanded(
-                      child: Text(menu.des,
+                      child: Text(widget.menu.des,
                         style: TextStyle(color: Colors.grey),
                       ),
                     ),
                     const SizedBox(
                       height: 30,
                     ),
-                    Consumer<DetailProvider>(
-                      builder: (BuildContext context, DetailProvider detailPro,
-                          Widget child) {
-                        return Column(
-                          children: <Widget>[
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Visibility(
-                                  child: InkWell(
-                                    onTap: () {
-                                      detailPro.decrement(menu);
-//                                      data.addItem(Order(menu: menu, amount: detailPro.count),);
-//                                      data.showing(true);
-                                    },
-                                    child: _buildUpDown(
-                                      Icons.remove,
-                                    ),
-                                  ),
-                                  visible: detailPro.isShowing,
-                                ),
-                                const SizedBox(
-                                  width: 15,
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: Text(
-                                    detailPro.count.toString(),
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 15,
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    detailPro.increment(menu);
-//                                    data.addItem(Order(menu: menu, amount: detailPro.count),);
-//                                    data.showing(true);
-                                    data.addItem(menu,detailPro.count);
-                                    data.showing(true);
-                                  },
-                                  child: _buildUpDown(
-                                    Icons.add,
-                                  ),
-                                  highlightColor: Colors.brown,
-                                ),
-                              ],
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Text(
-                                      "Price",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text(
-                                      "\$${menu.price}",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 22),
-                                    )
-                                  ],
-                                ),
-//                                RaisedButton(
-//                                  color: kColorGreen,
-//                                  shape: RoundedRectangleBorder(
-//                                      borderRadius: BorderRadius.circular(10)),
-//                                  onPressed: () {
-//                                    data.addItem(
-//                                      Order(
-//                                          menu: menu, amount: detailPro.count),
-//                                    );
-//
-//                                  data.addItem(menu);
-//                                    data.showing(true);
-//                                  },
-//                                  child: Text(
-//                                    detailPro.total == 0
-//                                        ? "Add To Card"
-//                                        : "\$${detailPro.total.toString()}",
-//                                    style: TextStyle(color: Colors.white),
-//                                  ),
-//                                ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                          ],
-                        );
-                      },
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20,vertical: 30),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
+                        color: kColorGreen.withOpacity(.7),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(10, 10),
+                            blurRadius: 10,
+                              color: Colors.greenAccent.withOpacity(.6)
+                          ),
+                          BoxShadow(
+                            offset: Offset(-3, 0),
+                            blurRadius: 15,
+                            color: Colors.greenAccent.withOpacity(.9)
+                          )
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("\$${widget.menu.price}",style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            fontSize: 18
+                          ),),
+                          Text("Add to card",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 17
+                          ),)
+                        ],
+                      ),
                     ),
-                 Visibility(
-                   visible: data.isShowing,
-                   child:    InkWell(
-                     onTap: (){
-                       _showBottomSheett(context,data);
-                     },
-                     child: Container(
-                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                       width: double.infinity,
-                       height: 40,
-                       decoration: BoxDecoration(
-                         color: kColorGreen,
-                         borderRadius: BorderRadius.circular(10),
-                       ),
-                       child: Row(
-                         children: <Widget>[
-                           Icon(Icons.shopping_cart,color: Colors.white,),
-                           const SizedBox(
-                             width: 10,
-                           ),
-                           Expanded(
-                             child: Text("${data.listOrder.length} Item",style: TextStyle(
-                               color: Colors.white,
-                               fontWeight: FontWeight.bold,
-                             ),),
-                           ),
-                           Text("\$${data.total}",style: TextStyle(
-                               color: Colors.white,
-                               fontWeight: FontWeight.bold
-                           ),)
-                         ],
-                       ),
-                     ),
-                   ),
-                 )
+//                    Consumer<DetailProvider>(
+//                      builder: (BuildContext context, DetailProvider detailPro,
+//                          Widget child) {
+//                        return Column(
+//                          children: <Widget>[
+//                            Row(
+//                              crossAxisAlignment: CrossAxisAlignment.start,
+//                              mainAxisAlignment: MainAxisAlignment.center,
+//                              children: <Widget>[
+//                                Visibility(
+//                                  child: InkWell(
+//                                    onTap: () {
+//                                      detailPro.decrement(widget.menu);
+////                                      data.addItem(Order(menu: menu, amount: detailPro.count),);
+////                                      data.showing(true);
+//                                    },
+//                                    child: _buildUpDown(
+//                                      Icons.remove,
+//                                    ),
+//                                  ),
+//                                  visible: detailPro.isShowing,
+//                                ),
+//                                const SizedBox(
+//                                  width: 15,
+//                                ),
+////                                Padding(
+////                                  padding: const EdgeInsets.only(top: 10),
+////                                  child: Text(
+////                                    detailPro.count.toString(),
+////                                    style: TextStyle(
+////                                      color: Colors.black,
+////                                      fontWeight: FontWeight.bold,
+////                                      fontSize: 16,
+////                                    ),
+////                                  ),
+////                                ),
+////                                const SizedBox(
+////                                  width: 15,
+////                                ),
+////                                InkWell(
+////                                  onTap: () {
+////                                    detailPro.increment(widget.menu);
+//////                                    data.addItem(Order(menu: menu, amount: detailPro.count),);
+//////                                    data.showing(true);
+////                                    data.addItem(widget.menu,detailPro.count);
+////                                    data.showing(true);
+////                                  },
+////                                  child: _buildUpDown(
+////                                    Icons.add,
+////                                  ),
+////                                  highlightColor: Colors.brown,
+////                                ),
+//                              ],
+//                            ),
+////                            Container(
+////                              height: 90,
+////                              decoration: BoxDecoration(
+////                                borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
+////                                color: Colors.white,
+////                              ),
+////                            ),
+////                            Row(
+////                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+////                              children: <Widget>[
+////                                Column(
+////                                  crossAxisAlignment: CrossAxisAlignment.start,
+////                                  children: <Widget>[
+////                                    Text(
+////                                      "Price",
+////                                      style: TextStyle(
+////                                        color: Colors.grey,
+////                                        fontWeight: FontWeight.bold,
+////                                      ),
+////                                    ),
+////                                    const SizedBox(
+////                                      height: 10,
+////                                    ),
+////                                    Text(
+////                                      "\$${widget.menu.price}",
+////                                      style: TextStyle(
+////                                          color: Colors.black,
+////                                          fontWeight: FontWeight.bold,
+////                                          fontSize: 22),
+////                                    )
+////                                  ],
+////                                ),
+//////                                RaisedButton(
+//////                                  color: kColorGreen,
+//////                                  shape: RoundedRectangleBorder(
+//////                                      borderRadius: BorderRadius.circular(10)),
+//////                                  onPressed: () {
+//////                                    data.addItem(
+//////                                      Order(
+//////                                          menu: menu, amount: detailPro.count),
+//////                                    );
+//////
+//////                                  data.addItem(menu);
+//////                                    data.showing(true);
+//////                                  },
+//////                                  child: Text(
+//////                                    detailPro.total == 0
+//////                                        ? "Add To Card"
+//////                                        : "\$${detailPro.total.toString()}",
+//////                                    style: TextStyle(color: Colors.white),
+//////                                  ),
+//////                                ),
+////                              ],
+////                            ),
+//                            const SizedBox(
+//                              height: 10,
+//                            ),
+//                          ],
+//                        );
+//                      },
+//                    ),
+//                 Visibility(
+//                   visible: data.isShowing,
+//                   child:    InkWell(
+//                     onTap: (){
+//                       _showBottomSheett(context,data);
+//                     },
+//                     child: Container(
+//                       padding: const EdgeInsets.symmetric(horizontal: 10),
+//                       width: double.infinity,
+//                       height: 40,
+//                       decoration: BoxDecoration(
+//                         color: kColorGreen,
+//                         borderRadius: BorderRadius.circular(10),
+//                       ),
+//                       child: Row(
+//                         children: <Widget>[
+//                           Icon(Icons.shopping_cart,color: Colors.white,),
+//                           const SizedBox(
+//                             width: 10,
+//                           ),
+//                           Expanded(
+//                             child: Text("${data.listOrder.length} Item",style: TextStyle(
+//                               color: Colors.white,
+//                               fontWeight: FontWeight.bold,
+//                             ),),
+//                           ),
+//                           Text("\$${data.total}",style: TextStyle(
+//                               color: Colors.white,
+//                               fontWeight: FontWeight.bold
+//                           ),)
+//                         ],
+//                       ),
+//                     ),
+//                   ),
+//                 )
                   ],
 
                 ),
@@ -251,6 +301,7 @@ class DetailCategoriesFoodPage extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildUpDown(IconData iconData) {
     return Container(
       width: 37,
@@ -278,5 +329,21 @@ class DetailCategoriesFoodPage extends StatelessWidget {
         builder: (_){
       return MyPage(listOrder: orderProvider.listOrder);
     });
+  }
+  Widget _buildToolBar(IconData iconData,VoidCallback voidCallback){
+    return Container(
+      padding: EdgeInsets.all(12),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          shape: BoxShape.rectangle
+      ),
+      child: GestureDetector(
+          onTap: voidCallback,
+          child: Icon(
+            iconData,
+            size: 15,
+          )),
+    );
   }
 }

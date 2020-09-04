@@ -32,17 +32,29 @@ class HomeProvider1 extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   final String uid;
   const HomePage({key, this.uid}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    Provider.of<ProfileProvider>(context, listen: false).getUser(uid);
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<ProfileProvider>(context, listen: false).getUser(widget.uid);
     Provider.of<HomeProvider>(context, listen: false).getImageSlide(); // warning
     Provider.of<HomeProvider>(context, listen: false).getNews1();
     Provider.of<HomeProvider>(context, listen: false).getNews2();
     Provider.of<HomeProvider>(context, listen: false).getNews3();
+  }
+  @override
+  Widget build(BuildContext context) {
+
     ScreenUtil.init();
     var size = ScreenUtil();
 

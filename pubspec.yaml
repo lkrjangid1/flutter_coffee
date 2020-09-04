@@ -48,11 +48,13 @@ dependencies:
   shimmer: ^1.1.1
   flutter_screenutil: ^2.1.0
   pull_to_refresh:
+  page_transition: ^1.1.6
   carousel_slider: ^2.1.0
   permission_handler: ^5.0.1+1
   google_maps_flutter: ^0.5.28+1
   geocoder: ^0.2.1
   location: ^3.0.2
+  extended_tabs: ^0.2.3
   latlong: ^0.6.1
 
 
