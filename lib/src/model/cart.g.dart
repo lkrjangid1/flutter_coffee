@@ -1,21 +1,21 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'order.dart';
+part of 'cart.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Order _$OrderFromJson(Map<String, dynamic> json) {
-  return Order(
+Cart _$CartFromJson(Map<String, dynamic> json) {
+  return Cart(
     menu: json['menu'] == null
         ? null
         : Menu.fromJson(json['menu'] as Map<String, dynamic>),
-    amount: json['amount'] as int,
+    quantity: json['quantity'] as String,
   );
 }
 
-Map<String, dynamic> _$OrderToJson(Order instance) => <String, dynamic>{
-      'menu': instance.menu?.toJson(),
-      'amount': instance.amount,
+Map<String, dynamic> _$CartToJson(Cart instance) => <String, dynamic>{
+      'menu': instance.menu,
+      'quantity': instance.quantity,
     };

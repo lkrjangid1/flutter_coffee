@@ -53,30 +53,34 @@ class _DetailCategoriesPageState extends State<DetailCategoriesPage> {
                   padding: const EdgeInsets.only(bottom: 10),
                   child: GestureDetector(
                     onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (_)=>DetailCategoriesFoodPageee(menu: menu)));
+                      Navigator.pushNamed(context, DetailCategoriesFoodPagee,arguments: menu);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        ClipRRect(
-                          child: CachedNetworkImage(
-                            width: 100,
-                            height: 100,
-                            imageUrl: menu.image,
-                            fit: BoxFit.cover,
-                            progressIndicatorBuilder:
-                                (context, url,
-                                downloadProgress) =>
-                                CircularProgressIndicator(
-                                    value:
-                                    downloadProgress
-                                        .progress),
-                            errorWidget:
-                                (context, url, error) =>
-                                Icon(Icons.error),
+                        Hero(
+                          
+                          tag: menu.name,
+                          child: ClipRRect(
+                            child: CachedNetworkImage(
+                              width: 100,
+                              height: 100,
+                              imageUrl: menu.image,
+                              fit: BoxFit.cover,
+                              progressIndicatorBuilder:
+                                  (context, url,
+                                  downloadProgress) =>
+                                  CircularProgressIndicator(
+                                      value:
+                                      downloadProgress
+                                          .progress),
+                              errorWidget:
+                                  (context, url, error) =>
+                                  Icon(Icons.error),
+                            ),
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          borderRadius: BorderRadius.circular(20),
                         ),
 
                         const SizedBox(

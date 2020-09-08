@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/model/menu.dart';
-import 'package:fluttercoffee/src/model/order.dart';
+import 'package:fluttercoffee/src/model/cart.dart';
 import 'package:fluttercoffee/src/model/user.dart';
-import 'package:fluttercoffee/src/provider/order_provider.dart';
+import 'package:fluttercoffee/src/provider/cart_provider.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 import 'package:fluttercoffee/src/util/dowloadimage.dart';
 import 'package:provider/provider.dart';
@@ -17,15 +17,15 @@ class MyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<OrderProvider>(
-      create: (BuildContext context) =>OrderProvider(),
+    return ChangeNotifierProvider<CartProvider>(
+      create: (BuildContext context) =>CartProvider(),
       child: MyBagPageWidget(listOrder: listOrder,),
     );
   }
 }
 class MyBagPageWidget extends StatelessWidget {
   final List<Menu> listOrder;
-  final List<Order> listOrderr;
+  final List<Cart> listOrderr;
   const MyBagPageWidget({Key key, this.listOrder, this.listOrderr}) : super(key: key);
 
   @override

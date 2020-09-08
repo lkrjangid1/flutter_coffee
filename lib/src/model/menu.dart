@@ -6,10 +6,11 @@ class Menu {
   String image;
   String price;
   String des;
+  String menuId;
 
-  Menu({this.name, this.image, this.price, this.des});
+  Menu({this.name, this.image, this.price, this.des, this.menuId});
 
-  factory  Menu.fromJson(Map<String, dynamic> json) => _$MenuFromJson(json);
+  factory Menu.fromJson(Map<String, dynamic> json) => _$MenuFromJson(json);
 
-  Map<String, dynamic> toJson() =>_$MenuToJson(this);
+  Map<String, dynamic> toJson() => _$MenuToJson(this);
 }

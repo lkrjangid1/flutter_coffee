@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/model/menu.dart';
-import 'package:fluttercoffee/src/model/order.dart';
+import 'package:fluttercoffee/src/model/cart.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/categories/my_bag_page.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/categories/my_cart_page.dart';
 import 'package:fluttercoffee/src/provider/detail_provider.dart';
-import 'package:fluttercoffee/src/provider/order_provider.dart';
+import 'package:fluttercoffee/src/provider/cart_provider.dart';
 import 'package:fluttercoffee/src/util/const.dart';
+import 'package:fluttercoffee/src/util/router_path.dart';
 import 'package:provider/provider.dart';
 
 class DetailCategoriesFoodPageee extends StatelessWidget {
@@ -31,7 +33,7 @@ class DetailCategoriesFoodPage extends StatefulWidget {
 
 class _DetailCategoriesFoodPageState extends State<DetailCategoriesFoodPage> {
   Widget build(BuildContext context) {
-    var data = Provider.of<OrderProvider>(context,listen: true);
+    var data = Provider.of<CartProvider>(context,listen: true);
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -40,33 +42,36 @@ class _DetailCategoriesFoodPageState extends State<DetailCategoriesFoodPage> {
         ),
         child: Stack(
           children: <Widget>[
-            Container(
-                width: double.infinity,
-                height: MediaQuery.of(context).size.height*0.60,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(widget.menu.image),
-                    fit: BoxFit.cover,
+            Hero(
+              tag: widget.menu.name,
+              child: Container(
+                  width: double.infinity,
+                  height: MediaQuery.of(context).size.height*0.60,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(widget.menu.image),
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 20,right: 20,top: 60),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 50,
-                      ),
-                      _buildToolBar(Icons.arrow_back_ios, () { Navigator.pop(context); }),
-                      Spacer(),
-                      _buildToolBar(Icons.share, () {  }),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      _buildToolBar(Icons.favorite_border, () { }),
-                    ],
-                  ),
-                )),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 20,right: 20,top: 60),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+
+                        _buildToolBar(Icons.arrow_back_ios, () { Navigator.pop(context); }),
+                        Spacer(),
+                        _buildToolBar(Icons.shopping_cart, () {
+                          Navigator.push(context, MaterialPageRoute(builder: (_)=>MyCartPage(data.listCart)));
+                        }),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        _buildToolBar(Icons.favorite_border, () { }),
+                      ],
+                    ),
+                  )),
+            ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -129,167 +134,24 @@ class _DetailCategoriesFoodPageState extends State<DetailCategoriesFoodPage> {
                         children: [
                           Text("\$${widget.menu.price}",style: TextStyle(
                               color: Colors.white,
+                              letterSpacing: 1.0,
                               fontWeight: FontWeight.bold,
                             fontSize: 18
                           ),),
-                          Text("Add to card",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 17
-                          ),)
+                          GestureDetector(
+                            onTap: (){
+                              data.addItemm(widget.menu);
+                            },
+                            child: Text("Add to card",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 17,
+
+                            ),),
+                          )
                         ],
                       ),
                     ),
-//                    Consumer<DetailProvider>(
-//                      builder: (BuildContext context, DetailProvider detailPro,
-//                          Widget child) {
-//                        return Column(
-//                          children: <Widget>[
-//                            Row(
-//                              crossAxisAlignment: CrossAxisAlignment.start,
-//                              mainAxisAlignment: MainAxisAlignment.center,
-//                              children: <Widget>[
-//                                Visibility(
-//                                  child: InkWell(
-//                                    onTap: () {
-//                                      detailPro.decrement(widget.menu);
-////                                      data.addItem(Order(menu: menu, amount: detailPro.count),);
-////                                      data.showing(true);
-//                                    },
-//                                    child: _buildUpDown(
-//                                      Icons.remove,
-//                                    ),
-//                                  ),
-//                                  visible: detailPro.isShowing,
-//                                ),
-//                                const SizedBox(
-//                                  width: 15,
-//                                ),
-////                                Padding(
-////                                  padding: const EdgeInsets.only(top: 10),
-////                                  child: Text(
-////                                    detailPro.count.toString(),
-////                                    style: TextStyle(
-////                                      color: Colors.black,
-////                                      fontWeight: FontWeight.bold,
-////                                      fontSize: 16,
-////                                    ),
-////                                  ),
-////                                ),
-////                                const SizedBox(
-////                                  width: 15,
-////                                ),
-////                                InkWell(
-////                                  onTap: () {
-////                                    detailPro.increment(widget.menu);
-//////                                    data.addItem(Order(menu: menu, amount: detailPro.count),);
-//////                                    data.showing(true);
-////                                    data.addItem(widget.menu,detailPro.count);
-////                                    data.showing(true);
-////                                  },
-////                                  child: _buildUpDown(
-////                                    Icons.add,
-////                                  ),
-////                                  highlightColor: Colors.brown,
-////                                ),
-//                              ],
-//                            ),
-////                            Container(
-////                              height: 90,
-////                              decoration: BoxDecoration(
-////                                borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
-////                                color: Colors.white,
-////                              ),
-////                            ),
-////                            Row(
-////                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-////                              children: <Widget>[
-////                                Column(
-////                                  crossAxisAlignment: CrossAxisAlignment.start,
-////                                  children: <Widget>[
-////                                    Text(
-////                                      "Price",
-////                                      style: TextStyle(
-////                                        color: Colors.grey,
-////                                        fontWeight: FontWeight.bold,
-////                                      ),
-////                                    ),
-////                                    const SizedBox(
-////                                      height: 10,
-////                                    ),
-////                                    Text(
-////                                      "\$${widget.menu.price}",
-////                                      style: TextStyle(
-////                                          color: Colors.black,
-////                                          fontWeight: FontWeight.bold,
-////                                          fontSize: 22),
-////                                    )
-////                                  ],
-////                                ),
-//////                                RaisedButton(
-//////                                  color: kColorGreen,
-//////                                  shape: RoundedRectangleBorder(
-//////                                      borderRadius: BorderRadius.circular(10)),
-//////                                  onPressed: () {
-//////                                    data.addItem(
-//////                                      Order(
-//////                                          menu: menu, amount: detailPro.count),
-//////                                    );
-//////
-//////                                  data.addItem(menu);
-//////                                    data.showing(true);
-//////                                  },
-//////                                  child: Text(
-//////                                    detailPro.total == 0
-//////                                        ? "Add To Card"
-//////                                        : "\$${detailPro.total.toString()}",
-//////                                    style: TextStyle(color: Colors.white),
-//////                                  ),
-//////                                ),
-////                              ],
-////                            ),
-//                            const SizedBox(
-//                              height: 10,
-//                            ),
-//                          ],
-//                        );
-//                      },
-//                    ),
-//                 Visibility(
-//                   visible: data.isShowing,
-//                   child:    InkWell(
-//                     onTap: (){
-//                       _showBottomSheett(context,data);
-//                     },
-//                     child: Container(
-//                       padding: const EdgeInsets.symmetric(horizontal: 10),
-//                       width: double.infinity,
-//                       height: 40,
-//                       decoration: BoxDecoration(
-//                         color: kColorGreen,
-//                         borderRadius: BorderRadius.circular(10),
-//                       ),
-//                       child: Row(
-//                         children: <Widget>[
-//                           Icon(Icons.shopping_cart,color: Colors.white,),
-//                           const SizedBox(
-//                             width: 10,
-//                           ),
-//                           Expanded(
-//                             child: Text("${data.listOrder.length} Item",style: TextStyle(
-//                               color: Colors.white,
-//                               fontWeight: FontWeight.bold,
-//                             ),),
-//                           ),
-//                           Text("\$${data.total}",style: TextStyle(
-//                               color: Colors.white,
-//                               fontWeight: FontWeight.bold
-//                           ),)
-//                         ],
-//                       ),
-//                     ),
-//                   ),
-//                 )
                   ],
 
                 ),
@@ -302,48 +164,21 @@ class _DetailCategoriesFoodPageState extends State<DetailCategoriesFoodPage> {
     );
   }
 
-  Widget _buildUpDown(IconData iconData) {
-    return Container(
-      width: 37,
-      height: 37,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(color: kColorGreen, width: 1.0),
-      ),
-      child: Icon(
-        iconData,
-        size: 20,
-      ),
-    );
-  }
-
-  _showBottomSheett(BuildContext context,OrderProvider orderProvider){
-    return showModalBottomSheet(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(20),
-            topLeft: Radius.circular(20),
-          ),
-        ),
-        context: context,
-        builder: (_){
-      return MyPage(listOrder: orderProvider.listOrder);
-    });
-  }
   Widget _buildToolBar(IconData iconData,VoidCallback voidCallback){
-    return Container(
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-          shape: BoxShape.rectangle
+    return GestureDetector(
+      onTap: voidCallback,
+      child: Container(
+        padding: EdgeInsets.all(12),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(10),
+            shape: BoxShape.rectangle
+        ),
+        child: Icon(
+          iconData,
+          size: 15,
+        ),
       ),
-      child: GestureDetector(
-          onTap: voidCallback,
-          child: Icon(
-            iconData,
-            size: 15,
-          )),
     );
   }
 }

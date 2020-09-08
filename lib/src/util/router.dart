@@ -4,8 +4,10 @@ import 'package:fluttercoffee/src/model/menu.dart';
 import 'package:fluttercoffee/src/page/auth/register_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/dashboard_page.dart';
 import 'package:fluttercoffee/src/page/auth/login_page.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/categories/checkout_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/categories/detail_categories_food_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/categories/detail_categories_page.dart';
+import 'package:fluttercoffee/src/page/dashboard/tab/categories/my_cart_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/home/detail_home_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/profile/history/detail_history_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/profile/history/history_page.dart';
@@ -41,12 +43,13 @@ class Router{
 
         case DetailCategoriesPagee:
           final argument = settings.arguments;
-          return  PageTransition(child: DetailCategoriesPage(idCategories: argument,), type: PageTransitionType.fade);
+          return  PageTransition(child: DetailCategoriesPage(idCategories: argument,), type: PageTransitionType.fade,);
 
         case DetailCategoriesFoodPagee:
-          return  PageTransition(child: SplashScreenPage(), type: PageTransitionType.fade);
-
           final argument = settings.arguments;
+          return  PageTransition(child: DetailCategoriesFoodPage(menu: argument,), type: PageTransitionType.fade);
+
+
           return MaterialPageRoute(builder: (_)=>DetailCategoriesFoodPageee(menu: argument,));
         case HistoryPagee:
 
@@ -55,6 +58,12 @@ class Router{
         case DetailHistoryPagee:
           final argument = settings.arguments;
           return  PageTransition(child: DetailHistoryPage(), type: PageTransitionType.fade);
+//        case MyCartPagee:
+//          final argument = settings.arguments;
+//          return  PageTransition(child: MyCartPage(listCartMenu: argument,), type: PageTransitionType.fade);
+        case CheckoutPagee:
+
+          return  PageTransition(child: CheckoutPage(), type: PageTransitionType.fade);
 //        case InformationAccountPagee:
 //          return MaterialPageRoute(builder: (_)=>InformationAccountPage(email: argument,image: image,));
 //        case DetailHomePagee:

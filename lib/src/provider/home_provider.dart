@@ -46,6 +46,7 @@ class HomeProvider with ChangeNotifier {
     listNews1.clear();
     var data =  await firebaseDatabase.reference().child('News').child('1').once();
     Map<dynamic,dynamic>.from(data.value).forEach((key, value) {
+
         News news = News(
           title: value['title'],
           des: value['des'],

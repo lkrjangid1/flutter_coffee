@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                   children: <Widget>[
                     Positioned(
                         child: Stack(
-                      children: <Widget>[
+                        children: <Widget>[
                           Container(
                             height: 230,
                             width: double.infinity,

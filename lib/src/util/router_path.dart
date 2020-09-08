@@ -12,3 +12,5 @@ const String InformationAccountPagee = 'InformationAccountPagee';
 const String DetailCategoriesFoodPagee = 'DetailCategoriesFoodPage';
 const String HistoryPagee = 'HistoryPage';
 const String DetailHistoryPagee = 'DetailHistoryPage';
+const String MyCartPagee = 'MyCartPage';
+const String CheckoutPagee = 'CheckoutPage';

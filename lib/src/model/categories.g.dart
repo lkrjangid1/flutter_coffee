@@ -6,7 +6,7 @@ part of 'categories.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Categories _$CategoriesFromJson(Map<String, dynamic> json) {
+Categories _$CategoriesFromJson(Map json) {
   return Categories(
     name: json['name'] as String,
     image: json['image'] as String,

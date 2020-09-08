@@ -48,6 +48,7 @@ class CategoriesProvider with ChangeNotifier {
         image: value['image'],
         name: value['name'],
         des: value['des'],
+        menuId: value['menuId'],
         price: value['price'],
       );
       listDetail.add(menu);

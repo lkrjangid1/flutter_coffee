@@ -41,7 +41,7 @@ dependencies:
   intl: 0.16.1
   path_provider:
   flutter_progress_button: ^1.0.0
-  cached_network_image: ^2.2.0+1
+  cached_network_image: ^2.3.1
   shared_preferences: ^0.5.7+3
   html_unescape: ^1.0.1+3
   json_annotation: ^3.0.1
@@ -54,6 +54,7 @@ dependencies:
   google_maps_flutter: ^0.5.28+1
   geocoder: ^0.2.1
   location: ^3.0.2
+  flare_flutter: ^2.0.6
   extended_tabs: ^0.2.3
   latlong: ^0.6.1
 
@@ -81,12 +82,13 @@ flutter:
      - assets/onboard/splash.png
      - assets/onboard/onboard.png
      - assets/signin.png
+     - assets/emptycart.png
      - assets/home/caffee.jpg
      - assets/home/caffee1.jpg
      - assets/home/caffee3.jpg
      - assets/voucher.jpg
      - assets/logo.png
-
+     - assets/flare/sucesscheck.flr
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
