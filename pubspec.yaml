@@ -36,6 +36,8 @@ dependencies:
   firebase_core: ^0.4.5
   firebase_database: ^3.1.6
   image_picker: ^0.6.7+1
+  awesome_dialog: ^1.2.0
+  flutter_google_places: ^0.2.6
   path:
   dio: ^3.0.9
   intl: 0.16.1
@@ -89,6 +91,7 @@ flutter:
      - assets/voucher.jpg
      - assets/logo.png
      - assets/flare/sucesscheck.flr
+     - assets/emptybill.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

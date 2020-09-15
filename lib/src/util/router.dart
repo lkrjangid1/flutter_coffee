@@ -51,7 +51,7 @@ class Router{
 
 
           return MaterialPageRoute(builder: (_)=>DetailCategoriesFoodPageee(menu: argument,));
-        case HistoryPagee:
+        case HistoryPageeee:
 
           return  PageTransition(child: HistoryPage(), type: PageTransitionType.fade);
 

@@ -26,6 +26,7 @@ class ProfileProvider with ChangeNotifier {
       phoneNumber: dataJson['phoneNumber'],
 
     );
+
     isLoading = false;
     notifyListeners();
     return user;

@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:fluttercoffee/src/model/bill.dart';
 import 'package:fluttercoffee/src/shared/containercard.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 
 class DetailHistoryPage extends StatelessWidget {
+  final Bill bill;
+  const DetailHistoryPage({Key key, this.bill}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    int timeStamp = int.parse(bill.dateTime);
+    var date = new DateTime.fromMillisecondsSinceEpoch(timeStamp);
+    bill.listCart.forEach((element) {
+      print(element.menu.name);
+    });
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kColorGreen,
         title: Column(
-          children: <Widget>[Text("Bill "), Text("15:15 - 21/06/2020")],
+          children: <Widget>[
+            Text("Bill "),
+            Text(date.toString().substring(0,19),),],
         ),
       ),
       body: Container(
@@ -30,7 +42,7 @@ class DetailHistoryPage extends StatelessWidget {
                 style: TextStyle(
                   color: Colors.grey
                 ),),
-                Text('3030030230',
+                Text( bill.codeBill.substring(1,10),
                 style: TextStyle(
                   color: Colors.grey
                 ),),
@@ -54,7 +66,7 @@ class DetailHistoryPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   ListView.separated(
-                    itemCount: 5,
+                    itemCount: bill.listCart.length,
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
                       return Padding(
@@ -81,7 +93,7 @@ class DetailHistoryPage extends StatelessWidget {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 7),
-                              child: Text("\$55.00"),
+                              child: Text("\$${bill.totalBill}"),
                             )
                           ],
                         ),
@@ -91,7 +103,6 @@ class DetailHistoryPage extends StatelessWidget {
                       return Divider();
                     },
                   ),
-
                   Divider(
 
                   ),
@@ -103,7 +114,7 @@ class DetailHistoryPage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 15
                       ),),
-                      Text("\$55.00",
+                      Text("\$${bill.totalBill}",
                       style: TextStyle(
                         fontSize: 20
                       ),)

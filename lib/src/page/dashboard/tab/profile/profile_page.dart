@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/dashboard.dart';
 import 'package:fluttercoffee/src/page/dashboard/dashboard_page.dart';
@@ -30,17 +31,6 @@ class ProfilePageWidget extends StatelessWidget {
   const ProfilePageWidget({Key key, this.uid}) : super(key: key);
 
 
-
-//   void getInformation () async{
-//    var data = Provider.of<ProfileProvider>(context,listen: true);
-//    await  data.getUser(uid);
-//    email = data.user.email;
-//
-//    name = data.user.userName;
-//    phoneNumber = data.user.phoneNumber;
-//    imageURL = data.user.image;
-//  }
-
   @override
   Widget build(BuildContext context) {
     List<IconData> listIcon = [
@@ -61,10 +51,10 @@ class ProfilePageWidget extends StatelessWidget {
       return ListTile(
         onTap: () {
           switch (index) {
-//            case 3:
-//              data.logOutUser();
-//              Navigator.pushReplacementNamed(context, LoginPage);
-//              break;
+            case 3:
+              _buildDialog(context);
+
+              break;
             case 0:
               Navigator.push(
                 context,
@@ -79,7 +69,7 @@ class ProfilePageWidget extends StatelessWidget {
               );
               break;
             case 1:
-              Navigator.pushNamed(context, HistoryPagee);
+              Navigator.pushNamed(context, HistoryPageeee);
              break;
           }
         },
@@ -185,7 +175,19 @@ class ProfilePageWidget extends StatelessWidget {
       },
     );
   }
+   _buildDialog(BuildContext context,){
+    return AwesomeDialog(context: context,dialogType: DialogType.WARNING,
+    title: "Đăng xuất",
+      desc: "Bạn có chắc muốn đăng xuất không?",
+      btnCancelOnPress: (){
 
-
-
+      },
+        btnCancelText: "Huỷ",
+      btnOkOnPress: (){
+//        data.logOutUser();
+        Navigator.pushReplacementNamed(context, LoginPage);
+      },
+      btnOkText: "Có"
+   ).show();
+  }
 }

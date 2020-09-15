@@ -78,7 +78,7 @@ class DialogEditWidget extends StatelessWidget {
               child: RaisedButton(
                 onPressed: () {
                   data.updateInformation(uid, userNameController.text, phoneNumberController.text);
-
+                  Navigator.of(context).pop(userNameController.text);
                 },
                 color: kColorGreen,
                 shape: RoundedRectangleBorder(

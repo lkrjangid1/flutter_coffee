@@ -60,8 +60,7 @@ class _HomePageState extends State<HomePage> {
 
     custom() {
       return Consumer2<ProfileProvider, HomeProvider>(
-        builder: (BuildContext context, ProfileProvider profProvider,
-            HomeProvider homeProvider, Widget child) {
+        builder: (BuildContext context, ProfileProvider profProvider, HomeProvider homeProvider, Widget child) {
           return CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(

@@ -7,6 +7,7 @@ import 'package:fluttercoffee/src/provider/detail_provider.dart';
 import 'package:fluttercoffee/src/provider/cart_provider.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 import 'package:fluttercoffee/src/util/router_path.dart';
+import 'package:fluttercoffee/src/util/showsnackbars.dart';
 import 'package:provider/provider.dart';
 
 class DetailCategoriesFoodPageee extends StatelessWidget {
@@ -32,10 +33,12 @@ class DetailCategoriesFoodPage extends StatefulWidget {
 }
 
 class _DetailCategoriesFoodPageState extends State<DetailCategoriesFoodPage> {
+
   Widget build(BuildContext context) {
+
     var data = Provider.of<CartProvider>(context,listen: true);
     return Scaffold(
-      body: Container(
+      body: Builder(builder: (ctx)=>Container(
         width: double.infinity,
         decoration: BoxDecoration(
 
@@ -61,9 +64,13 @@ class _DetailCategoriesFoodPageState extends State<DetailCategoriesFoodPage> {
 
                         _buildToolBar(Icons.arrow_back_ios, () { Navigator.pop(context); }),
                         Spacer(),
-                        _buildToolBar(Icons.shopping_cart, () {
-                          Navigator.push(context, MaterialPageRoute(builder: (_)=>MyCartPage(data.listCart)));
-                        }),
+
+                        GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (_)=>MyCartPage(data.listCart)));
+
+                            }
+                            ,child: _buidlIconCard(data.listCart.length)),
                         SizedBox(
                           width: 10,
                         ),
@@ -118,14 +125,14 @@ class _DetailCategoriesFoodPageState extends State<DetailCategoriesFoodPage> {
                         color: kColorGreen.withOpacity(.7),
                         boxShadow: [
                           BoxShadow(
-                            offset: Offset(10, 10),
-                            blurRadius: 10,
+                              offset: Offset(10, 10),
+                              blurRadius: 10,
                               color: Colors.greenAccent.withOpacity(.6)
                           ),
                           BoxShadow(
-                            offset: Offset(-3, 0),
-                            blurRadius: 15,
-                            color: Colors.greenAccent.withOpacity(.9)
+                              offset: Offset(-3, 0),
+                              blurRadius: 15,
+                              color: Colors.greenAccent.withOpacity(.9)
                           )
                         ],
                       ),
@@ -136,18 +143,20 @@ class _DetailCategoriesFoodPageState extends State<DetailCategoriesFoodPage> {
                               color: Colors.white,
                               letterSpacing: 1.0,
                               fontWeight: FontWeight.bold,
-                            fontSize: 18
+                              fontSize: 18
                           ),),
-                          GestureDetector(
+                          InkWell(
                             onTap: (){
-                              data.addItemm(widget.menu);
+                              var add = data.addItemm(widget.menu);
+                              if (add != null) {
+                                SnackBars.buildMessage(ctx, "Sản phẩm này có trong giỏ hàngs");
+                              }
                             },
                             child: Text("Add to card",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 17,
-
-                            ),),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17,
+                              ),),
                           )
                         ],
                       ),
@@ -160,23 +169,63 @@ class _DetailCategoriesFoodPageState extends State<DetailCategoriesFoodPage> {
 
           ],
         ),
-      ),
+      ),),
     );
   }
+
+Widget _buidlIconCard(int count){
+    return Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Container(
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
+                shape: BoxShape.rectangle
+            ),
+            child: Icon(
+              Icons.shopping_cart,
+              size: 20,
+            ),
+          ),
+        ),
+          count == 0 ? Container() :  Padding(
+          padding: EdgeInsets.only(left: 25),
+          child: Container(
+            padding: EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: Colors.red,
+              shape: BoxShape.circle,
+            ),
+            child: Text(count.toString(),style: TextStyle(
+              fontSize: 11,
+              color: Colors.white,
+            ),),
+          ),
+        ),
+
+      ],
+    );
+}
 
   Widget _buildToolBar(IconData iconData,VoidCallback voidCallback){
     return GestureDetector(
       onTap: voidCallback,
-      child: Container(
-        padding: EdgeInsets.all(12),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            shape: BoxShape.rectangle
-        ),
-        child: Icon(
-          iconData,
-          size: 15,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 10),
+        child: Container(
+          padding: EdgeInsets.all(8),
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              shape: BoxShape.rectangle
+          ),
+          child: Icon(
+            iconData,
+            size: 20,
+          ),
         ),
       ),
     );

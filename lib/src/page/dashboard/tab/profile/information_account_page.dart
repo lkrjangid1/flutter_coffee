@@ -153,7 +153,7 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
   }
 
    showDialogg(BuildContext context,String uid){
-    return showDialog(context: context,builder: (_){
+    return showDialog(context: context,useRootNavigator: false,builder: (_){
       return BackdropFilter(
         filter: ImageFilter.blur(
           sigmaX: 7,

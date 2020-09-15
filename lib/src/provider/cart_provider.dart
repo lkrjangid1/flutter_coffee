@@ -2,25 +2,19 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttercoffee/src/model/bill.dart';
 import 'package:fluttercoffee/src/model/menu.dart';
 import 'package:fluttercoffee/src/model/cart.dart';
 import 'package:fluttercoffee/src/service/share_pref.dart';
 
 class CartProvider with ChangeNotifier {
-  List<Menu> listOrder = [];
-//  Cart cart = Cart.empty();
-
-
   List<Cart> listCart = [];
-
   bool isShowing = false;
-  Card currentCart;
   double total = 0.0;
   DatabaseReference databaseReference;
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   List<String> listImageURL = List();
   StorageReference storageReference;
-
   String dowloadURL = '';
 
   void showing(bool status){
@@ -64,34 +58,71 @@ class CartProvider with ChangeNotifier {
 //    return listOrder;
 //  }
 
-  Future purchase(List<Cart>listOrder)  async {
-    
-//    print(listOrder.length);
-//    String keyBillDetail = firebaseDatabase.reference().push().key;
-//    String keyBill = firebaseDatabase.reference().push().key;
-//
-//    databaseReference = await firebaseDatabase.reference().child('BillDetail').child(keyBillDetail).child(keyBill);
-//
+  Future<void> purchase(List<Cart> listCartt,double totalBill)  async {
+    String keyBill = firebaseDatabase.reference().push().key;
+    databaseReference = await firebaseDatabase.reference().child('Order').child(keyBill);
+    Bill bill = Bill(codeBill: listCartt.length.toString());
+
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
+    databaseReference.set({
+      'codeBill':keyBill,
+      'totalBill':totalBill,
+      'dateTime':timestamp,
+      'product':listCartt.map((e) =>
+      {
+        "price":e.menu.price,
+        "image":e.menu.image,
+        "quantity":e.quantity,
+        "menu":e.menu.name,
+      }).toList(),
+    });
+
+    notifyListeners();
+
 //    listOrder.forEach((element) {
-//      Order order = Order(menu: element.menu,amount: element.amount);
+//      Cart cart = Cart(menu: element,quantity: e)
+//
+//      Cart order = Cart(menu: element.m,amount: element.amount);
 //      print(order.menu.name);
 //      databaseReference.set(order.toJson());
 //    });
 //
 
   }
+
+  void increment(String menuId,int quatity){
+//    print(quatity);
+//    int index = listCart.indexWhere((cartMenu) => cartMenu.menu.menuId == menu.menuId);
+//    Cart cart =  listCart.firstWhere((element) => element.menu.menuId == menuId);
+//    print(cart.menu.menuId);
+//    if (cart != null) {
+//      int quant1 = int.parse(cart.quantity);
+//      quant1 = quatity;
+//      print(quant1++);
+//      listCart.removeWhere((element) => element.menu.menuId == menuId);
+//
+//    }
+
+
+    notifyListeners();
+  }
+
+  void removeItem(int index) async {
+    listCart.removeAt(index);
+    notifyListeners();
+  }
+
   Future addItemm(Menu menu) async  {
     int quantity = 1;
-
-    listCart.add(Cart(menu: menu,quantity: quantity.toString()));
     int index = listCart.indexWhere((cartMenu) => cartMenu.menu.menuId == menu.menuId);
     if (index >= 0) {
-      quantity = int.parse(listCart[index].quantity)+ 1;
-//      _currentCart.listDishes.removeAt(index);
-    print('a');
-
+//      print('trung');
+//      quantity = int.parse(listCart[index].quantity)+ 1;
+//      print(quantity);
+    }else{
+      listCart.add(Cart(menu: menu,quantity: quantity.toString()));
     }
-
+    notifyListeners();
 //    cart.lisCartMenu.add(menu);
 //    for(var i in cart.lisCartMenu){
 //      print(i.name);
