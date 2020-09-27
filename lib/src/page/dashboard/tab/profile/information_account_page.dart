@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/profile/dialog_edit.dart';
 import 'package:fluttercoffee/src/shared/containercard.dart';
+import 'package:fluttercoffee/src/util/sizeconfig.dart';
 
 class InformationAccountPage extends StatefulWidget {
   final String email;
@@ -34,8 +35,8 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const SizedBox(
-              height: 30,
+             SizedBox(
+              height: getScreenHeight(20),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -56,72 +57,66 @@ class _InformationAccountPageState extends State<InformationAccountPage> {
               )
               ],
             ),
-            const SizedBox(
-              height: 30,
+             SizedBox(
+              height: getScreenHeight(25),
             ),
             ContainerCard(
               child: Column(
                 children: <Widget>[
                   ClipOval(
-                    child: CachedNetworkImage(
-                      width: 150,
-                      height: 150,
-                      imageUrl: widget.imageURL,
-                      fit: BoxFit.cover,
-                      progressIndicatorBuilder:
-                          (context, url,
-                          downloadProgress) =>
-                          CircularProgressIndicator(
-                              value:
-                              downloadProgress
-                                  .progress),
-                      errorWidget:
-                          (context, url, error) =>
-                          Icon(Icons.error),
-                    ),
+                    child: Container(
+                      width: getScreenWith(100),
+                      height: getScreenHeight(100),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: widget.imageURL.isEmpty ? AssetImage('assets/onboard/splash.png'): NetworkImage(widget.imageURL),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    )
                   ),
                   SizedBox(
-                    height: 25,
+                    height: getScreenHeight(20),
                   ),
                   Text(widget.userName,style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
-                    fontSize: 24,
+                    fontSize: getScreenWith(20),
                   ),),
                   SizedBox(
                     height: 10,
                   ),
                   Text(widget.email,style: TextStyle(
                     color: Colors.grey,
-                    fontSize: 18,
+                    fontSize: getScreenWith(15),
                   ),),
 
                 ],
               ),
             ),
 
-            const SizedBox(
-              height: 50,
+             SizedBox(
+              height: getScreenHeight(30),
             ),
             Text("Basic Information",
             style: TextStyle(
               color: Colors.black,
-              fontSize: 18,
+              fontSize: getScreenWith(15),
               fontWeight: FontWeight.bold
             ),),
-            const SizedBox(
-              height: 20,
+             SizedBox(
+              height: getScreenHeight(15),
             ),
             ContainerCard(
               child: Column(
                 children: <Widget>[
                  _buildInformation("Name", widget.userName),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: getScreenHeight(15),
                   ),
                   _buildInformation("Email", widget.email),
-                  const SizedBox(
-                    height: 20,
+                  SizedBox(
+                    height: getScreenHeight(15),
                   ),
                   _buildInformation("Phone Number",widget.phoneNumber.toString() ),
                 ],

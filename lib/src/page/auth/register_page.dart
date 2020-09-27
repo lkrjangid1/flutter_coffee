@@ -7,33 +7,59 @@ import 'package:fluttercoffee/src/shared/chooseimage.dart';
 import 'package:fluttercoffee/src/shared/containertextform.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 import 'package:fluttercoffee/src/util/progressbar_dialog.dart';
+import 'package:fluttercoffee/src/util/router_path.dart';
+import 'package:fluttercoffee/src/util/sizeconfig.dart';
 import 'package:provider/provider.dart';
 
-class RegisterScreenPage extends StatefulWidget {
+class RegisterScreenPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => AuthProvider(),
+      child: RegisterScreenPageWidget()
+    );
+  }
+}
+
+
+class RegisterScreenPageWidget extends StatefulWidget {
 
   static File image;
 
   @override
-  _RegisterScreenPageState createState() => _RegisterScreenPageState();
+  _RegisterScreenPageWidgetState createState() => _RegisterScreenPageWidgetState();
 }
 
-class _RegisterScreenPageState extends State<RegisterScreenPage> {
+class _RegisterScreenPageWidgetState extends State<RegisterScreenPageWidget> with WidgetsBindingObserver {
   final emailController = TextEditingController();
   final userNameController = TextEditingController();
   final passwordController = TextEditingController();
   final numberPhoneController = TextEditingController();
   final formState = GlobalKey<FormState>();
 
+//
+//@override
+//  void didChangeAppLifecycleState(AppLifecycleState state) {
+//    // TODO: implement didChangeAppLifecycleState
+//    super.didChangeAppLifecycleState(state);
+//    if (state == AppLifecycleState.paused) {
+//      print('pause');
+//    }  else if (state == AppLifecycleState.resumed) {
+//      print('a');
+//    }
+//  }
+
   @override
   Widget build(BuildContext context) {
-    print(RegisterScreenPage.image);
+
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0.0,
         leading: IconButton(onPressed: () {
           Navigator.pop(context);
-        }, icon: Icon(Icons.arrow_back_ios,
+          }, icon: Icon(Icons.arrow_back_ios,
           color: Colors.black,),),
         backgroundColor: Colors.white,
         centerTitle: true,
@@ -44,7 +70,7 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
       body: SingleChildScrollView(
         physics: ClampingScrollPhysics(),
         child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+          padding: EdgeInsets.symmetric(horizontal: getScreenWith(20),vertical: getScreenHeight(20)),
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
@@ -59,13 +85,11 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
                     InkWell(
                       onTap: () async{
                         await _openChoiceImage(context);
-                        setState(() {
 
-                        });
                       },
                       child: Container(
-                        width: 180,
-                        height: 180,
+                        width: getScreenWith(180),
+                        height: getScreenHeight(150),
                         decoration: BoxDecoration(
                             color: kColorGrey,
                             shape: BoxShape.circle
@@ -73,8 +97,8 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
                         child: decideImageView(),
                       ),
                     ),
-                    const SizedBox(
-                      height: 40,
+                     SizedBox(
+                      height: getScreenHeight(30),
                     ),
                     ContainerTextForm(
                       child: TextFormField(
@@ -86,8 +110,8 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
+                     SizedBox(
+                      height: getScreenHeight(20),
                     ),
                     ContainerTextForm(
                       child: TextFormField(
@@ -99,11 +123,12 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
+                    SizedBox(
+                      height: getScreenHeight(20),
                     ),
                     ContainerTextForm(
                       child: TextFormField(
+                        obscureText: true,
                         controller: passwordController,
                         decoration: InputDecoration(
                           border: InputBorder.none,
@@ -112,11 +137,12 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
+                    SizedBox(
+                      height: getScreenHeight(20),
                     ),
                     ContainerTextForm(
                       child: TextFormField(
+                        obscureText: true,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           prefixIcon: Icon(Icons.lock_outline),
@@ -124,8 +150,8 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 20,
+                    SizedBox(
+                      height: getScreenHeight(20),
                     ),
                     ContainerTextForm(
                       child: TextFormField(
@@ -137,15 +163,15 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 50,
+                    SizedBox(
+                      height: getScreenHeight(40),
                     ),
                     Button(
-                        title: 'Sign Up', onTap: () {
-                    _signUp(value);
-
-                    }
-                    )
+                        title: 'Sign Up',
+                        onTap: ()  {
+                           signUp(value);
+//                          Navigator.pushReplacementNamed(context, OTPPagee,arguments: numberPhoneController.text);
+                        }),
                   ],
                 );
               },
@@ -158,23 +184,26 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
   }
 
   _openChoiceImage(BuildContext context){
+
     return showModalBottomSheet(context: context, builder: (_){
       return ChooseImage();
     });
+
   }
   Widget decideImageView() {
-    if (RegisterScreenPage.image == null) {
+    if (RegisterScreenPageWidget.image == null) {
       return Icon(Icons.camera_alt,
       size: 50,color: Colors.white,);
     } else {
       return Container(
+
         decoration: BoxDecoration(
             color: kColorGrey,
           shape: BoxShape.circle
         ),
         child: ClipOval(
           child: Image.file(
-            RegisterScreenPage.image,
+            RegisterScreenPageWidget.image,
             fit: BoxFit.cover,
           ),
         ),
@@ -182,13 +211,17 @@ class _RegisterScreenPageState extends State<RegisterScreenPage> {
     }
   }
 
-  void _signUp(AuthProvider value){
+  Future<void> signUp(AuthProvider value){
       String email = emailController.text;
       String password = passwordController.text;
       String phoneNumber = numberPhoneController.text;
       String userName = userNameController.text;
-      value.registerUser(email, password, phoneNumber, userName, RegisterScreenPage.image );
+//      value.registerUser(email, password, phoneNumber, userName, RegisterScreenPageWidget.image);
+
+//      value.sendCodeToPhoneNumber(phoneNumber);
+      value.isLoadingg(false);
       ProgressbarDialog.buildProgressBarDialog(context,  value.isLoading);
+
   }
 
   @override

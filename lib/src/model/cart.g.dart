@@ -11,7 +11,7 @@ Cart _$CartFromJson(Map<String, dynamic> json) {
     menu: json['menu'] == null
         ? null
         : Menu.fromJson(json['menu'] as Map<String, dynamic>),
-    quantity: json['quantity'] as String,
+    quantity: json['quantity'] as int,
   );
 }
 

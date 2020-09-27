@@ -55,6 +55,7 @@ dependencies:
   permission_handler: ^5.0.1+1
   google_maps_flutter: ^0.5.28+1
   geocoder: ^0.2.1
+  device_preview: ^0.4.8
   location: ^3.0.2
   flare_flutter: ^2.0.6
   extended_tabs: ^0.2.3
@@ -92,6 +93,10 @@ flutter:
      - assets/logo.png
      - assets/flare/sucesscheck.flr
      - assets/emptybill.png
+     - assets/authen/authen1.png
+     - assets/authen/authen2.png
+     - assets/authen/authen3.png
+     - assets/authen/authen4.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

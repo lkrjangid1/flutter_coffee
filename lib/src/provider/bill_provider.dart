@@ -11,29 +11,37 @@ class BillProvider extends ChangeNotifier{
   List<Bill> listBill = [];
   bool isLoading = false;
 
-  Future<List<Bill>> getAllBill(int index) async {
+  Future<List<Bill>> getAllBill() async {
     isLoading = true;
     listBill.clear();
+
     await firebaseDatabase
         .reference()
        .child('Order')
        .once()
         .then((DataSnapshot dataSnapshot) {
       Map<String, dynamic>.from(dataSnapshot.value).forEach((key, value) {
-        List abc = value['product'];
-
+        List listMenu = value['product'];
+        List<Cart> listCartt = List();
+        for(int i = 0; i< listMenu.length;i++){
+         Menu menu =  Menu(
+             price: value['product'][i]['price'],
+            image: value['product'][i]['image'],
+            name: value['product'][i]['menu'],
+         );
+          listCartt.add(
+            Cart(
+              quantity: value['product'][i]['quantity'],
+              menu: Menu(price: menu.price, image: menu.image, name: menu.name),
+            ),
+          );
+        }
         Bill bill = Bill(
           codeBill: value['codeBill'],
           dateTime: value['dateTime'].toString(),
           totalBill: value['totalBill'].toString(),
-          listCart: abc.map((e) => Cart(
-            menu: Menu(
-              name: value['product'][index]['price']
-            ),
-            quantity: value['product'][index]['quantity'].toString(),
-          )).toList(),
+          listCart: listCartt,
         );
-
         listBill.add(bill);
       });
     });

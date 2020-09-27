@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttercoffee/src/util/sizeconfig.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerList extends StatelessWidget {
@@ -20,7 +21,7 @@ class ShimmerList extends StatelessWidget {
         offset += 5;
         time = 800 + offset;
         return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15),
+            padding: EdgeInsets.symmetric(horizontal: getScreenWith(10)),
             child: Shimmer.fromColors(
               highlightColor: Colors.white,
               baseColor: Colors.grey[300],
@@ -36,8 +37,8 @@ class ShimmerLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ScreenUtil.init();
-    var size = ScreenUtil();
-    double containerWidth = size.setWidth(500);
+    
+    double containerWidth = getScreenWith(200);
     double containerHeight = 15;
 
     return Container(
@@ -47,8 +48,8 @@ class ShimmerLayout extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
-            height: 100,
-            width: size.setWidth(300),
+            height: getScreenHeight(90),
+            width: getScreenWith(80),
             color: Colors.grey,
           ),
           Column(
@@ -68,7 +69,7 @@ class ShimmerLayout extends StatelessWidget {
               SizedBox(height: 5),
               Container(
                 height: containerHeight,
-                width: containerWidth * 0.75,
+                width: containerWidth ,
                 color: Colors.grey,
               )
             ],

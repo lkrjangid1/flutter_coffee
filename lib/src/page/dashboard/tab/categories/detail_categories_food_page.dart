@@ -8,6 +8,7 @@ import 'package:fluttercoffee/src/provider/cart_provider.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 import 'package:fluttercoffee/src/util/router_path.dart';
 import 'package:fluttercoffee/src/util/showsnackbars.dart';
+import 'package:fluttercoffee/src/util/sizeconfig.dart';
 import 'package:provider/provider.dart';
 
 class DetailCategoriesFoodPageee extends StatelessWidget {
@@ -37,6 +38,8 @@ class _DetailCategoriesFoodPageState extends State<DetailCategoriesFoodPage> {
   Widget build(BuildContext context) {
 
     var data = Provider.of<CartProvider>(context,listen: true);
+//    data.getCart();
+
     return Scaffold(
       body: Builder(builder: (ctx)=>Container(
         width: double.infinity,
@@ -49,7 +52,7 @@ class _DetailCategoriesFoodPageState extends State<DetailCategoriesFoodPage> {
               tag: widget.menu.name,
               child: Container(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height*0.60,
+                  height: getScreenHeight(550),
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(widget.menu.image),
@@ -57,7 +60,7 @@ class _DetailCategoriesFoodPageState extends State<DetailCategoriesFoodPage> {
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 20,right: 20,top: 60),
+                    padding:  EdgeInsets.only(left: getScreenWith(20),right: getScreenWith(20),top: getScreenHeight(40)),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -83,8 +86,8 @@ class _DetailCategoriesFoodPageState extends State<DetailCategoriesFoodPage> {
               alignment: Alignment.bottomCenter,
               child: Container(
                 width: double.infinity,
-                padding: EdgeInsets.only(left: 20,top: 30),
-                height: MediaQuery.of(context).size.height*0.43,
+                padding: EdgeInsets.only(left: getScreenWith(20),top: getScreenHeight(30)),
+                height: getScreenHeight(280),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.only(topRight: Radius.circular(24),topLeft: Radius.circular(24)) ,
@@ -96,16 +99,16 @@ class _DetailCategoriesFoodPageState extends State<DetailCategoriesFoodPage> {
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
-                        fontSize: 28,
+                        fontSize: getScreenWith(20),
                       ),),
                     SizedBox(
-                      height: 20,
+                      height: getScreenHeight(15),
                     ),
                     Text("Description",
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
-                        fontSize: 15,
+                        fontSize: getScreenWith(13),
                       ),),
                     SizedBox(
                       height: 10,
@@ -115,11 +118,11 @@ class _DetailCategoriesFoodPageState extends State<DetailCategoriesFoodPage> {
                         style: TextStyle(color: Colors.grey),
                       ),
                     ),
-                    const SizedBox(
-                      height: 30,
+                     SizedBox(
+                      height: getScreenHeight(25),
                     ),
                     Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20,vertical: 30),
+                      padding: EdgeInsets.symmetric(horizontal: getScreenWith(20),vertical: getScreenHeight(25)),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
                         color: kColorGreen.withOpacity(.7),
@@ -143,22 +146,28 @@ class _DetailCategoriesFoodPageState extends State<DetailCategoriesFoodPage> {
                               color: Colors.white,
                               letterSpacing: 1.0,
                               fontWeight: FontWeight.bold,
-                              fontSize: 18
+                              fontSize: getScreenWith(15)
                           ),),
-                          InkWell(
-                            onTap: (){
-                              var add = data.addItemm(widget.menu);
-                              if (add != null) {
-                                SnackBars.buildMessage(ctx, "Sản phẩm này có trong giỏ hàngs");
-                              }
-                            },
-                            child: Text("Add to card",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17,
-                              ),),
-                          )
-                        ],
+                            InkWell(
+                              onTap: () {
+                                data.addItemm(widget.menu).then((value) => {
+                                      if (value == true)
+                                        {
+                                          SnackBars.buildMessage(ctx,
+                                              "Sản phẩm này đã có trong giỏ hàng")
+                                        }
+                                    });
+                                data.saveCart();
+                              },
+                              child: Text(
+                                "Add to card",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: getScreenWith(16),
+                                ),
+                              ),
+                            ),
+                          ],
                       ),
                     ),
                   ],
@@ -192,7 +201,7 @@ Widget _buidlIconCard(int count){
           ),
         ),
           count == 0 ? Container() :  Padding(
-          padding: EdgeInsets.only(left: 25),
+          padding: EdgeInsets.only(left: getScreenWith(20)),
           child: Container(
             padding: EdgeInsets.all(5),
             decoration: BoxDecoration(

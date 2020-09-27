@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/provider/categories_provider.dart';
 import 'package:fluttercoffee/src/util/router_path.dart';
 import 'package:fluttercoffee/src/util/shimmer.dart';
+import 'package:fluttercoffee/src/util/sizeconfig.dart';
 import 'package:provider/provider.dart';
 
 class CategoriesPage extends StatefulWidget {
@@ -44,7 +45,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       children: <Widget>[
                         CachedNetworkImage(
                           width: double.infinity,
-                          height: 200,
+                          height: getScreenHeight(150),
                           imageUrl: value.listCategories[index].image,
                           fit: BoxFit.cover,
                           progressIndicatorBuilder:
@@ -60,7 +61,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                         ),
                         Container(
                           width: double.infinity,
-                          height: 200,
+                          height: getScreenHeight(150),
                           decoration: BoxDecoration(
                             color: Colors.black.withOpacity(.5),
                           ),
@@ -74,7 +75,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 26
+                                      fontSize: getScreenWith(24)
                                   ),
                                 ),
                                 Text(

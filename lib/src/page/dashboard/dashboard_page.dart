@@ -4,6 +4,7 @@ import 'package:fluttercoffee/src/page/dashboard/tab/home/home_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/profile/profile_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/store/store_page.dart';
 import 'package:fluttercoffee/src/util/const.dart';
+import 'package:fluttercoffee/src/util/sizeconfig.dart';
 
 class DashboardScreenPage extends StatefulWidget {
 
@@ -74,7 +75,7 @@ _buildBottomNavigationBarItem(IconData iconData, String text) {
   return BottomNavigationBarItem(
       icon: Icon(
         iconData,
-        size: 27,
+        size: getScreenWith(22),
       ),
       title: Text(text,style: TextStyle(fontWeight: FontWeight.bold),));
 }

@@ -11,6 +11,7 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:fluttercoffee/src/model/user.dart';
 import 'package:fluttercoffee/src/service/base_auth.dart';
 import 'package:fluttercoffee/src/util/getfilename.dart';
+import 'package:fluttercoffee/src/util/progressbar_dialog.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +29,7 @@ class AuthProvider with ChangeNotifier implements BaseAuth {
   bool isLoading = false;
   final _facebooklogin = FacebookLogin();
   final dio = Dio();
+  String verificationId;
 
   @override
   Future logOutUser() async {
@@ -37,6 +39,52 @@ class AuthProvider with ChangeNotifier implements BaseAuth {
     }catch(e){
       print(e);
     }
+  }
+
+  Future<void> forgotPassword(String email) async {
+     await firebaseAuth.sendPasswordResetEmail(email: email);
+  }
+
+  Future<void> sendCodeToPhoneNumber(String phone) async {
+    final PhoneVerificationCompleted verificationCompleted = (AuthCredential user) {
+      print(user);
+      notifyListeners();
+    };
+
+    final PhoneVerificationFailed verificationFailed = (AuthException authException) {
+      print(authException.message);
+    };
+
+    final PhoneCodeSent codeSent =
+        (String verificationId, [int forceResendingToken]) async {
+      this.verificationId = verificationId;
+      print("code sent to " + phone);
+    };
+
+    final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
+        (String verificationId) {
+      this.verificationId = verificationId;
+      print("time out");
+    };
+
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: phone,
+        timeout: const Duration(seconds: 5),
+        verificationCompleted: verificationCompleted,
+        verificationFailed: verificationFailed,
+        codeSent: codeSent,
+        codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
+  }
+  void changePassword(String password) async{
+    //Create an instance of the current user.
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    //Pass in the password to updatePassword.
+    user.updatePassword(password).then((_){
+      print("Succesfull changed password");
+    }).catchError((error){
+      print("Password can't be changed" + error.toString());
+      //This might happen, when the wrong password is in, the user isn't found, or if the user hasn't logged in recently.
+    });
   }
 
   @override
@@ -52,12 +100,14 @@ class AuthProvider with ChangeNotifier implements BaseAuth {
     }
     isLoading = false;
     notifyListeners();
-
   }
+
+
 
   @override
   Future registerUser(String email, String password, String phoneNumber, String userName, File urlImage) async {
     isLoading = true;
+
     AuthResult authResult = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
     String uid = authResult.user.uid;
     databaseReference = firebaseDatabase.reference().child('User').child(uid);
@@ -73,6 +123,7 @@ class AuthProvider with ChangeNotifier implements BaseAuth {
     databaseReference.set(user.toJson());
 
     isLoading = false;
+
     notifyListeners();
 
   }

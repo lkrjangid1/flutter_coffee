@@ -6,6 +6,7 @@ import 'package:fluttercoffee/src/provider/categories_provider.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 import 'package:fluttercoffee/src/util/router_path.dart';
 import 'package:fluttercoffee/src/util/shimmer.dart';
+import 'package:fluttercoffee/src/util/sizeconfig.dart';
 import 'package:provider/provider.dart';
 
 class DetailCategoriesPage extends StatefulWidget {
@@ -28,12 +29,12 @@ class _DetailCategoriesPageState extends State<DetailCategoriesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.white,
         centerTitle: true,
-        leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: Colors.black,), onPressed: ()=> Navigator.pop(context)),
+        leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: Colors.black,)
+            , onPressed: ()=> Navigator.pop(context)),
         title: Text(widget.idCategories,
         style: TextStyle(
           fontWeight: FontWeight.bold,
@@ -49,75 +50,85 @@ class _DetailCategoriesPageState extends State<DetailCategoriesPage> {
               itemCount: value.listDetail.length,
               itemBuilder: (BuildContext context, int index) {
                 Menu menu = value.listDetail[index];
-                return value.isLoading ? CircularProgressIndicator(): Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: GestureDetector(
-                    onTap: (){
-                      Navigator.pushNamed(context, DetailCategoriesFoodPagee,arguments: menu);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Hero(
-                          
-                          tag: menu.name,
-                          child: ClipRRect(
-                            child: CachedNetworkImage(
-                              width: 100,
-                              height: 100,
-                              imageUrl: menu.image,
-                              fit: BoxFit.cover,
-                              progressIndicatorBuilder:
-                                  (context, url,
-                                  downloadProgress) =>
-                                  CircularProgressIndicator(
-                                      value:
-                                      downloadProgress
-                                          .progress),
-                              errorWidget:
-                                  (context, url, error) =>
-                                  Icon(Icons.error),
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-
-                        const SizedBox(
-                          width: 20,
-                        ),
-                        Expanded(
-
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(menu.name,
-                                style: TextStyle(
-                                    fontSize: 22,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold
-                                ),),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(menu.des,style: TextStyle(
-                                  color: Colors.grey
-                              ),),
-                            ],
-                          ),
-                        ),
-                        Text("\$${menu.price}",
-                          style: TextStyle(
-                              color: kColorGreen,
-                              fontWeight: FontWeight.bold
-                          ),),
-                      ],
-                    ),
-                  ),
-                );
+                return value.isLoading ? CircularProgressIndicator(): ItemList(menu: menu,);
               },);
           },)
+      ),
+    );
+  }
+}
+
+class ItemList extends StatelessWidget {
+  final Menu menu;
+
+  const ItemList({Key key, this.menu}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding:  EdgeInsets.only(bottom: getScreenHeight(10)),
+      child: GestureDetector(
+        onTap: (){
+          Navigator.pushNamed(context, DetailCategoriesFoodPagee,arguments: menu);
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Hero(
+              tag: menu.name,
+              child: ClipRRect(
+                child: CachedNetworkImage(
+                  width: getScreenWith(80),
+                  height: getScreenHeight(80),
+                  imageUrl: menu.image,
+                  fit: BoxFit.cover,
+                  progressIndicatorBuilder:
+                      (context, url,
+                      downloadProgress) =>
+                      CircularProgressIndicator(
+                          value:
+                          downloadProgress
+                              .progress),
+                  errorWidget:
+                      (context, url, error) =>
+                      Icon(Icons.error),
+                ),
+                borderRadius: BorderRadius.circular(15),
+              ),
+            ),
+
+             SizedBox(
+              width: getScreenWith(15),
+            ),
+            Expanded(
+
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(menu.name,
+                    style: TextStyle(
+                        fontSize: getScreenWith(15),
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold
+                    ),),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(menu.des,style: TextStyle(
+                      color: Colors.grey
+                  ),),
+                ],
+              ),
+            ),
+            Text("\$${menu.price}",
+              style: TextStyle(
+                  color: kColorGreen,
+                  fontWeight: FontWeight.bold
+              ),),
+          ],
+        ),
       ),
     );
   }

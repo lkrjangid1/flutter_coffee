@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/shared/logo.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 import 'package:fluttercoffee/src/util/router_path.dart';
+import 'package:fluttercoffee/src/util/sizeconfig.dart';
 
 class SplashScreenPage extends StatefulWidget {
   @override
@@ -22,6 +23,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
        body: Container(
          width: double.infinity,
@@ -40,8 +42,9 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
                  color: kColorSplash.withOpacity(0.8),
                ),
              ),
+             
              Padding(
-               padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 50),
+               padding:  EdgeInsets.symmetric(horizontal: getScreenWith(30),vertical: getScreenHeight(50)),
                child: Align(
                  alignment: Alignment.bottomRight,
                  child: Logo(),

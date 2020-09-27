@@ -15,7 +15,7 @@ class StoreProvider with ChangeNotifier {
   DatabaseReference databaseReference;
   FirebaseDatabase firebaseDatabase = FirebaseDatabase.instance;
   StorageReference storageReference;
-  LocationData _locationData;
+  LocationData locationData;
   String address;
   bool isLoading = false;
   BitmapDescriptor customIcon;
@@ -36,13 +36,12 @@ class StoreProvider with ChangeNotifier {
         return;
       }
     }
-    _locationData = await location.getLocation();
-    SharedPrefService.setDouble(key: 'latitude',value: _locationData.latitude );
-    SharedPrefService.setDouble(key: 'longitude',value: _locationData.longitude );
+    locationData = await location.getLocation();
+    SharedPrefService.setDouble(key: 'latitude',value: locationData.latitude );
+    SharedPrefService.setDouble(key: 'longitude',value: locationData.longitude );
     notifyListeners();
   }
   Future<List<Store>> getAllStore () async {
-    listStore.clear();
     var data =  await firebaseDatabase.reference().child('Store').once();
     Map<dynamic,dynamic>.from(data.value).forEach((key, value) {
       Store store = Store(
@@ -68,5 +67,7 @@ class StoreProvider with ChangeNotifier {
     address = first.addressLine;
     return address;
   }
+
+
 
 }

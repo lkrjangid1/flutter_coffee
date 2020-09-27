@@ -10,6 +10,7 @@ import 'package:fluttercoffee/src/provider/profile_provider.dart';
 import 'package:fluttercoffee/src/shared/chooseimage.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 import 'package:fluttercoffee/src/util/router_path.dart';
+import 'package:fluttercoffee/src/util/sizeconfig.dart';
 import 'package:provider/provider.dart';
 
 
@@ -84,7 +85,6 @@ class ProfilePageWidget extends StatelessWidget {
       });
     }
 
-
     return Consumer<ProfileProvider>(
       builder: (BuildContext context, ProfileProvider value, Widget child) {
         value.getUser(uid);
@@ -95,24 +95,24 @@ class ProfilePageWidget extends StatelessWidget {
               children: <Widget>[
                 Container(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height * .5,
+                  height: getScreenHeight(350),
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: NetworkImage(value.user.image),
-                      fit: BoxFit.fitHeight,
+                      image: value.user.image.isEmpty ? AssetImage('assets/onboard/splash.png'): NetworkImage(value.user.image),
+                      fit: BoxFit.cover,
                     ),
                   ),
                   child: Stack(
                     children: <Widget>[
                       Container(
                         width: double.infinity,
-                        height: MediaQuery.of(context).size.height * .5,
+                        height: getScreenHeight(350),
                         decoration: BoxDecoration(
                             color: kColorSplash.withOpacity(.3)
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 30),
+                        padding:  EdgeInsets.symmetric(horizontal: getScreenWith(16),vertical: getScreenHeight(25)),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,7 +120,7 @@ class ProfilePageWidget extends StatelessWidget {
                             Text(value.user.userName == null ? "Null" : value.user.userName,
                               style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 30,
+                                  fontSize: getScreenWith(25),
                                   fontWeight: FontWeight.bold
                               ),
                             ),

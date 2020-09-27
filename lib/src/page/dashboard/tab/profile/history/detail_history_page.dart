@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/model/bill.dart';
+import 'package:fluttercoffee/src/model/cart.dart';
+import 'package:fluttercoffee/src/model/menu.dart';
 import 'package:fluttercoffee/src/shared/containercard.dart';
 import 'package:fluttercoffee/src/util/const.dart';
+import 'package:fluttercoffee/src/util/sizeconfig.dart';
 
 class DetailHistoryPage extends StatelessWidget {
   final Bill bill;
@@ -11,28 +14,32 @@ class DetailHistoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     int timeStamp = int.parse(bill.dateTime);
     var date = new DateTime.fromMillisecondsSinceEpoch(timeStamp);
-    bill.listCart.forEach((element) {
-      print(element.menu.name);
-    });
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: kColorGreen,
         title: Column(
           children: <Widget>[
-            Text("Bill "),
-            Text(date.toString().substring(0,19),),],
+            Text("Bill"),
+            Text(
+              date.toString().substring(0, 19),
+              style: TextStyle(
+                fontSize: getScreenHeight(15)
+              ),
+            ),
+          ],
         ),
+        centerTitle: true,
       ),
       body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
+        padding:  EdgeInsets.symmetric(horizontal: getScreenWith(5)),
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const SizedBox(
-              height: 20,
+             SizedBox(
+              height: getScreenHeight(15),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -49,78 +56,67 @@ class DetailHistoryPage extends StatelessWidget {
               ],
             ),
 
-            const SizedBox(
-              height: 20,
+             SizedBox(
+              height: getScreenHeight(15),
             ),
             Text(
               "Detail bill",
               style:
                   TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(
-              height: 20,
-            ),
-            ContainerCard(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  ListView.separated(
-                    itemCount: bill.listCart.length,
-                    shrinkWrap: true,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              width: 25,
-                              height: 25,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle, border: Border.all()),
-                              child: Center(child: Text('2')),
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.only(top: 5),
-                                child: Text("Coffee Cold Brew"),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 7),
-                              child: Text("\$${bill.totalBill}"),
-                            )
-                          ],
-                        ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return Divider();
-                    },
-                  ),
-                  Divider(
 
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Expanded(
+              child: Padding(
+                padding:  EdgeInsets.only(top: getScreenHeight(20),bottom: getScreenHeight(40)),
+                child: ContainerCard(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("Total",
-                      style: TextStyle(
-                        fontSize: 15
-                      ),),
-                      Text("\$${bill.totalBill}",
-                      style: TextStyle(
-                        fontSize: 20
-                      ),)
+                      Flexible(
+                        flex: 1,
+                        child: ListView.separated(
+                          itemCount: bill.listCart.length,
+                          shrinkWrap: true,
+                          itemBuilder: (BuildContext context, int index) {
+                            Cart cart = bill.listCart[index];
+
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 5),
+                              child:  DetailBillItem(
+                                image: cart.menu.image,
+                                title:  cart.menu.name,
+                                quantity:  cart.quantity,
+                                price:  cart.menu.price,
+                              )
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return Divider();
+                          },
+                        ),
+                      ),
+                      Divider(
+
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text("Total",
+                          style: TextStyle(
+                            fontSize: getScreenWith(17),
+                            fontWeight: FontWeight.bold
+                          ),),
+                          Text("\$${bill.totalBill}",
+                          style: TextStyle(
+                            fontSize: getScreenWith(20)
+                          ),)
+                        ],
+                      )
                     ],
-                  )
-                ],
+                  ),
+                ),
               ),
             )
           ],
@@ -129,3 +125,66 @@ class DetailHistoryPage extends StatelessWidget {
     );
   }
 }
+
+class DetailBillItem extends StatelessWidget {
+  final String title;
+  final int quantity;
+  final String price;
+  final String image;
+
+  const DetailBillItem({Key key, @required this.title, @required this.quantity,@required this.price, @required this.image}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Container(
+          width: getScreenWith(70),
+          height: getScreenHeight(70),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+              image: DecorationImage(
+                  image: NetworkImage(image),
+                  fit: BoxFit.cover
+              )
+          ),
+        ),
+        SizedBox(
+          width: getScreenWith(10),
+        ),
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 5),
+                child: Text(title,style: TextStyle(
+                    color: Colors.black,
+                    fontSize: getScreenWith(12),
+                    fontWeight: FontWeight.bold
+                ),),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text("Số Lượng: $quantity",
+                style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: getScreenWith(10)
+                ),)
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(top: 7),
+          child: Text("\$$price"),
+        )
+      ],
+    );
+
+  }
+}
+

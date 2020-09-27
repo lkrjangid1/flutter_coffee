@@ -17,9 +17,6 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (BuildContext context) => AuthProvider(),
-        ),
-        ChangeNotifierProvider(
           create: (BuildContext context) => CategoriesProvider(),
         ),
         ChangeNotifierProvider(

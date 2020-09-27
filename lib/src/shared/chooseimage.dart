@@ -64,7 +64,7 @@ class _ChooseImageState extends State<ChooseImage> {
   Future openGallary() async {
     final File picture = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
-      RegisterScreenPage.image = picture;
+      RegisterScreenPageWidget.image = picture;
 
     });
     Navigator.pop(context);
@@ -73,13 +73,13 @@ class _ChooseImageState extends State<ChooseImage> {
   Future<void> openCamera() async {
     var picture = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
-      RegisterScreenPage.image = picture;
+      RegisterScreenPageWidget.image = picture;
     });
     Navigator.pop(context);
   }
 
    Widget decideImageView() {
-    if (RegisterScreenPage.image == null) {
+    if (RegisterScreenPageWidget.image == null) {
       return Icon(Icons.ac_unit);
     } else {
       return Padding(
@@ -88,7 +88,7 @@ class _ChooseImageState extends State<ChooseImage> {
           width: double.infinity,
           height: 180,
           child: Image.file(
-            RegisterScreenPage.image,
+            RegisterScreenPageWidget.image,
             fit: BoxFit.cover,
           ),
         ),

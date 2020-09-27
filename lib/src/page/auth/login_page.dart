@@ -9,9 +9,21 @@ import 'package:fluttercoffee/src/util/const.dart';
 import 'package:fluttercoffee/src/util/progressbar_dialog.dart';
 import 'package:fluttercoffee/src/util/router_path.dart';
 import 'package:fluttercoffee/src/util/showsnackbars.dart';
+import 'package:fluttercoffee/src/util/sizeconfig.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreenPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_)=>AuthProvider(),
+      child: LoginScreenPageWidget(),
+    );
+  }
+}
+
+
+class LoginScreenPageWidget extends StatelessWidget {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final formState = GlobalKey<FormState>();
@@ -27,7 +39,7 @@ class LoginScreenPage extends StatelessWidget {
               children: <Widget>[
                 Container(
                   width: double.infinity,
-                  height: MediaQuery.of(context).size.height * .5,
+                  height: getScreenHeight(300),
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/signin.png',),
@@ -52,7 +64,7 @@ class LoginScreenPage extends StatelessWidget {
                             Navigator.pop(context);
                           },
                         ),
-                        top: 50,
+                        top: getScreenHeight(30),
                       ),
                       Align(
                         alignment: Alignment.center,
@@ -61,8 +73,8 @@ class LoginScreenPage extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: getScreenHeight(20),
                 ),
                 Consumer<AuthProvider>(
                   builder: (BuildContext context, AuthProvider value, Widget child) {
@@ -76,14 +88,14 @@ class LoginScreenPage extends StatelessWidget {
                           key: formState,
                           child: Column(
                             children: <Widget>[
-                              const SizedBox(
-                                height: 20,
+                               SizedBox(
+                                height: getScreenHeight(15),
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                padding:  EdgeInsets.symmetric(horizontal: getScreenHeight(15)),
                                 child: ContainerTextForm(
                                   child: TextFormField(
-                                    controller: _emailController..text = "b@gmail.com",
+                                    controller: _emailController..text = "d@gmail.com",
                                     onChanged: (value){
 
                                     },
@@ -100,11 +112,11 @@ class LoginScreenPage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 20,
+                               SizedBox(
+                                height: getScreenHeight(20),
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 20),
+                                padding:  EdgeInsets.symmetric(horizontal: getScreenHeight(15)),
                                 child: ContainerTextForm(
                                   child: TextFormField(
                                     controller: _passwordController..text = "123456",
@@ -123,7 +135,7 @@ class LoginScreenPage extends StatelessWidget {
                               Spacer(),
                               SizedBox(
                                 width: double.infinity,
-                                height: 50,
+                                height: getScreenHeight(45),
                                 child: RaisedButton(
                                   color: kColorGreen,
                                   onPressed: () {

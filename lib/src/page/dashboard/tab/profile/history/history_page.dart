@@ -5,6 +5,7 @@ import 'package:fluttercoffee/src/provider/bill_provider.dart';
 import 'package:fluttercoffee/src/shared/containercard.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 import 'package:fluttercoffee/src/util/router_path.dart';
+import 'package:fluttercoffee/src/util/sizeconfig.dart';
 import 'package:provider/provider.dart';
 
 class HistoryPage extends StatelessWidget {
@@ -21,7 +22,9 @@ class HistoryPage extends StatelessWidget {
 class HistoryPagee extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     Provider.of<BillProvider>(context, listen: false).getAllBill();
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -29,67 +32,29 @@ class HistoryPagee extends StatelessWidget {
         title: Text("History Order "),
       ),
       body: Container(
-
-        padding: const EdgeInsets.symmetric(horizontal: 15,vertical: 15),
+        padding:  EdgeInsets.symmetric(horizontal: getScreenWith(10),vertical: getScreenHeight(10)),
         child: Consumer<BillProvider>(
           builder: (BuildContext context,  BillProvider billProvider, Widget child){
-            return billProvider.isLoading ? Center(child: CircularProgressIndicator()) : ListView.builder(
+            return billProvider.isLoading ? Center(child: CircularProgressIndicator()) :
+            ListView.builder(
               itemCount: billProvider.listBill.length,
               shrinkWrap: true,
               itemBuilder: (BuildContext context, int index) {
                 Bill bill = billProvider.listBill[index];
                 int timeStamp = int.parse(bill.dateTime);
                 var date = new DateTime.fromMillisecondsSinceEpoch(timeStamp);
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 14),
+                return billProvider.listBill.length == 0 ? Text("a") : Padding(
+                  padding:  EdgeInsets.only(bottom: getScreenHeight(15)),
                   child: InkWell(
                     onTap: (){
                       Navigator.push(context, MaterialPageRoute(builder: (_)=>DetailHistoryPage(bill: billProvider.listBill[index],)));
                     },
                     child: ContainerCard(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(Icons.label_outline),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  bill.codeBill.substring(1,10),
-                                  style: TextStyle(
-                                      color: Colors.black, fontWeight: FontWeight.bold,
-                                      fontSize: 17),
-                                ),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text("Completed",
-                                  style: TextStyle(
-                                      color: Colors.green,
-                                      fontWeight: FontWeight.bold
-                                  ),),
-                                const SizedBox(
-                                  height: 8,
-                                ),
-                                Text(date.toString().substring(0,19))
-                              ],
-                            ),
-                          ),
-
-                          Text("\$${bill.totalBill}",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold
-                            ),),
-                        ],
-                      ),
+                      child: OrderHistoryItem(
+                        codeBill: bill.codeBill,
+                        dateTime: date.toString().substring(0,19),
+                        totalBill: bill.totalBill,
+                      )
                     ),
                   ),
                 );
@@ -98,6 +63,62 @@ class HistoryPagee extends StatelessWidget {
           }
         ),
       ),
+    );
+  }
+}
+
+class OrderHistoryItem extends StatelessWidget {
+  final String codeBill;
+  final String dateTime;
+  final String totalBill;
+
+  const OrderHistoryItem(
+      {Key key, this.codeBill, this.dateTime, this.totalBill})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        Icon(Icons.label_outline),
+         SizedBox(
+          width: getScreenWith(10),
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                codeBill.substring(1, 10),
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Text(
+                "Completed",
+                style:
+                    TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Text(dateTime)
+            ],
+          ),
+        ),
+        Text(
+          "\$$totalBill",
+          style: TextStyle(
+              color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+      ],
     );
   }
 }

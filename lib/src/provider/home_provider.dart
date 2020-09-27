@@ -64,7 +64,6 @@ class HomeProvider with ChangeNotifier {
       String downloadUrl = await storageReference.getDownloadURL();
       listImageNewsURL.add(downloadUrl);
     }
-
     isLoading = false;
     notifyListeners();
     return listNews1;

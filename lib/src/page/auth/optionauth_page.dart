@@ -5,6 +5,7 @@ import 'package:fluttercoffee/src/provider/auth_provider.dart';
 import 'package:fluttercoffee/src/shared/button.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 import 'package:fluttercoffee/src/util/router_path.dart';
+import 'package:fluttercoffee/src/util/sizeconfig.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,6 @@ class OptionAuthPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final data = Provider.of<AuthProvider>(context,listen: false);
 
     return Scaffold(
       body: Container(
@@ -41,9 +41,8 @@ class OptionAuthPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    width: 100,
-                    height: 100,
+                    padding: EdgeInsets.symmetric(horizontal: getScreenWith(10),vertical: getScreenHeight(20)),
+                    width: getScreenWith(100),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Colors.white,
@@ -52,7 +51,6 @@ class OptionAuthPage extends StatelessWidget {
                     ),
                     child: Column(
 
-                      mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
@@ -61,7 +59,7 @@ class OptionAuthPage extends StatelessWidget {
                               letterSpacing: 1.0,
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 20
+                              fontSize: getScreenWith(20)
                           ),),
                         )
                       ],
@@ -72,7 +70,7 @@ class OptionAuthPage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
+              padding:  EdgeInsets.symmetric(horizontal: getScreenWith(20),vertical: getScreenHeight(20)),
               child: Align(
                 alignment: FractionalOffset.bottomCenter,
                 child: Column(
@@ -84,19 +82,19 @@ class OptionAuthPage extends StatelessWidget {
                         Navigator.pushNamed(context, LoginPage);
                       },
                     ),
-                    const SizedBox(
-                      height: 14,
+                     SizedBox(
+                      height: getScreenHeight(10),
                     ),
                     SizedBox(
                       width: double.infinity,
-                      height: 45,
+                      height: getScreenHeight(40),
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                         color: Colors.blue,
                         onPressed: (){
-                          data.loginFB();
+
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -105,8 +103,8 @@ class OptionAuthPage extends StatelessWidget {
                               FontAwesomeIcons.facebookF,
                               color: Colors.white,
                             ),
-                            const SizedBox(
-                              width: 20,
+                             SizedBox(
+                              width: getScreenHeight(20),
                             ),
                             Text(
                               "Sign in with Facebook",
@@ -116,8 +114,8 @@ class OptionAuthPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 40,
+                     SizedBox(
+                      height: getScreenHeight(40),
                     ),
                     GestureDetector(
                       onTap: (){
@@ -126,7 +124,18 @@ class OptionAuthPage extends StatelessWidget {
                       child: Text('Already have an account ? - Sign up',style: TextStyle(
                           color: Colors.white
                       ),),
-                    )
+                    ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pushNamed(context, ForgotPassPagee);
+                  },
+                  child: Text('Forgot your password? - Receive',style: TextStyle(
+                      color: Colors.white,
+                  ),),
+                )
                   ],
                 ),
               ),

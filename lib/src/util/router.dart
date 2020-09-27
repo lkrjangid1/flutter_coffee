@@ -1,7 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttercoffee/src/model/menu.dart';
+import 'package:fluttercoffee/src/page/auth/changepass_page.dart';
+import 'package:fluttercoffee/src/page/auth/forgotpass_page.dart';
+import 'package:fluttercoffee/src/page/auth/otp_page.dart';
 import 'package:fluttercoffee/src/page/auth/register_page.dart';
+import 'package:fluttercoffee/src/page/auth/success_page.dart';
+import 'package:fluttercoffee/src/page/auth/verifyphone_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/dashboard_page.dart';
 import 'package:fluttercoffee/src/page/auth/login_page.dart';
 import 'package:fluttercoffee/src/page/dashboard/tab/categories/checkout_page.dart';
@@ -36,6 +41,18 @@ class Router{
           return  PageTransition(child: OnboardPage(), type: PageTransitionType.fade);
         case OptionAuthPagee:
           return  PageTransition(child: OptionAuthPage(), type: PageTransitionType.fade);
+        case ForgotPassPagee:
+          return  PageTransition(child: ForgoPassPage(), type: PageTransitionType.fade);
+        case VerifyPhonePagee:
+          return  PageTransition(child: VerifyPhonePage(), type: PageTransitionType.fade);
+        case ChangePassPagee:
+          return  PageTransition(child: ChangePassPage(), type: PageTransitionType.fade);
+        case OTPPagee:
+          final argument = settings.arguments;
+
+          return  PageTransition(child: OtpPage(phoneNumber: argument,), type: PageTransitionType.fade);
+        case SucessPagee:
+          return  PageTransition(child: SuccessPage(), type: PageTransitionType.fade);
         case DetailStorePagee:
           final argument = settings.arguments;
 
@@ -52,7 +69,6 @@ class Router{
 
           return MaterialPageRoute(builder: (_)=>DetailCategoriesFoodPageee(menu: argument,));
         case HistoryPageeee:
-
           return  PageTransition(child: HistoryPage(), type: PageTransitionType.fade);
 
         case DetailHistoryPagee:
@@ -62,7 +78,6 @@ class Router{
 //          final argument = settings.arguments;
 //          return  PageTransition(child: MyCartPage(listCartMenu: argument,), type: PageTransitionType.fade);
         case CheckoutPagee:
-
           return  PageTransition(child: CheckoutPage(), type: PageTransitionType.fade);
 //        case InformationAccountPagee:
 //          return MaterialPageRoute(builder: (_)=>InformationAccountPage(email: argument,image: image,));

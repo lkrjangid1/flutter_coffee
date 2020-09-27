@@ -8,6 +8,7 @@ import 'package:fluttercoffee/src/provider/cart_provider.dart';
 import 'package:fluttercoffee/src/shared/containercard.dart';
 import 'package:fluttercoffee/src/util/const.dart';
 import 'package:fluttercoffee/src/util/router_path.dart';
+import 'package:fluttercoffee/src/util/sizeconfig.dart';
 import 'package:provider/provider.dart';
 
 class MyCartPage extends StatelessWidget {
@@ -16,23 +17,22 @@ class MyCartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     var data = Provider.of<CartProvider>(context,listen: true);
     double sum = 0;
     for(int i = 0; i< listCart.length; i++){
-      sum += double.parse(listCart[i].menu.price) * double.parse(listCart[i].quantity);
+      sum += double.parse(listCart[i].menu.price) * listCart[i].quantity;
     }
     return Scaffold(
       body: listCart.length == 0 ? CartEmpty() : Stack(
         children: [
           Container(
-            padding: EdgeInsets.only(left: 15,right: 15,top: 60,bottom: 120),
+            padding: EdgeInsets.only(left: getScreenWith(10),right: getScreenWith(10),top: getScreenHeight(50),bottom: getScreenHeight(120)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 IconButton(
-                  icon: Icon(Icons.arrow_back_ios,size: 20,),
+                  icon: Icon(Icons.arrow_back_ios,size: getScreenWith(15),),
                   onPressed: (){
                     Navigator.pop(context);
                   },
@@ -51,17 +51,17 @@ class MyCartPage extends StatelessWidget {
                     itemCount: listCart.length,
                     shrinkWrap: true,
                     itemBuilder: (_,index){
-                      int quantity = int.parse(listCart[index].quantity);
+                      Cart cart = listCart[index];
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 10),
                         child: Dismissible(
                           background: Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
-                              color: Colors.red,
+                              color: Color(0xFFFFE6E6),
                               borderRadius: BorderRadius.circular(10)
                             ),
-                            child: Icon(Icons.delete,color: Colors.white,
+                            child: Icon(Icons.delete,color: Colors.red,
                             size: 25,),
                           ),
                           onDismissed: (direction){
@@ -74,8 +74,8 @@ class MyCartPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 CachedNetworkImage(
-                                  width: 85,
-                                  height: 85,
+                                  width: getScreenWith(75),
+                                  height: getScreenHeight(75),
                                   imageUrl: listCart[index].menu.image,
                                   fit: BoxFit.cover,
                                   progressIndicatorBuilder:
@@ -99,7 +99,7 @@ class MyCartPage extends StatelessWidget {
                                     Text(listCart[index].menu.name,
                                       style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 18
+                                          fontSize: getScreenWith(13)
                                       ),),
                                     SizedBox(
                                       height: 5,
@@ -117,16 +117,19 @@ class MyCartPage extends StatelessWidget {
                                   ),
                                   child: Column(
                                     children: [
-                                      _buildIncreDecre(Icons.add, () => data.increment(listCart[index].menu.menuId,quantity)),
+                                      _buildIncreDecre(Icons.add, () => data.increment(cart)),
                                       SizedBox(
                                         height: 8,
                                       ),
-                                      Text(listCart[index].quantity.toString()),
+                                      Text(cart.quantity.toString()),
                                       SizedBox(
                                         height: 8,
                                       ),
-                                      _buildIncreDecre(Icons.remove, () => null),
-                                    ],
+                                            _buildIncreDecre(
+                                              Icons.remove,
+                                              () => data.decrement(cart),
+                                            ),
+                                          ],
                                   ),
                                 ),
                                 SizedBox(
@@ -145,13 +148,13 @@ class MyCartPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 25),
+            padding:  EdgeInsets.only(left: getScreenWith(20)),
             child: Align(
               alignment: Alignment.bottomCenter,
               child: Container(
                 padding: EdgeInsets.only(left: 20,right: 20,bottom: 10,top: 20),
                 width: double.infinity,
-                height: 150,
+                height: getScreenHeight(130),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(topLeft: Radius.circular(30)),
                   color: Colors.white,
@@ -169,36 +172,50 @@ class MyCartPage extends StatelessWidget {
                         ),),
                         Text("\$${sum}",style: TextStyle(
                           color: Colors.black,
-                          fontSize: 21,
+                          fontSize: getScreenWith(20),
                           fontWeight: FontWeight.bold
                         ),),
                       ],
                     ),
                     SizedBox(
-                      height: 20,
+                      height: getScreenHeight(15),
                     ),
-                    RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      color: kColorGreen,
-                      onPressed: (){
-                        data.purchase(listCart,sum);
-
-                        Navigator.pushReplacementNamed(context, CheckoutPagee);
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.shopping_cart,color: Colors.white,),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text("Buy",style: TextStyle(
-                            color: Colors.white,
-                          ),)
-                        ],
-                      ),),
+                    data.isLoading ? Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircularProgressIndicator(),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Text("Loading........")
+                      ],
+                    ) :
+                    Visibility(
+                      visible: data.isLoading ? false : true,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        color: kColorGreen,
+                        onPressed: (){
+                          data.isLoadingg(true);
+                          data.purchase(listCart,sum);
+                          Navigator.pushReplacementNamed(context, CheckoutPagee);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.shopping_cart,color: Colors.white,),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text("Buy",style: TextStyle(
+                              color: Colors.white,
+                            ),)
+                          ],
+                        ),),
+                    ),
                   ],
                 ),
               ),
@@ -213,7 +230,6 @@ Widget _buildIncreDecre(IconData iconData,VoidCallback onTap){
   return InkWell(
     onTap: onTap,
     child: Container(
-
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(6),
