@@ -1,10 +1,7 @@
 
-<p align="center">
-        <b> Coffee With Flutter ❤️ </b>
-</p>
+   # Coffee With Flutter ❤️ 
 
 
-## 
 
 This project is a starting a Flutter application.
 
