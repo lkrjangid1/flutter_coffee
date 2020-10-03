@@ -25,7 +25,7 @@ import 'package:fluttercoffee/src/page/splash/splashscreen_page.dart';
 import 'package:fluttercoffee/src/util/router_path.dart';
 import 'package:page_transition/page_transition.dart';
 
-class Router{
+class Routerr{
   static Route<dynamic> onGenerateRouter(RouteSettings settings){
       switch(settings.name){
         case SplashPage:

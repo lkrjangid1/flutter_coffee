@@ -80,14 +80,18 @@ class DetailHistoryPage extends StatelessWidget {
                           shrinkWrap: true,
                           itemBuilder: (BuildContext context, int index) {
                             Cart cart = bill.listCart[index];
-
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 5),
-                              child:  DetailBillItem(
-                                image: cart.menu.image,
-                                title:  cart.menu.name,
-                                quantity:  cart.quantity,
-                                price:  cart.menu.price,
+                              child:  InkWell(
+                                onTap: (){
+                                  print(cart.menu.name);
+                                },
+                                child: DetailBillItem(
+                                  image: cart.menu.image,
+                                  title:  cart.menu.name,
+                                  quantity:  cart.quantity,
+                                  price:  cart.menu.price,
+                                ),
                               )
                             );
                           },

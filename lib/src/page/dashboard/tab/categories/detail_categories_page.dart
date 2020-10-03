@@ -50,7 +50,7 @@ class _DetailCategoriesPageState extends State<DetailCategoriesPage> {
               itemCount: value.listDetail.length,
               itemBuilder: (BuildContext context, int index) {
                 Menu menu = value.listDetail[index];
-                return value.isLoading ? CircularProgressIndicator(): ItemList(menu: menu,);
+                return  ItemList(menu: menu,);
               },);
           },)
       ),

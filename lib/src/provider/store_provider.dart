@@ -41,6 +41,7 @@ class StoreProvider with ChangeNotifier {
     SharedPrefService.setDouble(key: 'longitude',value: locationData.longitude );
     notifyListeners();
   }
+
   Future<List<Store>> getAllStore () async {
     var data =  await firebaseDatabase.reference().child('Store').once();
     Map<dynamic,dynamic>.from(data.value).forEach((key, value) {
@@ -55,7 +56,6 @@ class StoreProvider with ChangeNotifier {
       );
       listStore.add(store);
     });
-    notifyListeners();
   return listStore;
   }
 

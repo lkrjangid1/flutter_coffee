@@ -49,7 +49,8 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
                  alignment: Alignment.bottomRight,
                  child: Logo(),
                ),
-             )
+             ),
+
            ],
          ),
        ),
