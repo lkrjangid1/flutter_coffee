@@ -3,7 +3,10 @@
 
 
 
-This project is a starting a Flutter application.
+This project is a starting a Flutter application and I have been make a application complete with Flutter <3
+Backend: FirbaseDatabase
+State Manager: Provider
+
 
 <table>
   <tr>
